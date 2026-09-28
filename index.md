@@ -14,6 +14,6 @@ Quick links:
 - [about](pages/syllabus.html) this course (the syllabus).
 - [schedule](pages/schedule.html), including links to slides and homeworks.
 - [resources](pages/reference.html), to reference/background material.
-- the [github repository](https://github.com/UOdsci/dsci632) for this website
+- the [github repository](https://github.com/UOdsci/ds632) for this website
 
 

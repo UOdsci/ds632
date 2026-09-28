@@ -138,7 +138,7 @@ With *models*.
 ## Some data
 
 AirBnB hosts in Portland, OR:
-[data file](https://github.com/uodsci/dsci632/raw/master/datasets/portland-airbnb-listings.csv)
+[data file](https://github.com/uodsci/ds632/raw/master/datasets/portland-airbnb-listings.csv)
 (*source*: [website](http://insideairbnb.com/get-the-data.html) and 
 [download link](http://data.insideairbnb.com/united-states/or/portland/2021-07-13/data/listings.csv.gz))
 

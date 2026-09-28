@@ -4,7 +4,7 @@ title: course schedule
 description: schedule, with links to slides and homeworks
 ---
 
-The (Rmarkdown) source code for these slides is available at [the github repository](https://github.com/uodsci/dsci632),
+The (Rmarkdown) source code for these slides is available at [the github repository](https://github.com/uodsci/ds632),
 or by replacing the `.slides.html` suffix with `.Rmd` in the link below.
 For readings, see [this page](reference.html#Books).
 
