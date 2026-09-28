@@ -132,7 +132,7 @@ Week 8 (*11/16*)
 
 Week 9 (*11/23*, no class Thursday)
 
-: Factor analysis, dimensionality reduction, and PCA
+: Survival analysis
 
 <!--
     - Reading: Quinn & Keough chapter 17
@@ -143,7 +143,7 @@ Week 9 (*11/23*, no class Thursday)
 
 Week 10 (*11/30*)
 
-: Factor analysis continued, t-SNE; random forests 
+: Latent factors; deconvolution; nonnegative matrix factorization
 
 <!--
     - Reading: [The two cultures, by Leo Breiman](https://dx.doi.org/10.1214/ss/1009213726)
