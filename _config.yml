@@ -15,8 +15,8 @@ author :
   github : petrelharp
   feedburner : nil
 
-url: http://UOdsci.github.io
-baseurl: dsci632
+url: "http://UOdsci.github.io"
+baseurl: "/dsci632"
 
 # Tell Github to use the kramdown markdown interpreter
 # (see https://help.github.com/articles/migrating-your-pages-site-from-maruku)
