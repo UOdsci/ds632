@@ -12,6 +12,9 @@ knitr::opts_chunk$set(fig.width=2*fig.dim,
                       fig.cap="",
                       fig.align='center')
 set.seed(23)
+
+library(dplyr)
+library(ggplot2)
 ```
 
 # Course overview
@@ -64,8 +67,6 @@ t.test(x, y)
 
 See [the course website](https://uodsci.github.io/ds632).
 
-# Break
-
 ##
 
 Please take 10 minutes to
@@ -75,9 +76,6 @@ Please take 10 minutes to
 3. [install Rstudio](https://rstudio.com/products/rstudio/download/) and/or
 4. move around.
 
-##
-
-Questions?
 
 # Some core statistical concepts
 
@@ -96,6 +94,20 @@ A **parameter** is
 . . .
 
 Often, *statistics* are used to estimate *parameters*.
+
+
+## Parameter or statistic?
+
+
+```{r p_or_s, echo=FALSE}
+n <- 100
+df <- data.frame( t = runif(n) * 5 ) |>
+    mutate( y = 5 * exp( rnorm(n, mean=sqrt(t) - 1, sd=0.5)/10 ) )
+df |> ggplot(aes(x=t, y=y)) +
+    geom_point() +
+    geom_smooth(span=0.4, method="loess", formula='y~x') +
+    labs(x="dose", y="response")
+```
 
 
 ## The two heads of classical statistics
@@ -138,7 +150,7 @@ With *models*.
 ## Some data
 
 AirBnB hosts in Portland, OR:
-[data file](https://github.com/uodsci/ds632/raw/master/datasets/portland-airbnb-listings.csv)
+[data file](https://github.com/UOdsci/ds632/raw/refs/heads/main/datasets/portland-airbnb-listings.csv)
 (*source*: [website](http://insideairbnb.com/get-the-data.html) and 
 [download link](http://data.insideairbnb.com/united-states/or/portland/2021-07-13/data/listings.csv.gz))
 
@@ -169,10 +181,10 @@ summary(airbnb$instant_bookable)
 str(airbnb$instant_bookable)
 ```
 
-## Whoops
+## Fix up those types
 
 ```{r airbnb_data}
-airbnb$price <- as.numeric(gsub("$", "", airbnb$price, fixed=TRUE))
+airbnb$price <- gsub("$", "", airbnb$price, fixed=TRUE) |> as.numeric()
 airbnb$instant_bookable <- (airbnb$instant_bookable == "t")
 ```
 
@@ -185,9 +197,7 @@ summary(airbnb$instant_bookable)
 
 ------------
 
-```{r bed}
-table(airbnb$bed_type) # hm
-```
+(in class: more investigating)
 
 ## How much is a typical night?
 
@@ -198,7 +208,10 @@ mean(airbnb$price, na.rm=TRUE)
 -------------------
 
 ```{r airbnb_hist, fig.width=2.5*fig.dim}
-hist(airbnb$price, breaks=40, xlab='nightly price ($)', col=grey(.8), xlim=range(airbnb$price, finite=TRUE), main='AirBnB prices in Portland, OR')
+airbnb |> subset(!is.na(price)) |> ggplot(aes(x=price)) +
+    geom_histogram(bins=40, col=grey(.8)) +
+    labs(x="nightly price ($)", title="AirBnB prices in Portland, OR")
+
 ```
 
 . . .
@@ -208,17 +221,24 @@ Conclusion?
 
 ## Do "instant bookable" charge more?
 
+```{r airbnbcomp}
+airbnb |> summarize(price=mean(price, na.rm=TRUE), .by=instant_bookable)
+```
+
+## Do "instant bookable" charge more?
+
 ```{r airbnb_hist2, fig.height=1.5*fig.dim, fig.width=2.5*fig.dim}
-layout(1:2)
-instant <- airbnb$price[airbnb$instant_bookable]
-not_instant <- airbnb$price[!airbnb$instant_bookable]
-hist(not_instant, breaks=40, xlab='nightly price ($)', col=grey(.8), xlim=range(airbnb$price, finite=TRUE), main='not instant bookable') 
-hist(instant, breaks=40, xlab='nightly price ($)', col=grey(.8), main='instant bookable')
+airbnb |> subset(!is.na(price)) |> ggplot(aes(x=price)) +
+    geom_histogram(aes(y=after_stat(density)), bins=50, color=grey(.8)) +
+    facet_grid(.~instant_bookable, labeller=label_both) +
+    labs(x="nightly price ($)", title="AirBnB prices in Portland, OR")
 ```
 
 --------------
 
 ```{r airbnb_t}
+instant <- airbnb$price[airbnb$instant_bookable]
+not_instant <- airbnb$price[!airbnb$instant_bookable]
 (tt <- t.test(instant, not_instant))
 ```
 

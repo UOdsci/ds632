@@ -61,7 +61,7 @@ How useful this is depends on the null hypothesis.
 
 ## For instance
 
-```{r airbnb_t2, echo=FALSE}
+```{r airbnb_t2}
 (tt <- t.test(
         airbnb$price[airbnb$instant_bookable],
         airbnb$price[!airbnb$instant_bookable]
