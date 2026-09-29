@@ -65,15 +65,15 @@ t.test(x, y)
 
 ## Overview and mechanics
 
-See [the course website](https://uodsci.github.io/ds632).
+See [the course website](https://uodsci.github.io/ds632){target="_blank"}.
 
 ##
 
 Please take 10 minutes to
 
 1. answer the "Welcome Survey" on Canvas,
-2. [get the course repository from github](../pages/using-git.html),
-3. [install Rstudio](https://rstudio.com/products/rstudio/download/) and/or
+2. [get the course repository from github](../pages/using-git.html){target="_blank"},
+3. [install Rstudio](https://rstudio.com/products/rstudio/download/){target="_blank"} and/or
 4. move around.
 
 
@@ -150,9 +150,9 @@ With *models*.
 ## Some data
 
 AirBnB hosts in Portland, OR:
-[data file](https://github.com/UOdsci/ds632/raw/refs/heads/main/datasets/portland-airbnb-listings.csv)
-(*source*: [website](http://insideairbnb.com/get-the-data.html) and 
-[download link](http://data.insideairbnb.com/united-states/or/portland/2021-07-13/data/listings.csv.gz))
+[data file](https://github.com/UOdsci/ds632/raw/refs/heads/main/datasets/portland-airbnb-listings.csv){target="_blank"}
+(*source*: [website](http://insideairbnb.com/get-the-data.html){target="_blank"} and 
+[download link](http://data.insideairbnb.com/united-states/or/portland/2021-07-13/data/listings.csv.gz){target="_blank"})
 
 ```{r airbnb}
 airbnb <- read.csv("../datasets/portland-airbnb-listings.csv")

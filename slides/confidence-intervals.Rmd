@@ -61,7 +61,7 @@ polygon(c(xx[-1] - diff(xx)/2, xx[1]),
 
 For instance,
 the probability that the sample mean is within 2 standard errors
-of the true mean [is approximately](https://en.wikipedia.org/wiki/Student%27s_t-distribution)
+of the true mean [is approximately](https://en.wikipedia.org/wiki/Student%27s_t-distribution){target="_blank"}
 
 $$\begin{aligned}
     \int_{-2}^2

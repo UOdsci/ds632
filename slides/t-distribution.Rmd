@@ -44,13 +44,23 @@ c(t.test(x)$statistic,
   mean(x) / (sd(x) / sqrt(n)))
 ```
 
+## The [$t$ distribution](https://en.wikipedia.org/wiki/Student%27s_t-distribution){target="_blank"}
+
+**Definition:** 
+If $X_1, \ldots, X_n$ are independent random samples from a Normal distribution with mean 0 and the same standard deviation,
+then
+$$\begin{equation}
+    t(X - \mu) = \frac{\bar x - \mu}{s/\sqrt{n}} \sim \StudentsT(\text{df}=n-2) .
+\end{equation}$$
+
+
 ## The $t$ approximation
 
 **Fact:** 
 If $X_1, \ldots, X_n$ are independent random samples from a distribution with mean $\mu$,
 then
 $$\begin{equation}
-    t(X - \mu) = \frac{\bar x - \mu}{s/\sqrt{n}} \approx \StudentsT(n-2) ,
+    t(X - \mu) = \frac{\bar x - \mu}{s/\sqrt{n}} \approx \StudentsT(\text{df}=n-2) ,
 \end{equation}$$
 as long as $n$ is not too small and the distribution isn't too wierd.
 
@@ -119,4 +129,10 @@ Do this again (use my code) except using
 x <- rexp(n) - 1
 ```
 instead of `2 * runif(n) - 1`.
+
+
+**Bonus:**
+Compare the distribution of these values
+to draws from the Student's T distribution (get these from `rt(...)`),
+using a q-q plot (e.g., with `qqplot()`).
 
