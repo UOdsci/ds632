@@ -38,20 +38,20 @@ css: "plans.css"
    begin     Introductions/overview                                                                                          Uncertainty         intro           15 min
        .       everyone introduces themselves                                                                                                    disco                .
        .       class mechanics and goals                                                                                                                              .
+       .       discussion: exams and evaluations? do we have quizzes? a midterm?                                                                                 10 min
        .     Fill out survey on canvas and break                                                                                                 break           10 min
-    0:25     Inference/learning: stats vs parameters                                                                         Uncertainty         lecture         10 min
-       .     on your own: setup/exploration of airbnb data                                                                                      solo work         5 min
+    0:35     Inference/learning: stats vs parameters                                                                         Uncertainty         lecture         10 min
        .     comparison of instant bookable/not                                                                                                                       .
        .     write conclusion to t-test                                                                                                          group            5 min
-    0:45     p-values                                                                                                        p-values            lecture         10 min
+    0:50     p-values                                                                                                        p-values            lecture         15 min
        .       diagram on board choices of bits of the p-value definition                                                                         disco          10 min
        .       demo of empirical p-value                                                                                                            .                 .
        .       for the "fingers" example                                                                                                            .                 .
        .       and for the t-test example                                                                                                                             .
-    1:05     t-distribution                                                                                                   t-distrib          lecture         10 min
-       .       on your own: replicate with other distributions                                                                                    group          10 min
-    1:25     Start on homework: groups                                                                                                              .            25 min
+    1:15     Start on homework: groups                                                                                                              .            20 min
        .       do this one whiteboards! no computers! sketch out what the goal is for the homework.                                                                   .
+    1:35     t-distribution                                                                                                   t-distrib          lecture         10 min
+       .       on your own: replicate with other distributions                                                                                    group           5 min
     1:50                                                                                                                                                            end
 --------     ----------------------------------------------------------------------------------------------------------    ---------------    -------------    -----------
 :::
