@@ -195,9 +195,6 @@ summary(airbnb$price)
 summary(airbnb$instant_bookable)
 ```
 
-------------
-
-(in class: more investigating)
 
 ## How much is a typical night?
 
@@ -218,6 +215,7 @@ airbnb |> subset(!is.na(price)) |> ggplot(aes(x=price)) +
 
 Conclusion?
 
+*A typical night is between maybe \$80 and \$200, with an average of around \$100.*
 
 ## Do "instant bookable" charge more?
 
@@ -273,6 +271,12 @@ Statistical significance does not imply real-world significance.
 
 ## Revised conclusion (in class)
 
+*It's hard to draw many conclusions from this
+because we don't know if this is a representative sample
+and this isn't taking into account any covariates,
+but taking this $t$-test at face value,
+there appears to be a statistically significant difference between the two groups,
+of an average difference of around \$10 per night.*
 
 ##
 
