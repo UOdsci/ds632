@@ -28,8 +28,7 @@ powerful statistical programming language [R](https://r-project.org).
     on the DSCI 632 [canvas page](https://canvas.uoregon.edu/)
 - *Evaluations:*
     - *Assignments:* Due weekly, on Tuesdays.
-    - *Quizzes:* Short ones, Thursdays.
-    - *Exams:* TBD
+    - *Reflections:* Due weekly, on Thursdays.
 
 ## Software:
 
@@ -46,7 +45,7 @@ We will assume at least an introductory level of familiarity with statistics and
 
 ## Assignments and evaluation
 
-Course grades will be based on assignments, quizzes, and exams.
+Course grades will be based on assignments and weekly reflections.
 Most weeks will have homeworks, assigned on Tuesdays and due the following Tuesday.
 These will be short, readable, descriptive statistical reports,
 which you will write in Rmarkdown (here are some [tips for doing this](rmarkdown_tips.html)),
