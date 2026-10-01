@@ -53,6 +53,10 @@ $$\begin{equation}
     t(X - \mu) = \frac{\bar x - \mu}{s/\sqrt{n}} \sim \StudentsT(\text{df}=n-2) .
 \end{equation}$$
 
+. . .
+
+(in class: how do you simulate this? `rt`, `pt`, `dt`, etc)
+
 
 ## The $t$ approximation
 
@@ -109,13 +113,13 @@ for (k in 1:20) {
 xm <- replicate(1000, {
             x <- 2 * runif(n) - 1;
             mean(x) * sqrt(n) / sd(x) })
-xh <- hist(xm, breaks=40, main=sprintf('t of %d samples', n), col='red')
+xh <- hist(xm, breaks=40, main=sprintf('t (%d samples)', n), col='red')
 ```
 
 ## Distribution of 1,000 sample $t$ scores
 
 ```{r t_smpling_dist2}
-plot(xh, main=sprintf('t of %d samples', n), col='red')
+plot(xh, main=sprintf('t (%d samples)', n), col='red')
 xx <- xh$breaks
 polygon(c(xx[-1] - diff(xx)/2, xx[1]),
         c(length(xm)* diff(pt(xx, df=(n-1))), 0),

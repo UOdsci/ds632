@@ -15,7 +15,7 @@ set.seed(23)
 ```
 
 
-# $t$ distribution reminder
+# $t$ distribution recap
 
 ##
 
@@ -28,6 +28,19 @@ instant <- airbnb$price[airbnb$instant_bookable]
 not_instant <- airbnb$price[!airbnb$instant_bookable]
 (tt <- t.test(instant, not_instant))
 ```
+
+## Coverage
+
+**Definition:** the *coverage* of a procedure that produces uncertainty intervals for an estimate
+is the percentage of the time that the interval contains the true value.
+
+. . .
+
+*Notes:*
+
+- you need to know the truth in a lot of situations to estimate the coverage
+- the coverage often depends on the situation (e.g., maybe your method works better in some parts of parameter space than others)
+- "uncertainty intervals" means any method that gives you ranges of values
 
 ## How's the $t$ test work?
 
@@ -100,12 +113,15 @@ polygon(a, b, col=adjustcolor("red", 0.4))
 
 3. Change mean of the simulated values to 1, and do the same.
 
+. . .
+
+What's going to happen?
 
 
 
 # Confidence intervals
 
-##
+## Definition
 
 A *95% confidence interval* for an estimate
 is constructed so that no matter what the true values,
@@ -114,8 +130,8 @@ is constructed so that no matter what the true values,
 . . .
 
 In other words,
-if we collect 100 independent samples from a population with true mean $\mu$,
-and 95% construct confidence intervals for the mean from each,
+if we collect 100 independent samples from a source with true mean $\mu$,
+and construct 95% confidence intervals for the mean from each,
 then about 95 of these should overlap $\mu$.
 
 ## How's that work?
@@ -148,7 +164,7 @@ text(0.0, 0.01, "95%", cex=3)
 ## Check this.
 
 > if we collect 100 independent samples from a population with true mean $\mu$,
-> and construct 95% confidence intervals from each,
+> and construct 95% confidence intervals for the mean from each,
 > then about 95 of these should overlap $\mu$.
 
 Let's take independent samples of size $n=20$ from a Normal distribution with $\mu = 0$.
@@ -191,7 +207,7 @@ of UO students who have been to a party recently.
 
 . . .
 
-*Not so good:* the true proportion is a *fixed* number,
+This is *not quite right:* the true proportion is a *fixed* number,
 so it doesn't make sense to talk about a *probability* here.
 
 # Power analysis
@@ -209,7 +225,7 @@ the probability of identifying a true effect.
 . . .
 
 *Example:*
-Suppose two snail species' speeds differ by 3cm/h.
+Suppose two snail species' speeds differ by 3cm/h on average.
 What's the chance our experiment will identify the difference?
 
 
