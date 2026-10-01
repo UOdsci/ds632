@@ -50,7 +50,7 @@ c(t.test(x)$statistic,
 If $X_1, \ldots, X_n$ are independent random samples from a Normal distribution with mean 0 and the same standard deviation,
 then
 $$\begin{equation}
-    t(X - \mu) = \frac{\bar x - \mu}{s/\sqrt{n}} \sim \StudentsT(\text{df}=n-2) .
+    t(X - \mu) = \frac{\bar x - \mu}{s/\sqrt{n}} \sim \StudentsT(\text{df}=n-1) .
 \end{equation}$$
 
 . . .
@@ -64,7 +64,7 @@ $$\begin{equation}
 If $X_1, \ldots, X_n$ are independent random samples from a distribution with mean $\mu$,
 then
 $$\begin{equation}
-    t(X - \mu) = \frac{\bar x - \mu}{s/\sqrt{n}} \approx \StudentsT(\text{df}=n-2) ,
+    t(X - \mu) = \frac{\bar x - \mu}{s/\sqrt{n}} \approx \StudentsT(\text{df}=n-1) ,
 \end{equation}$$
 as long as $n$ is not too small and the distribution isn't too wierd.
 
@@ -140,3 +140,53 @@ Compare the distribution of these values
 to draws from the Student's T distribution (get these from `rt(...)`),
 using a q-q plot (e.g., with `qqplot()`).
 
+
+
+## With an exponential distribution
+
+```{r t_smpling_dist3}
+n <- 200
+xm <- replicate(1000, {
+            x <- rexp(n) - 1;
+            mean(x) * sqrt(n) / sd(x) })
+xh <- hist(xm, breaks=40, main=sprintf('t (%d samples)', n), col='red')
+```
+
+## Note on R's functions for distributions:
+
+From `?rnorm`:
+```
+The Normal Distribution
+Description
+Density, distribution function, quantile function and random generation for the normal distribution with mean equal to mean and standard deviation equal to sd.
+
+Usage
+dnorm(x, mean = 0, sd = 1, log = FALSE)
+pnorm(q, mean = 0, sd = 1, lower.tail = TRUE, log.p = FALSE)
+qnorm(p, mean = 0, sd = 1, lower.tail = TRUE, log.p = FALSE)
+rnorm(n, mean = 0, sd = 1)
+```
+
+##
+
+We've also got `dexp`, `pexp`, `qexp`, and `rexp`, for instance.
+Here's how they are related:
+```{r dpqr, echo=FALSE, fig.height=1.5*fig.dim}
+xx <- seq(-3, 3, length.out=401)
+plot(xx, dnorm(xx), type='l', xlab='', ylab='', xaxt='n', yaxt='n', main="dX, pX, qX, rX")
+q <- -0.5
+axis(1, at=q, label='q (uantile)', hadj=0)
+xz <- xx[xx<=q]
+polygon(c(xz, xz[length(xz)], xz[1]),
+        c(dnorm(xz), 0, 0),
+        col=adjustcolor("blue", 0.4))
+text(x=mean(xz) * 0.6, y=mean(dnorm(xz)) * .75, labels="p (robability)")
+dx <- q-0.5
+dy <- dnorm(q)
+segments(x0=dx, x1=q, y0=dy)
+text(x=dx, y=dy, labels="d (ensity)", pos=2)
+rx <- 0.5
+ry <- dnorm(rx)
+arrows(x0=rx, x1=1+rx, y0=ry/2, y1=ry)
+text(x=1+rx, y=ry, labels="r (andom)", pos=4)
+```

@@ -29,19 +29,6 @@ not_instant <- airbnb$price[!airbnb$instant_bookable]
 (tt <- t.test(instant, not_instant))
 ```
 
-## Coverage
-
-**Definition:** the *coverage* of a procedure that produces uncertainty intervals for an estimate
-is the percentage of the time that the interval contains the true value.
-
-. . .
-
-*Notes:*
-
-- you need to know the truth in a lot of situations to estimate the coverage
-- the coverage often depends on the situation (e.g., maybe your method works better in some parts of parameter space than others)
-- "uncertainty intervals" means any method that gives you ranges of values
-
 ## How's the $t$ test work?
 
 The *central limit theorem*.
@@ -53,7 +40,7 @@ away from the *true mean* has a $t$ distribution.
 
 . . .
 
-- ... with $n-2$ degrees of freedom.
+- ... with $n-1$ degrees of freedom.
 - "standard error" = $s / \sqrt{n}$ = SD of the sample mean
 
 . . .
@@ -78,8 +65,8 @@ of the true mean [is approximately](https://en.wikipedia.org/wiki/Student%27s_t-
 
 $$\begin{aligned}
     \int_{-2}^2
-        \frac{\Gamma\left(\frac{n-1}{2}\right)}{\sqrt{(n-2) \pi}\Gamma\left(\frac{n-2}{2}\right)}
-        \left(1 + \frac{x^2}{n-2}\right)^{-\frac{n - 1}{2}} dx .
+        \frac{\Gamma\left(\frac{n}{2}\right)}{\sqrt{(n-1) \pi}\Gamma\left(\frac{n-1}{2}\right)}
+        \left(1 + \frac{x^2}{n-1}\right)^{-\frac{n}{2}} dx .
 \end{aligned}$$
 
 . . .
@@ -133,6 +120,20 @@ In other words,
 if we collect 100 independent samples from a source with true mean $\mu$,
 and construct 95% confidence intervals for the mean from each,
 then about 95 of these should overlap $\mu$.
+
+## Coverage
+
+**Definition:** the *coverage* of a procedure that produces uncertainty intervals for an estimate
+is the percentage of the time that the interval contains the true value.
+
+. . .
+
+*Notes:*
+
+- you need to know the truth in a lot of situations to estimate the coverage
+- the coverage often depends on the situation (e.g., maybe your method works better in some parts of parameter space than others)
+- "uncertainty intervals" means any method that gives you ranges of values
+
 
 ## How's that work?
 
