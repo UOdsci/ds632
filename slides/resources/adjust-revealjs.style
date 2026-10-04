@@ -34,6 +34,8 @@ code { white-space: pre; }
 
 .reveal code.sourceCode.r { overflow: auto; }
 
+div.column { overflow: visible; }
+
 </style>
 
 

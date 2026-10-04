@@ -1,0 +1,307 @@
+---
+title: "Permutation tests"
+author: "Peter Ralph, University of Oregon"
+subtitle: "DSCI 632: Statistics for Data Science"
+format: "revealjs"
+---
+
+
+```{r setup, include=FALSE}
+fig.dim <- 4
+knitr::opts_chunk$set(fig.width=2*fig.dim,
+                      fig.height=1.5*fig.dim,
+                      fig.cap="",
+                      fig.align='center')
+set.seed(23)
+library(matrixStats)
+library(tidyverse)
+```
+
+# Permutation tests
+
+
+## 
+
+```{r ttest, echo=FALSE, warning=FALSE}
+airbnb <- read.csv("../datasets/portland-airbnb-listings.csv")
+airbnb$price <- as.numeric(gsub("$", "", airbnb$price, fixed=TRUE))
+airbnb$instant_bookable <- (airbnb$instant_bookable == "t")
+t.test(airbnb$price[airbnb$instant_bookable], airbnb$price[!airbnb$instant_bookable])
+```
+
+**But,** the $t$ test relies on *Normality* (a little).
+Is the distribution of AirBnB prices too "weird"?
+How can we be sure?
+
+. . .
+
+Methods:
+
+1. Remove the big values and try again.
+
+2. Use a nonparametric test.
+
+
+
+## The permutation test
+
+*Observation:*
+**If** there was no meaningful difference in prices between "instant bookable" and not,
+**then randomly shuffling that label** won't change anything.
+
+. . .
+
+Strategy:
+
+1. Shuffle the `instant_bookable` column.
+2. Compute the difference in means.
+3. Repeat, many times.
+4. Compare: the $p$-value is the proportion of "shuffled" values more extreme than observed.
+
+. . .
+
+![Rightarrow](images/finger_right.png){.finger width="15%"} 
+*Why* is this a $p$-value?  For what hypothesis?
+
+## Shuffle once
+
+```{r shuf}
+fake_is_instant <- sample(airbnb$instant_bookable)
+(mean(airbnb$price[fake_is_instant], na.rm=TRUE) - 
+                mean(airbnb$price[!fake_is_instant], na.rm=TRUE))
+```
+
+## Many times
+
+```{r many_shuf, cache=TRUE}
+real_diff <- (mean(airbnb$price[airbnb$instant_bookable], na.rm=TRUE)
+               - mean(airbnb$price[!airbnb$instant_bookable], na.rm=TRUE))
+permuted_diffs <- replicate(10000, {
+        fake_is_instant <- sample(airbnb$instant_bookable)
+        (mean(airbnb$price[fake_is_instant], na.rm=TRUE)
+             - mean(airbnb$price[!fake_is_instant], na.rm=TRUE))
+   } )
+hist(permuted_diffs, xlab="shuffled differences in mean", xlim=range(c(permuted_diffs, real_diff)))
+abline(v=real_diff, col='red', lwd=3)
+```
+
+## How surprising was the real value?
+
+```{r perm_p}
+mean(abs(permuted_diffs) > abs(real_diff))
+```
+
+. . .
+
+> The difference in price between instant bookable and not instant bookable
+> is highly statistically significant ($p \approx 0.0003$, permutation test).
+
+
+# Mammals big and small
+
+##
+
+**Question:** do herbivores tend to be bigger than carnivores?
+
+. . .
+
+Let's have a look,
+in the [PanTHERIA data](../datasets/PanTHERIA):
+```{r load_pantheria}
+source("../datasets/PanTHERIA/read_pantheria.R")
+pantheria <- read_pantheria("../datasets/PanTHERIA")
+head(pantheria)
+```
+
+-------
+
+Let's have a look:
+
+```{r plot_pantheria}
+pantheria |> filter(!is.na(TrophicLevel)) |> 
+    ggplot(aes(x=AdultBodyMass_g)) + 
+        geom_histogram(bins=30) + 
+        scale_x_continuous(transform="log10") + 
+        facet_grid(TrophicLevel~.)
+```
+
+## Your turn
+
+*Do herbivores tend to be bigger than carnivores?*
+
+0. Read in the data, and subset to only `TrophicLevel %in% c("herbivore", "carnivore")`.
+1. Compute a summary that answers this question.
+2. Compute the same summary after shuffling the `TrophicLevel` column up lots of times.
+3. Find the proportion of those shuffles that got a difference as big as you did in (1).
+4. Do you see any problems with this test?
+
+##
+
+The problem: 
+Permutation tests do not magically get rid of confounding variables.
+```{r pantab}
+with(pantheria, table(Order, TrophicLevel))
+```
+
+## 
+
+What do we *really* want to know?
+The next plan:
+
+1. Find pairs of species in the same family
+   for which one is a omnivore and the other an herbivore.
+
+2. Compute within each pair **(some statistic)** comparing omnivore to herbivore size,
+   and average these (the test statistic).
+
+3. *Randomly reassign* "trophic level" within families many times, recomputing this statistic.
+
+4. The $p$-value is the proportion of shuffled statistics greater than the observed statistic.
+
+## In class
+
+```{r load_data}
+source("../datasets/PanTHERIA/read_pantheria.R")
+pantheria <- read_pantheria("../datasets/PanTHERIA")
+```
+
+-----
+
+First, let's subset down to only the herbivores and omnivores,
+with non-missing data.
+```{r subset}
+pantheria <- subset(pantheria,
+                    TrophicLevel %in% c("herbivore", "omnivore")
+                    &
+                    !is.na(AdultBodyMass_g)
+) |> droplevels()
+```
+We still have `r nrow(pantheria)` species remaining.
+
+## For each family, pick a pair of species:
+
+```{r pick_species}
+ratios <- rep(NA, nlevels(pantheria$Family))
+names(ratios) <- levels(pantheria$Family)
+for (fam in levels(pantheria$Family)) {
+    this_fam <- subset(pantheria, Family == fam)
+    omnis <- which(this_fam$TrophicLevel == "omnivore")
+    herbs <- which(this_fam$TrophicLevel == "herbivore")
+    if (length(omnis) > 0 && length(herbs) > 0) {
+        herb <- herbs[sample.int(length(herbs), 1)]
+        omni <- omnis[sample.int(length(omnis), 1)]
+        out <- this_fam$AdultBodyMass_g[herb] / this_fam$AdultBodyMass_g[omni]
+    } else {
+        out <- NA
+    }
+    ratios[fam] <- out
+}
+```
+
+## Do it again, after shuffling
+
+```{r shuffle}
+shuffled_mean_ratios <- replicate(100, {
+    shuffled_ratios <- rep(NA, nlevels(pantheria$Family))
+    names(ratios) <- levels(pantheria$Family)
+    for (fam in levels(pantheria$Family)) {
+        this_fam <- subset(pantheria, Family == fam)
+        # shuffle up trophic level column
+        this_fam$TrophicLevel <- sample(this_fam$TrophicLevel)
+        omnis <- which(this_fam$TrophicLevel == "omnivore")
+        herbs <- which(this_fam$TrophicLevel == "herbivore")
+        if (length(omnis) > 0 && length(herbs) > 0) {
+            herb <- herbs[sample.int(length(herbs), 1)]
+            omni <- omnis[sample.int(length(omnis), 1)]
+            out <- this_fam$AdultBodyMass_g[herb] / this_fam$AdultBodyMass_g[omni]
+        } else {
+            out <- NA
+        }
+        shuffled_ratios[fam] <- out
+    }
+    mean(shuffled_ratios, na.rm=TRUE)
+})
+```
+
+## Look at the results
+
+
+```{r hist}
+observed_mean_ratio <- mean(ratios, na.rm=TRUE)
+p_val <- mean(shuffled_mean_ratios > observed_mean_ratio)
+hist(shuffled_mean_ratios)
+abline(v=observed_mean_ratio, col='red')
+```
+
+## Conclusion
+
+On average the herbivore of the pair was
+`r observed_mean_ratio` times bigger than the omnivore;
+a mean ratio this big occurred `r p_val`
+of the time in the permuted datasets.
+So, this is not strong evidence that herbivores tend to
+be bigger than omnivores
+(p = `r p_val`, permutation test).
+
+*However*, we only did *one* random draw of the pairs
+to get the observed values.
+
+## Lots of draws of pairs, unshuffled
+
+```{r pick_species2, cache=TRUE}
+num_picks <- 20
+observed_mean_ratio_vector <- replicate(num_picks, {
+    ratios <- rep(NA, nlevels(pantheria$Family))
+    names(ratios) <- levels(pantheria$Family)
+    for (fam in levels(pantheria$Family)) {
+        this_fam <- subset(pantheria, Family == fam)
+        omnis <- which(this_fam$TrophicLevel == "omnivore")
+        herbs <- which(this_fam$TrophicLevel == "herbivore")
+        if (length(omnis) > 0 && length(herbs) > 0) {
+            herb <- herbs[sample.int(length(herbs), 1)]
+            omni <- omnis[sample.int(length(omnis), 1)]
+            out <- this_fam$AdultBodyMass_g[herb] / this_fam$AdultBodyMass_g[omni]
+        } else {
+            out <- NA
+        }
+        ratios[fam] <- out
+    }
+    mean(ratios, na.rm=TRUE)
+})
+```
+
+```{r perm_species2, cache=TRUE, dependson="pick_species2"}
+shuffled_mean_ratio_vectors <- replicate(200, { replicate(num_picks, {
+    ratios <- rep(NA, nlevels(pantheria$Family))
+    names(ratios) <- levels(pantheria$Family)
+    for (fam in levels(pantheria$Family)) {
+        this_fam <- subset(pantheria, Family == fam)
+        this_fam$TrophicLevel <- sample(this_fam$TrophicLevel)
+        omnis <- which(this_fam$TrophicLevel == "omnivore")
+        herbs <- which(this_fam$TrophicLevel == "herbivore")
+        if (length(omnis) > 0 && length(herbs) > 0) {
+            herb <- herbs[sample.int(length(herbs), 1)]
+            omni <- omnis[sample.int(length(omnis), 1)]
+            out <- this_fam$AdultBodyMass_g[herb] / this_fam$AdultBodyMass_g[omni]
+        } else {
+            out <- NA
+        }
+        ratios[fam] <- out
+    }
+    mean(ratios, na.rm=TRUE)
+}) } )
+```
+
+
+## Look at results again
+
+```{r plot2}
+obs <- mean(observed_mean_ratio_vector)
+shuf <- colMeans(shuffled_mean_ratio_vectors)
+hist(shuf, breaks=20, xlim=range(obs, shuf),
+     main=sprintf("p = %.3f", mean(shuf >=obs)))
+abline(v=obs, col='red')
+```
+
+
+Conclusion? 

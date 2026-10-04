@@ -84,8 +84,9 @@ css: "plans.css"
        .       definition: coverage                                                                                                                                    .
        .       explanation on board of t distribution to CI (invisible dog)                                                                                            .
        .       Discussion: what's the "95%" mean in a CI?                                                                                         disco                .
+       .       Miscellaneous R pointers and so forth                                                                                              demo            20 min
        .     Power: definition and power analysis discussion                                                                                                           .
-    1:30     Group work: power analysis with AirBnB data                                                                       CIs                                20 min
+    x:xx     Group work: power analysis with AirBnB data                                                                       CIs                              (no time)
     1:50                                                                                                                                                             end
 --------     ----------------------------------------------------------------------------------------------------------    -------------    ---------------    -----------
 :::

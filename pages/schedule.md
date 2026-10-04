@@ -29,19 +29,15 @@ Week 1 (*9/28*)
 
 Week 2 (*10/5*)
 
-: Visualization, confidence intervals, permutation tests, and the bootstrap.
+: Visualization, permutation tests, and the bootstrap.
 
-
-
-<!--
-    - Slides: [Visualization](../slides/Week_02_Visualization.slides.html)
-    - Slides: [The bootstrap](../slides/Week_02_Bootstrap.slides.html)
-    - Slides: [Permutation tests](../slides/Week_02_Permutation_tests.slides.html)
+    - Slides: [Permutation tests](../slides/permutation_tests.slides.html)
+    - Slides: [Data wrangling and visualization in R](../slides/visualization.slides.html)
+    - Slides: [The bootstrap](../slides/bootstrap.slides.html)
+    - [Homework 2](../homeworks/HW02.html) *(due 10/13)*
     - Reading (pick one of the following, or something else): 
         * James, Witten, Hastie & Tibshirani chapter 13
         * Quinn & Keough chapters 1-4 (still)
-    - [Homework 2](../homeworks/HW02.html) *(due 10/13)*
--->
 
 Week 3 (*10/12*)
 
