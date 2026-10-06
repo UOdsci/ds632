@@ -135,6 +135,32 @@ pantheria |> filter(!is.na(TrophicLevel)) |>
 3. Find the proportion of those shuffles that got a difference as big as you did in (1).
 4. Do you see any problems with this test?
 
+## in class
+
+```{r inclass1}
+diff_means <- function (body_mass, trophic_level) {
+    c_means <-  mean(body_mass[trophic_level == "carnivore"], na.rm=TRUE) 
+    h_means <- mean(body_mass[trophic_level == "herbivore"], na.rm=TRUE)
+    return(c_means - h_means)
+}
+# true value
+obs_value <- diff_means(log10(pantheria$AdultBodyMass_g), pantheria$TrophicLevel)
+
+# one shuffled value
+shuf_trophic_level <- sample(pantheria$TrophicLevel)
+diff_means(log10(pantheria$AdultBodyMass_g), shuf_trophic_level)
+
+
+permuted_values <- replicate(1000, {
+    shuf_trophic_level <- sample(pantheria$TrophicLevel)
+    diff_means(log10(pantheria$AdultBodyMass_g), shuf_trophic_level)
+})
+hist(permuted_values, breaks=40, xlim=range(obs_value, permuted_values))
+abline(v=obs_value, col='red')
+
+# The p-value is "less than 1/1000" by a two-sided permutation test.
+```
+
 ##
 
 The problem: 
