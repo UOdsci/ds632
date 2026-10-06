@@ -106,7 +106,7 @@ mean(abs(permuted_diffs) > abs(real_diff))
 . . .
 
 Let's have a look,
-in the [PanTHERIA data](../datasets/PanTHERIA):
+in the [PanTHERIA data](../datasets/PanTHERIA/README.html):
 ```{r load_pantheria, warning=FALSE}
 source("../datasets/PanTHERIA/read_pantheria.R")
 pantheria <- read_pantheria("../datasets/PanTHERIA")
