@@ -51,8 +51,6 @@ head(pantheria)
 ## Dialects of R
 
 "Base R" is, mostly, R that you get without loading packages.
-It's very stable and very unlikely to change
-(your code will still work in 10 years).
 
 . . .
 

@@ -1,5 +1,5 @@
 ---
-title: "Lesson plan: Week XX"
+title: "Lesson plan: Week 02"
 format: html
 css: "plans.css"
 ---

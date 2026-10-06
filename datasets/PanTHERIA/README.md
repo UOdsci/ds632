@@ -1,4 +1,5 @@
-This is the panTHERIA dataset, downloaded from [the Ecological Archives](http://esapubs.org/archive/ecol/E090/184/metadata.htm),
+This is the panTHERIA dataset, compiled by [Jones et al (Ecology 2009)](https://esajournals.onlinelibrary.wiley.com/doi/10.1890/08-1494.1)
+(download [here](https://dx.doi.org/10.6084/m9.figshare.c.3301274)),
 which is
 
 > ... a global species-level data set of key life-history, ecological and
@@ -6,7 +7,7 @@ which is
 > (PanTHERIA) developed for a number of macroecological and macroevolutionary
 > research projects.
 
-- Metadata and varianble definitions: http://esapubs.org/archive/ecol/E090/184/metadata.htm
+- Metadata and variable definitions here: [metadata.htm](metadata.htm)
 - the [dataset](PanTHERIA_WR05_mammals.txt)
 
 Code to read in the data and assign levels in columns appropriately
@@ -20,7 +21,7 @@ pantheria <- read_pantheria(".")
 
 If you need to download the files, then you can do this in R by first running:
 ```r
-url <- "https://uo-biostats.github.io/UO_ABS/CLASS_MATERIALS/Datasets/PanTHERIA/"
+url <- "https://uodsci.github.io/ds632/datasets/PanTHERIA/"
 for (x in c("PanTHERIA_WR05_mammals.txt", "read_pantheria.R")) {
     download.file(paste0(url, x), x)
 }
