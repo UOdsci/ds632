@@ -43,19 +43,16 @@ Week 3 (*10/12*)
 
 : Linear models, ANOVA, and formulas.
 
-<!--
-
-    - Slides: [The central limit theorem](../slides/Week_03_central_limit_theorem.slides.html)
-    - Slides: [Linear models](../slides/Week_03_Linear_models.slides.html)
-    - Slides: [Multivariate ANOVA](../slides/Week_03_Multivariate_ANOVA.slides.html)
-    - Slides: [Formulas](../slides/Week_03_Formulas.slides.html)
+    - Slides: [The central limit theorem](../slides/central_limit_theorem.slides.html)
+    - Slides: [Linear models](../slides/linear_models.slides.html)
+    - Slides: [Multivariate ANOVA](../slides/Multivariate_ANOVA.slides.html)
+    - Slides: [Formulas](../slides/formulas.slides.html)
     - Reading (pick one of the following, or something else): 
         * James, Witten, Hastie & Tibshirani chapter 3
         * Quinn & Keough chapter 5, 6, 8
         * Wasserman chapter 13-14 (maybe)
         * also see: [formulae in R](https://conjugateprior.org/2013/01/formulae-in-r-anova/)
     - [Homework 3](../homeworks/HW03.html) *(due 10/20)*
--->
 
 Week 4 (*10/19*)
 

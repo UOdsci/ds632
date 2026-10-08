@@ -562,8 +562,7 @@ bookable is highly statistically significant (<span class="math inline">\(p \app
 <p><strong>Question:</strong> do herbivores tend to be bigger than
 carnivores?</p>
 <div class="fragment">
-<p>Let’s have a look, in the <a href="../datasets/PanTHERIA">PanTHERIA
-data</a>:</p>
+<p>Let’s have a look, in the <a href="../datasets/PanTHERIA/README.html">PanTHERIA data</a>:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;../datasets/PanTHERIA/read_pantheria.R&quot;</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pantheria <span class="ot">&lt;-</span> <span class="fu">read_pantheria</span>(<span class="st">&quot;../datasets/PanTHERIA&quot;</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pantheria)</span></code></pre></div>
@@ -680,9 +679,9 @@ confounding variables.</p>
 <p>What do we <em>really</em> want to know? The next plan:</p>
 <ol type="1">
 <li><p>Find pairs of species in the same family for which one is a
-omnivore and the other an herbivore.</p></li>
+carnivore and the other an herbivore.</p></li>
 <li><p>Compute within each pair <strong>(some statistic)</strong>
-comparing omnivore to herbivore size, and average these (the test
+comparing carnivore to herbivore size, and average these (the test
 statistic).</p></li>
 <li><p><em>Randomly reassign</em> “trophic level” within families many
 times, recomputing this statistic.</p></li>
@@ -693,11 +692,282 @@ statistic.</p></li>
 </section>
 <section id="in-class-1" class="slide level2">
 <h2>In class</h2>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;../datasets/PanTHERIA/read_pantheria.R&quot;</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>pantheria <span class="ot">&lt;-</span> <span class="fu">read_pantheria</span>(<span class="st">&quot;../datasets/PanTHERIA&quot;</span>)</span></code></pre></div>
+<p>Which families have both an herbivore and a carnivore</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    pantheria<span class="sc">$</span>Family,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    pantheria<span class="sc">$</span>TrophicLevel</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>##                      
+##                       herbivore omnivore carnivore
+##   Abrocomidae                 0        0         0
+##   Acrobatidae                 0        2         0
+##   Ailuridae                   1        0         0
+##   Anomaluridae                2        0         0
+##   Antilocapridae              1        0         0
+##   Aotidae                     1        7         0
+##   Aplodontiidae               1        0         0
+##   Atelidae                   10        4         0
+##   Balaenidae                  0        0         3
+##   Balaenopteridae             0        0         6
+##   Bathyergidae                7        1         0
+##   Bovidae                    95        9         0
+##   Bradypodidae                2        1         0
+##   Burramyidae                 0        4         0
+##   Caenolestidae               0        3         3
+##   Calomyscidae                0        0         0
+##   Camelidae                   4        0         0
+##   Canidae                     0       17        15
+##   Capromyidae                 4        8         0
+##   Castoridae                  2        0         0
+##   Caviidae                   10        0         0
+##   Cebidae                     0       27         0
+##   Cercopithecidae            35       24         0
+##   Cervidae                   25        3         0
+##   Chaeropodidae               0        1         0
+##   Cheirogaleidae              0        8         0
+##   Chinchillidae               4        0         0
+##   Chrysochloridae             0        2        15
+##   Craseonycteridae            0        0         1
+##   Cricetidae                 43       74        27
+##   Ctenodactylidae             4        0         0
+##   Ctenomyidae                42        0         0
+##   Cuniculidae                 2        0         0
+##   Cyclopedidae                0        0         1
+##   Cynocephalidae              2        0         0
+##   Dasypodidae                 0       13         7
+##   Dasyproctidae              12        0         0
+##   Dasyuridae                  0       10        15
+##   Daubentoniidae              0        1         0
+##   Delphinidae                 0        0        20
+##   Didelphidae                 0       24        16
+##   Dinomyidae                  1        0         0
+##   Dipodidae                   6        9         0
+##   Dugongidae                  0        1         0
+##   Echimyidae                  9        8         0
+##   Elephantidae                3        0         0
+##   Emballonuridae              0        0        20
+##   Equidae                     5        0         0
+##   Erethizontidae              6        1         0
+##   Erinaceidae                 0       10         9
+##   Eschrichtiidae              0        1         0
+##   Eupleridae                  0        4         4
+##   Felidae                     0        2        28
+##   Furipteridae                0        0         2
+##   Galagidae                   2        6         0
+##   Geomyidae                  38        0         0
+##   Giraffidae                  2        0         0
+##   Gliridae                    0       15         1
+##   Heptaxodontidae             0        0         0
+##   Herpestidae                 0       13        12
+##   Heteromyidae               22       16         0
+##   Hippopotamidae              1        1         0
+##   Hipposideridae              0        1        39
+##   Hominidae                   0        4         0
+##   Hyaenidae                   0        2         2
+##   Hylobatidae                 0        9         0
+##   Hypsiprymnodontidae         0        1         0
+##   Hystricidae                 1        9         0
+##   Indriidae                   6        0         0
+##   Iniidae                     0        0         3
+##   Lemuridae                   4        6         0
+##   Lepilemuridae               5        2         0
+##   Leporidae                  33        0         0
+##   Lorisidae                   0        4         0
+##   Macropodidae               23        3         0
+##   Macroscelididae             0        4         5
+##   Manidae                     0        0         4
+##   Megadermatidae              0        0         5
+##   Megalonychidae              1        1         0
+##   Mephitidae                  0        5         3
+##   Microbiotheriidae           0        1         0
+##   Molossidae                  0        1        38
+##   Monodontidae                0        0         2
+##   Mormoopidae                 0        0         8
+##   Moschidae                   4        0         0
+##   Muridae                    51       40        14
+##   Mustelidae                  0       12        32
+##   Myocastoridae               0        1         0
+##   Myrmecobiidae               0        0         1
+##   Myrmecophagidae             0        0         3
+##   Mystacinidae                0        2         0
+##   Myzopodidae                 0        0         1
+##   Nandiniidae                 1        0         0
+##   Natalidae                   0        0         5
+##   Neobalaenidae               0        0         0
+##   Nesomyidae                  6        5         1
+##   Nesophontidae               0        0         0
+##   Noctilionidae               0        1         0
+##   Notoryctidae                0        1         0
+##   Nycteridae                  0        0         6
+##   Ochotonidae                 8        0         0
+##   Octodontidae                7        1         0
+##   Odobenidae                  0        1         0
+##   Ornithorhynchidae           0        0         1
+##   Orycteropodidae             0        0         1
+##   Otariidae                   0       11         3
+##   Pedetidae                   1        0         0
+##   Peramelidae                 1       11         0
+##   Petauridae                  0       11         0
+##   Petromuridae                1        0         0
+##   Phalangeridae              15        2         0
+##   Phascolarctidae             1        0         0
+##   Phocidae                    0       11         8
+##   Phocoenidae                 0        0         4
+##   Phyllostomidae             53       55         6
+##   Physeteridae                0        1         2
+##   Pitheciidae                 5        5         0
+##   Platacanthomyidae           0        0         0
+##   Platanistidae               0        0         2
+##   Potoroidae                  2        0         0
+##   Procaviidae                 4        0         0
+##   Procyonidae                 0       10         0
+##   Prolagidae                  0        0         0
+##   Pseudocheiridae            14        0         0
+##   Pteropodidae               61        4         0
+##   Ptilocercidae               0        1         0
+##   Rhinocerotidae              5        0         0
+##   Rhinolophidae               0        0        46
+##   Rhinopomatidae              0        0         3
+##   Sciuridae                  43       79         2
+##   Solenodontidae              0        0         2
+##   Soricidae                   0       23        41
+##   Spalacidae                  1        1         0
+##   Suidae                      3       10         0
+##   Tachyglossidae              0        0         2
+##   Talpidae                    0        9        24
+##   Tapiridae                   3        1         0
+##   Tarsiidae                   1        2         0
+##   Tarsipedidae                1        0         0
+##   Tayassuidae                 1        2         0
+##   Tenrecidae                  0        2        12
+##   Thryonomyidae               1        0         0
+##   Thylacinidae                0        0         0
+##   Thylacomyidae               0        2         0
+##   Thyropteridae               0        0         1
+##   Tragulidae                  3        0         0
+##   Trichechidae                1        2         0
+##   Tupaiidae                   0       11         0
+##   Ursidae                     4        4         0
+##   Vespertilionidae            0        0        93
+##   Viverridae                  1       22         2
+##   Vombatidae                  3        0         0
+##   Ziphiidae                   0        0         7</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>has_both <span class="ot">&lt;-</span> ft[,<span class="st">&quot;herbivore&quot;</span>] <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> ft[,<span class="st">&quot;carnivore&quot;</span>] <span class="sc">&gt;</span> <span class="dv">0</span></span></code></pre></div>
+<pre><code>## Error:
+## ! object &#39;ft&#39; not found</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>families <span class="ot">&lt;-</span> <span class="fu">rownames</span>(ft)[has_both]</span></code></pre></div>
+<pre><code>## Error:
+## ! object &#39;ft&#39; not found</code></pre>
+</section>
+<section class="slide level2">
+
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fam <span class="ot">&lt;-</span> <span class="st">&quot;Cricetidae&quot;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> pantheria <span class="sc">|&gt;</span> <span class="fu">filter</span>(Family <span class="sc">==</span> fam) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">meanlogsize =</span> <span class="fu">mean</span>(<span class="fu">log</span>(AdultBodyMass_g), <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="at">.by=</span>TrophicLevel)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>herb_index <span class="ot">&lt;-</span> <span class="fu">which</span>(means<span class="sc">$</span>TrophicLevel <span class="sc">==</span> <span class="st">&quot;herbivore&quot;</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">length</span>(herb_index) <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>carn_index <span class="ot">&lt;-</span> <span class="fu">which</span>(means<span class="sc">$</span>TrophicLevel <span class="sc">==</span> <span class="st">&quot;carnivore&quot;</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">length</span>(carn_index) <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>obs_value <span class="ot">&lt;-</span> means<span class="sc">$</span>meanlogsize[herb_index] <span class="sc">-</span>  means<span class="sc">$</span>meanlogsize[carn_index]</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>obs_value</span></code></pre></div>
+<pre><code>## [1] 0.1190104</code></pre>
+</section>
+<section class="slide level2">
+
+<p>All the families:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>obs_means <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(families))</span></code></pre></div>
+<pre><code>## Error:
+## ! object &#39;families&#39; not found</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(obs_means) <span class="ot">&lt;-</span> families</span></code></pre></div>
+<pre><code>## Error:
+## ! object &#39;families&#39; not found</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (fam <span class="cf">in</span> families) {</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    means <span class="ot">&lt;-</span> pantheria <span class="sc">|&gt;</span> <span class="fu">filter</span>(Family <span class="sc">==</span> fam) <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarise</span>(<span class="at">meanlogsize =</span> <span class="fu">mean</span>(<span class="fu">log</span>(AdultBodyMass_g), <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="at">.by=</span>TrophicLevel)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    herb_index <span class="ot">&lt;-</span> <span class="fu">which</span>(means<span class="sc">$</span>TrophicLevel <span class="sc">==</span> <span class="st">&quot;herbivore&quot;</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stopifnot</span>(<span class="fu">length</span>(herb_index) <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    carn_index <span class="ot">&lt;-</span> <span class="fu">which</span>(means<span class="sc">$</span>TrophicLevel <span class="sc">==</span> <span class="st">&quot;carnivore&quot;</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stopifnot</span>(<span class="fu">length</span>(carn_index) <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    obs_means[fam] <span class="ot">&lt;-</span> means<span class="sc">$</span>meanlogsize[herb_index] <span class="sc">-</span>  means<span class="sc">$</span>meanlogsize[carn_index]</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Error:
+## ! object &#39;families&#39; not found</code></pre>
+<p>DRY = Don’t Repeat Yourself WET = Write Everything Twice</p>
+</section>
+<section class="slide level2">
+
+<p>Shuffled:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>nreps <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>shuf_means <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow=</span>nreps, <span class="at">ncol=</span><span class="fu">length</span>(families))</span></code></pre></div>
+<pre><code>## Error:
+## ! object &#39;families&#39; not found</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(shuf_means) <span class="ot">&lt;-</span> families</span></code></pre></div>
+<pre><code>## Error:
+## ! object &#39;families&#39; not found</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (fam <span class="cf">in</span> families) {</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nreps) {</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>        means <span class="ot">&lt;-</span> pantheria <span class="sc">|&gt;</span> <span class="fu">filter</span>(Family <span class="sc">==</span> fam <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(AdultBodyMass_g)) <span class="sc">|&gt;</span> </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">mutate</span>(<span class="at">TrophicLevel =</span> <span class="fu">sample</span>(TrophicLevel)) <span class="sc">|&gt;</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">summarise</span>(<span class="at">meanlogsize =</span> <span class="fu">mean</span>(<span class="fu">log</span>(AdultBodyMass_g), <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="at">.by=</span>TrophicLevel)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>        herb_index <span class="ot">&lt;-</span> <span class="fu">which</span>(means<span class="sc">$</span>TrophicLevel <span class="sc">==</span> <span class="st">&quot;herbivore&quot;</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stopifnot</span>(<span class="fu">length</span>(herb_index) <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>        carn_index <span class="ot">&lt;-</span> <span class="fu">which</span>(means<span class="sc">$</span>TrophicLevel <span class="sc">==</span> <span class="st">&quot;carnivore&quot;</span>)</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stopifnot</span>(<span class="fu">length</span>(carn_index) <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>        shuf_means[k, fam] <span class="ot">&lt;-</span> means<span class="sc">$</span>meanlogsize[herb_index] <span class="sc">-</span>  means<span class="sc">$</span>meanlogsize[carn_index]</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Error:
+## ! object &#39;families&#39; not found</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>shuf_means</span></code></pre></div>
+<pre><code>## Error:
+## ! object &#39;shuf_means&#39; not found</code></pre>
+</section>
+<section class="slide level2">
+
+<p>Look at results:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>obs_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">Family =</span> <span class="fu">names</span>(obs_means),</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> obs_means)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="er">)</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>shuf_means <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">cols=</span><span class="fu">everything</span>(), <span class="at">names_to=</span><span class="st">&quot;Family&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">40</span>) <span class="sc">+</span> <span class="fu">facet_grid</span>(Family <span class="sc">~</span> .) <span class="sc">+</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>value), <span class="at">data=</span>obs_df)</span></code></pre></div>
+<pre><code>## Error in parse(text = input): &lt;text&gt;:4:1: unexpected &#39;)&#39;
+## 3:     value = obs_means)
+## 4: )
+##    ^</code></pre>
+</section>
+<section class="slide level2">
+
+<p>Get <span class="math inline">\(p\)</span>-values, first by family
+and then overall:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># by family:</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>family_p_vals <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(shuf_means <span class="sc">&gt;</span> obs_means)</span></code></pre></div>
+<pre><code>## Error:
+## ! object &#39;shuf_means&#39; not found</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># overall</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>p_val <span class="ot">&lt;-</span> <span class="fu">mean</span>( <span class="fu">rowMeans</span>(shuf_means) <span class="sc">&gt;</span> <span class="fu">mean</span>(obs_means) )</span></code></pre></div>
+<pre><code>## Error:
+## ! object &#39;shuf_means&#39; not found</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(family_p_vals , <span class="fu">c</span>(<span class="at">overall=</span>p_val))</span></code></pre></div>
+<pre><code>## Error:
+## ! object &#39;family_p_vals&#39; not found</code></pre>
+<p>Confusingly, there is no statistically significant difference within
+any one of the families. <em>However</em>, the <span class="math inline">\(p\)</span>-value combined across all the families
+is strongly significant (<span class="math inline">\(p=0.003\)</span>,
+permutation test with 2000 permutations). This is possible, since we’re
+combining information across families.</p>
 </section>
 <section id="conclusion" class="slide level2">
 <h2>Conclusion</h2>
+<p><em>Preliminary conclusions:</em> Most families do not have both
+herbivores and carnivores, and when they do there aren’t many of them.
+But given that, it looks like there is significant evidence for larger
+herbivores (<span class="math inline">\(p = 0.003\)</span>, permutation
+test), although the evidence is not significant in any one family on its
+own. To answer this question correctly, we should go look up methods for
+“correlated trait evolution”.</p>
 </section></section>
     </div>
   </div>

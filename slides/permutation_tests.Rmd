@@ -175,9 +175,9 @@ What do we *really* want to know?
 The next plan:
 
 1. Find pairs of species in the same family
-   for which one is a omnivore and the other an herbivore.
+   for which one is a carnivore and the other an herbivore.
 
-2. Compute within each pair **(some statistic)** comparing omnivore to herbivore size,
+2. Compute within each pair **(some statistic)** comparing carnivore to herbivore size,
    and average these (the test statistic).
 
 3. *Randomly reassign* "trophic level" within families many times, recomputing this statistic.
@@ -186,12 +186,133 @@ The next plan:
 
 ## In class
 
-```{r load_data}
-source("../datasets/PanTHERIA/read_pantheria.R")
-pantheria <- read_pantheria("../datasets/PanTHERIA")
+Which families have both an herbivore and a carnivore
+
+```{r whichfam}
+table(
+    pantheria$Family,
+    pantheria$TrophicLevel
+)
+has_both <- ft[,"herbivore"] > 0 & ft[,"carnivore"] > 0
+families <- rownames(ft)[has_both]
 ```
 
------
+----------
+
+```{r one_fam}
+fam <- "Cricetidae"
+means <- pantheria |> filter(Family == fam) |>
+    summarise(meanlogsize = mean(log(AdultBodyMass_g), na.rm=TRUE), .by=TrophicLevel)
+herb_index <- which(means$TrophicLevel == "herbivore")
+stopifnot(length(herb_index) == 1)
+carn_index <- which(means$TrophicLevel == "carnivore")
+stopifnot(length(carn_index) == 1)
+obs_value <- means$meanlogsize[herb_index] -  means$meanlogsize[carn_index]
+obs_value
+```
+
+----------
+
+All the families:
+```{r fams}
+obs_means <- rep(NA, length(families))
+names(obs_means) <- families
+
+for (fam in families) {
+    means <- pantheria |> filter(Family == fam) |>
+        summarise(meanlogsize = mean(log(AdultBodyMass_g), na.rm=TRUE), .by=TrophicLevel)
+    herb_index <- which(means$TrophicLevel == "herbivore")
+    stopifnot(length(herb_index) == 1)
+    carn_index <- which(means$TrophicLevel == "carnivore")
+    stopifnot(length(carn_index) == 1)
+    obs_means[fam] <- means$meanlogsize[herb_index] -  means$meanlogsize[carn_index]
+}
+```
+
+DRY = Don't Repeat Yourself
+WET = Write Everything Twice
+
+-------
+
+Shuffled:
+```{r shuff}
+nreps <- 2000
+shuf_means <- matrix(NA, nrow=nreps, ncol=length(families))
+colnames(shuf_means) <- families
+
+for (fam in families) {
+    for (k in 1:nreps) {
+        means <- pantheria |> filter(Family == fam & !is.na(AdultBodyMass_g)) |> 
+            mutate(TrophicLevel = sample(TrophicLevel)) |>
+            summarise(meanlogsize = mean(log(AdultBodyMass_g), na.rm=TRUE), .by=TrophicLevel)
+        herb_index <- which(means$TrophicLevel == "herbivore")
+        stopifnot(length(herb_index) == 1)
+        carn_index <- which(means$TrophicLevel == "carnivore")
+        stopifnot(length(carn_index) == 1)
+        shuf_means[k, fam] <- means$meanlogsize[herb_index] -  means$meanlogsize[carn_index]
+    }
+}
+shuf_means
+```
+
+------
+
+Look at results:
+```{r plotit}
+obs_df <- data.frame(
+    Family = names(obs_means),
+    value = obs_means)
+)
+
+shuf_means |> as.data.frame() |> pivot_longer(cols=everything(), names_to="Family") |>
+    ggplot(aes(x=value)) + geom_histogram(bins=40) + facet_grid(Family ~ .) +
+    geom_vline(aes(xintercept=value), data=obs_df)
+    
+```
+
+---------
+
+Get $p$-values, first by family and then overall:
+
+```{r pvals}
+# by family:
+family_p_vals <- colMeans(shuf_means > obs_means)
+# overall
+p_val <- mean( rowMeans(shuf_means) > mean(obs_means) )
+c(family_p_vals , c(overall=p_val))
+```
+
+Confusingly, there is no statistically significant difference
+within any one of the families.
+*However*, the $p$-value combined across all the families is
+strongly significant ($p=0.003$, permutation test with 2000 permutations).
+This is possible, since we're combining information across families.
+
 
 ## Conclusion
+
+*Preliminary conclusions:*
+Most families do not have both herbivores and  carnivores,
+and when they do there aren't many of them.
+But given that, it looks like there is significant evidence for larger herbivores
+($p = 0.003$, permutation test),
+although the evidence is not significant in any one family on its own.
+To answer this question correctly, we should go look up methods for "correlated trait evolution".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
