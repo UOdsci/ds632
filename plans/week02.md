@@ -50,13 +50,13 @@ css: "plans.css"
     when                                                                                                                       slides             what          how long  
 --------     ----------------------------------------------------------------------------------------------------------    -------------    ---------------    -----------
    begin                                                                                                                                                               .
-    0:00     Visualization and ggplot (continued)                                                                               viz            lecture            20 min
+    0:00     Visualization and ggplot (continued)                                                                               viz            lecture            10 min
        .       philosophy and outline of ggplot                                                                                  .                                     .
        .       demo of ggplot syntax for the same plots as before                                                                .                                     .
-       .       exercise: make this plot with ggplot                                                                              .                ex              10 min
-    0:30     Back to permutation tests:                                                                                      permutation         demo             30 min
+       .       exercise: make this plot with ggplot (skip; do at home)                                                           .                ex                    
+    0:10     Back to permutation tests:                                                                                      permutation         demo             45 min
        .       walk-through demo for permutation test within Family                                                              .                 .                   .
-       .       including group brainstorming of what to do and how                                                               .              disco                  .
+       .       including group brainstorming of what to do and how                                                               .              disco             15 min
     1:00     break                                                                                                                                                 5 min
     1:05     Homework: discuss in groups how to do the homework                                                                                 group             15 min
     1:15     The Bootstrap:                                                                                                    bootstrap                                

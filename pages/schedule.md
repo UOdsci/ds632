@@ -45,7 +45,7 @@ Week 3 (*10/12*)
 
     - Slides: [The central limit theorem](../slides/central_limit_theorem.slides.html)
     - Slides: [Linear models](../slides/linear_models.slides.html)
-    - Slides: [Multivariate ANOVA](../slides/Multivariate_ANOVA.slides.html)
+    - Slides: [Multivariate linear models and ANOVA](../slides/Multivariate_ANOVA.slides.html)
     - Slides: [Formulas](../slides/formulas.slides.html)
     - Reading (pick one of the following, or something else): 
         * James, Witten, Hastie & Tibshirani chapter 3
