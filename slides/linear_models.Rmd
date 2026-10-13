@@ -22,7 +22,7 @@ library(matrixStats)
 ## Parent-offspring "regression"
 
 ```{r plot_galton, echo=FALSE, fig.width=2.0*fig.dim, fig.height=2.0*fig.dim}
-galton <- read.table("../Datasets/galton/galton-all.tsv", header=TRUE)
+galton <- read.table("../datasets/galton/galton-all.tsv", header=TRUE)
 gdiff <- diff(with(galton, tapply(height, gender, mean)))
 galton$midparent <- (galton$mother + galton$father - gdiff)/2
 galton$adj_height <- galton$height - (galton$gender == "M") * gdiff
