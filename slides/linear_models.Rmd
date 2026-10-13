@@ -174,8 +174,8 @@ the [Normal distribution](Week_01_central_limit_theorem.slides.html).
 ## Let's fit some least-squares lines!
 
 ```{r load_data}
-source("../Datasets/PanTHERIA/read_pantheria.R")
-pantheria <- read_pantheria("../Datasets/PanTHERIA/")
+source("../datasets/PanTHERIA/read_pantheria.R")
+pantheria <- read_pantheria("../datasets/PanTHERIA/")
 the_lm <- lm(LitterSize ~ TeatNumber, data=pantheria)
 summary(the_lm)
 ```
