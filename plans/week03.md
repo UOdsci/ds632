@@ -55,15 +55,20 @@ css: "plans.css"
     when                                                                                                                       slides             what          how long  
 --------     ----------------------------------------------------------------------------------------------------------    -------------    ---------------    -----------
    begin                                                                                                                                                               .
-    0:00     Finish simulating pumpkin data                                                                                                                        X min
-       .     What can we learn from linar models heree?                                                                                                                .
-       .        How do estimated coefficients relate to the simulated coefficients?                                                                                    .
-       .        model comparison with ANOVA                                                                                                                            .
-       .     The math of ANOVA (on the board!)                                                                                                                         .
-       .                                                                                                                                                               .
+    0:00     Look at code to simulate pumpkin data, carefully.                                                                 anova           lecture            10 min
+       .     What can we learn from linear models here?                                                                                        lecture            25 min
+       .        How do estimated coefficients relate to the simulated coefficients?                                                            disco                   .
+       .        Walk through with examples the non-uniqueness of a fully specified model                                                                               .
+       .        model comparison with ANOVA: soft intro                                                                                                                .
+    0:35     Formulas in R                                                                                                    formulas         lecture            10 min
+       .        exercise: try to get certain terms to appear                                                                                   exercise           10 min
     0:55     break                                                                                                                                                10 min
-    1:05     Homework brainstorm/discussion                                                                                                                        X min
-       .                                                                                                                                                               .
+    1:05     Homework brainstorm/discussion                                                                                                                       20 min
+    1:25     Back to model comparison with ANOVA!                                                                                                                      .
+       .       use the board! explain how the terms in the anova table make sense                                                                                      .
+       .       exercise: draw boxplots in the case where (a) SSA is big; (b) SSAB is big; (c) neither                                                                  .
+       .       where's th p-value come from? The F distribution.                                                                                                       .
+       .       and, use the board! explain why the F distribution makes sense                                                                                          .
        .                                                                                                                                                               .
     1:50                                                                                                                                                             end
 --------     ----------------------------------------------------------------------------------------------------------    -------------    ---------------    -----------
