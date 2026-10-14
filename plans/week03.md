@@ -17,24 +17,26 @@ css: "plans.css"
     when                                                                                                                       slides             what          how long  
 --------     ----------------------------------------------------------------------------------------------------------    -------------    ---------------    -----------
    begin                                                                                                                                                               .
-    0:00     The Normal distribution and the Central Limit Theorem                                                             CLT                                 X min
+    0:00     The Normal distribution and the Central Limit Theorem                                                             CLT                                15 min
        .        where's "Normal" come from                                                                                                                             .
        .        disambiguation with Student's T                                                                                                                        .
        .        shoutout to the probability density function for the Normal                                                                                            .
-       .     Linear Models and Least Squares                                                                                 linear mod                                .
+       .        (need to get an activity in here!)                                                                                                                     .
+       .     Linear Models and Least Squares                                                                                 linear mod                           35 min
        .        the history of the word "regression"                                                                                                                   .
        .        the product-moment correlation coefficient                                                                                                             .
        .        definition of a "linear model"                                                                                                                         .
        .        least-squares fitting of a model                                                                                                                       .
+       .        activity: come up with other ways of fitting a linear model                                                   group                               10 min
        .        relationship to the correlation coefficient                                                                                                            .
        .        relationship to the Normal                                                                                                                             .
-       .     Introduction of the lm() function with PanTHERIA                                                                linear mod                                .
+       .        lots of discussion and talking about things on the board                                                                                               .
+       .     Introduction of the lm() function with PanTHERIA                                                                linear mod                           10 min
        .       quick exercise: do some lm() yourself                                                                                                                   .
-    0:55     break                                                                                                                                                10 min
-    1:05     Multivariate linear models: set-up                                                                                                                    X min
+    1:10     break                                                                                                                                                10 min
+    1:20     Multivariate linear models: set-up                                                                                                                   30 min
        .       group work: brainstorm the pumpkin simulation example                                                                                                   .
        .       class discussion: settle on pumpkin simulation set-up and parameters                                                                                    .
-       .       demonstration: simulation of the pumpkin data                                                                                                           .
     1:50                                                                                                                                                             end
 --------     ----------------------------------------------------------------------------------------------------------    -------------    ---------------    -----------
 :::
@@ -61,7 +63,7 @@ css: "plans.css"
        .                                                                                                                                                               .
     0:55     break                                                                                                                                                10 min
     1:05     Homework brainstorm/discussion                                                                                                                        X min
-       .     Formulas in R                                                                                                                                             .
+       .                                                                                                                                                               .
        .                                                                                                                                                               .
     1:50                                                                                                                                                             end
 --------     ----------------------------------------------------------------------------------------------------------    -------------    ---------------    -----------

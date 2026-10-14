@@ -130,18 +130,19 @@ but also makes you realize things you hadn't, previously.
 ::: {.columns}
 :::::: {.column width=60%}
 
-- $\mu = $ kg
-- $\alpha_{low} = $  kg
-- $\alpha_\text{med} = $  kg
-- $\alpha_\text{high} = $  kg
-- $\beta_\text{no water} = $  kg
-- $\beta_\text{water} = $  kg
-- $\gamma_{\text{high, water}} = $ kg
-- $\epsilon_{ijk} \sim$
+- $\mu = 5$ kg
+- $\alpha_\text{low} = 0$  kg
+- $\alpha_\text{med} = 2$  kg
+- $\alpha_\text{high} = 4$  kg
+- $\beta_\text{no water} = 0$  kg
+- $\beta_\text{water} = 1$  kg
+- $\gamma_{\text{high, water}} = 5$ kg
+- $\epsilon_{ijk} \sim$Normal(mean=0, sd=1kg)
 
 :::
 :::::: {.column width=50%}
 
+![parameters chosen in class](images/pumpkin_params.png)
 
 :::
 ::::::
@@ -158,6 +159,7 @@ pumpkins <- expand.grid(
           weight=NA)
 head(pumpkins)
 ```
+
 
 # Questions that linear models can answer
 
