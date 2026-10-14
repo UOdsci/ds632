@@ -32,6 +32,8 @@ Linear models...
 
 ## The "factorial ANOVA model"
 
+:::{.smaller}
+
 Say we have $n$ observations coming from combinations of *two* factors,
 so that the $k$th observation in the $i$th group of factor $A$ and the $j$th group of factor $B$ is
 $$\begin{equation}
@@ -53,6 +55,8 @@ $$\begin{equation} \begin{split}
     \\ &\qquad {}
     + \text{(B group mean)} + \text{(AB group mean)} + \text{(residual)}
 \end{split}\end{equation}$$
+
+:::
 
 ## Example: pumpkin pie
 
@@ -102,11 +106,11 @@ $$\begin{equation}\begin{split}
 \end{split}\end{equation}$$
 where
 
-- $\mu$: 
-- $\alpha_i$: 
-- $\beta_j$: 
-- $\gamma_{ij}$: 
-- $\epsilon_{ijk}$: 
+- $\mu$: typical pumpkin weight
+- $\alpha_i$: average effect of fertilizer level $i$
+- $\beta_j$: average effect of water condition $j$
+- $\gamma_{ij}$: average deviation of combination $ij$
+- $\epsilon_{ijk}$: random, mean-zero noise
 
 
 
@@ -160,18 +164,143 @@ pumpkins <- expand.grid(
 head(pumpkins)
 ```
 
+## Now, compute the average values
+
+```{r avgs}
+params <- list(
+    mu = 5, # all units are kg
+    alpha = c(low=0, medium=2, high=4),
+    beta = c("no water"=0, water=1),
+    sigma = 1
+)
+params$gamma <- rep(0, 6)
+names(params$gamma) <- outer(c("low", "medium", "high"), c("no water", "water"), paste, sep=",")
+params$gamma["high,water"] <- 5
+
+pumpkins$condition <- paste(pumpkins$fertilizer, pumpkins$water, sep=",")
+pumpkins$mean_weight <-
+    params$mu +
+    params$alpha[pumpkins$fertilizer] +
+    params$beta[pumpkins$water] +
+    params$gamma[pumpkins$condition]
+
+head(pumpkins)
+```
+
+## Finally, simulate the actual weights
+
+```{r sim_pumpkins}
+set.seed(123)
+pumpkins$weight <- rnorm(nrow(pumpkins), mean=pumpkins$mean_weight, sd=params$sigma)
+write.table(pumpkins, file="data/pumpkins.tsv", sep="\t")
+
+pumpkins |> ggplot(aes(x=fertilizer, y=weight, color=water)) + geom_boxplot()
+```
+
+
 
 # Questions that linear models can answer
 
 ## What are (estimates of) the coefficents?
 
 ```{r get_data, include=FALSE}
-# for when the sim code above is deleted
-# pumpkins <- read.table("data/pumpkins.tsv", header=TRUE)
+pumpkins <- read.table("data/pumpkins.tsv", header=TRUE)
+```
+```{r lm1}
+plm <- lm(weight ~ fertilizer * water, data=pumpkins)
+summary(plm)
 ```
 
+------------
 
-## Do different fertilizer levels differ? water?
+
+*Do these agree with the values we chose to simulate from?*
+Fill out this table:
+```{r ptab, echo=FALSE}
+xt <- matrix("", nrow=2, ncol=3)
+colnames(xt) <- c("low", "medium", "high")
+rownames(xt) <- c("no water", "water")
+knitr::kable(xt)
+```
+
+::: {.small}
+```{r lmagain, echo=FALSE}
+summary(plm)
+```
+:::
+
+## Dissecting the `lm()` table
+
+Here's a very simple `lm()`:
+```{r simple_lm, echo=2:10}
+set.seed(456)
+n <- 50
+x <- sample(letters[1:4], n, replace=TRUE)
+y <- rnorm(n) + ifelse(x == "c", 1.5, 0)
+lm(y ~ x) |> summary()
+```
+
+---------
+
+```
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  -0.2306     0.2671  -0.864 0.392297    
+xb            0.6844     0.3709   1.845 0.071439 .  
+xc            1.6326     0.3855   4.235 0.000108 ***
+xd            0.2866     0.3945   0.727 0.471209    
+```
+
+:::: {.small}
+- `Estimate`: the parameter estimate
+- `Std. Error`: our estimate of uncertainty (as an SD)
+- `t value`: estimate / std error
+- `Pr(>|t|)`: a $p$-value from the $t$ distribution
+- `.` / `*` / `**` / ***`: how small is $p$
+::::
+
+----------
+
+```
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.31067 -0.49547 -0.03407  0.70436  1.62512 
+```
+
+These give us our estimate of `sigma`!
+
+
+# Model comparison
+
+---------
+
+Our next question:
+
+> *Do different fertilizer levels differ? water?*
+
+In other words: Do we have good statistical evidence that mean pumpkin weight
+differs depending on the amount of fertilizer? What about water?
+
+. . .
+
+One answer in this case is "well duh all those coefficients are very strongly significant".
+
+But, things aren't always so obvious.
+
+-----------------
+
+A standard (classical) way to answer this (and get a $p$-value) is by **ANOVA**:
+
+```{r aov1}
+aov(weight ~ fertilizer + water, data=pumpkins) |> summary()
+```
+
+-----------------
+
+Or, equivalently,
+
+```{r aov2}
+anova(lm(weight ~ fertilizer + water, data=pumpkins))
+```
 
 ## What are all those numbers?
 
@@ -179,9 +308,6 @@ head(pumpkins)
 
 ![Quinn & Keough, table 9.8](images/qk-table_9_8.png)
 
-## What do they mean?
-
-![Quinn & Keough, table 9.9](images/qk-table_9_9.png)
 
 ## Which levels are different from which other ones?
 
@@ -219,9 +345,18 @@ Description:
 
 ## Example
 
+```{r tukey}
+TukeyHSD(aov(weight ~ fertilizer + water, data=pumpkins))
+```
+
 ## Does the effect of fertilizer depend on water?
 
-# Model comparison with ANOVA
+```{r aov3}
+summary(aov(weight ~ fertilizer * water, data=pumpkins))
+```
+
+
+# What the $F$
 
 ## The idea
 
@@ -251,6 +386,61 @@ F
 \end{aligned}$$
 
 ## Nested model analysis
+
+```{r nesty}
+anova(
+      lm(weight ~ water, data=pumpkins),
+      lm(weight ~ fertilizer + water, data=pumpkins),
+      lm(weight ~ fertilizer * water, data=pumpkins)
+)
+```
+
+## Caveat utilitor
+
+```
+> ?anova.lm
+anova.lm {stats}                   R Documentation
+
+Details
+
+Specifying a single object gives a sequential analysis of variance table for
+that fit. That is, the reductions in the residual sum of squares as each term of
+the formula is added in turn are given in as the rows of a table, plus the
+residual sum of squares.
+
+The table will contain F statistics (and P values) comparing the mean square for
+the row to the residual mean square.
+
+If more than one object is specified, the table has a row for the residual
+degrees of freedom and sum of squares for each model. For all but the first
+model, the change in degrees of freedom and sum of squares is also given. (This
+only make statistical sense if the models are nested.) It is conventional to
+list the models from smallest to largest, but this is up to the user.
+
+Optionally the table can include test statistics. Normally the F statistic is
+most appropriate, which compares the mean square for a row to the residual sum
+of squares for the largest model considered. If scale is specified chi-squared
+tests can be used. Mallows' $C_p$ statistic is the residual sum of squares plus
+twice the estimate of  $\sigma^2$ times the residual degrees of freedom.
+
+Warning
+The comparison between two or more models will only be valid if they are fitted
+to the same dataset. This may be a problem if there are missing values and R's
+default of na.action = na.omit is used, and anova.lmlist will detect this with
+an error. 
+```
+
+## Takeaways
+
+- ANOVA gives you a principled way to ask "does this variable have an effect".
+- It works on *nested models*, so make sure your models are nested.
+- If you have a "balanced design" and no missing data, then life is good.
+- If not, then you better pull out a stats textbook before you take your $p$-values too seriously
+    (or, do some simulations).
+    
+. . .
+
+> "Interpretation is easy when data is balanced across factors but much deeper understanding is needed for unbalanced data." ([source](https://en.wikipedia.org/wiki/Analysis_of_variance))
 
 ## Your turn
 

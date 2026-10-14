@@ -1,0 +1,121 @@
+"fertilizer"	"water"	"plot"	"plant"	"weight"	"condition"	"mean_weight"
+"1"	"low"	"no water"	1	1	4.43952435344779	"low,no water"	5
+"2"	"medium"	"no water"	1	1	6.76982251051672	"medium,no water"	7
+"3"	"high"	"no water"	1	1	10.5587083141491	"high,no water"	9
+"4"	"low"	"water"	1	1	6.07050839142458	"low,water"	6
+"5"	"medium"	"water"	1	1	8.12928773516095	"medium,water"	8
+"6"	"high"	"water"	1	1	16.7150649868833	"high,water"	15
+"7"	"low"	"no water"	2	1	5.4609162059892	"low,no water"	5
+"8"	"medium"	"no water"	2	1	5.73493876539347	"medium,no water"	7
+"9"	"high"	"no water"	2	1	8.31314714810647	"high,no water"	9
+"10"	"low"	"water"	2	1	5.55433802990004	"low,water"	6
+"11"	"medium"	"water"	2	1	9.22408179743946	"medium,water"	8
+"12"	"high"	"water"	2	1	15.3598138270574	"high,water"	15
+"13"	"low"	"no water"	3	1	5.40077145059405	"low,no water"	5
+"14"	"medium"	"no water"	3	1	7.11068271594512	"medium,no water"	7
+"15"	"high"	"no water"	3	1	8.44415886524592	"high,no water"	9
+"16"	"low"	"water"	3	1	7.78691313680308	"low,water"	6
+"17"	"medium"	"water"	3	1	8.49785047822924	"medium,water"	8
+"18"	"high"	"water"	3	1	13.0333828433704	"high,water"	15
+"19"	"low"	"no water"	4	1	5.70135590156369	"low,no water"	5
+"20"	"medium"	"no water"	4	1	6.52720859227207	"medium,no water"	7
+"21"	"high"	"no water"	4	1	7.93217629401316	"high,no water"	9
+"22"	"low"	"water"	4	1	5.78202508534171	"low,water"	6
+"23"	"medium"	"water"	4	1	6.97399555169276	"medium,water"	8
+"24"	"high"	"water"	4	1	14.2711087707089	"high,water"	15
+"25"	"low"	"no water"	1	2	4.37496073215074	"low,no water"	5
+"26"	"medium"	"no water"	1	2	5.31330668925759	"medium,no water"	7
+"27"	"high"	"no water"	1	2	9.83778704449452	"high,no water"	9
+"28"	"low"	"water"	1	2	6.15337311783651	"low,water"	6
+"29"	"medium"	"water"	1	2	6.86186306298805	"medium,water"	8
+"30"	"high"	"water"	1	2	16.2538149210699	"high,water"	15
+"31"	"low"	"no water"	2	2	5.42646422147681	"low,no water"	5
+"32"	"medium"	"no water"	2	2	6.70492851700773	"medium,no water"	7
+"33"	"high"	"no water"	2	2	9.89512566104502	"high,no water"	9
+"34"	"low"	"water"	2	2	6.87813348753304	"low,water"	6
+"35"	"medium"	"water"	2	2	8.82158108163749	"medium,water"	8
+"36"	"high"	"water"	2	2	15.6886402541001	"high,water"	15
+"37"	"low"	"no water"	3	2	5.55391765353759	"low,no water"	5
+"38"	"medium"	"no water"	3	2	6.93808828942328	"medium,no water"	7
+"39"	"high"	"no water"	3	2	8.69403733626008	"high,no water"	9
+"40"	"low"	"water"	3	2	5.61952899898762	"low,water"	6
+"41"	"medium"	"water"	3	2	7.30529302107949	"medium,water"	8
+"42"	"high"	"water"	3	2	14.7920827219804	"high,water"	15
+"43"	"low"	"no water"	4	2	3.73460364843174	"low,no water"	5
+"44"	"medium"	"no water"	4	2	9.16895596533851	"medium,no water"	7
+"45"	"high"	"no water"	4	2	10.207961998305	"high,no water"	9
+"46"	"low"	"water"	4	2	4.87689141679665	"low,water"	6
+"47"	"medium"	"water"	4	2	7.59711516470092	"medium,water"	8
+"48"	"high"	"water"	4	2	14.5333446463768	"high,water"	15
+"49"	"low"	"no water"	1	3	5.77996511833632	"low,no water"	5
+"50"	"medium"	"no water"	1	3	6.91663093352817	"medium,no water"	7
+"51"	"high"	"no water"	1	3	9.25331851399475	"high,no water"	9
+"52"	"low"	"water"	1	3	5.9714532446513	"low,water"	6
+"53"	"medium"	"water"	1	3	7.95712954270868	"medium,water"	8
+"54"	"high"	"water"	1	3	16.3686022840145	"high,water"	15
+"55"	"low"	"no water"	2	3	4.77422901434073	"low,no water"	5
+"56"	"medium"	"no water"	2	3	8.51647060442954	"medium,no water"	7
+"57"	"high"	"no water"	2	3	7.45124719576978	"high,no water"	9
+"58"	"low"	"water"	2	3	6.58461374963607	"low,water"	6
+"59"	"medium"	"water"	2	3	8.12385424384461	"medium,water"	8
+"60"	"high"	"water"	2	3	15.215941568744	"high,water"	15
+"61"	"low"	"no water"	3	3	5.37963948275988	"low,no water"	5
+"62"	"medium"	"no water"	3	3	6.4976765468907	"medium,no water"	7
+"63"	"high"	"no water"	3	3	8.66679261633058	"high,no water"	9
+"64"	"low"	"water"	3	3	4.98142461689291	"low,water"	6
+"65"	"medium"	"water"	3	3	6.92820877352442	"medium,water"	8
+"66"	"high"	"water"	3	3	15.3035286414043	"high,water"	15
+"67"	"low"	"no water"	4	3	5.44820977862943	"low,no water"	5
+"68"	"medium"	"no water"	4	3	7.0530042267305	"medium,no water"	7
+"69"	"high"	"no water"	4	3	9.92226746787974	"high,no water"	9
+"70"	"low"	"water"	4	3	8.05008468562714	"low,water"	6
+"71"	"medium"	"water"	4	3	7.50896883394346	"medium,water"	8
+"72"	"high"	"water"	4	3	12.6908311243592	"high,water"	15
+"73"	"low"	"no water"	1	4	6.00573852446226	"low,no water"	5
+"74"	"medium"	"no water"	1	4	6.29079923741761	"medium,no water"	7
+"75"	"high"	"no water"	1	4	8.31199138353264	"high,no water"	9
+"76"	"low"	"water"	1	4	7.0255713696967	"low,water"	6
+"77"	"medium"	"water"	1	4	7.71522699294899	"medium,water"	8
+"78"	"high"	"water"	1	4	13.7792822877455	"high,water"	15
+"79"	"low"	"no water"	2	4	5.18130347974915	"low,no water"	5
+"80"	"medium"	"no water"	2	4	6.86110863756096	"medium,no water"	7
+"81"	"high"	"no water"	2	4	9.00576418589989	"high,no water"	9
+"82"	"low"	"water"	2	4	6.38528040112633	"low,water"	6
+"83"	"medium"	"water"	2	4	7.62933996820759	"medium,water"	8
+"84"	"high"	"water"	2	4	15.6443765485188	"high,water"	15
+"85"	"low"	"no water"	3	4	4.77951343818125	"low,no water"	5
+"86"	"medium"	"no water"	3	4	7.3317819639157	"medium,no water"	7
+"87"	"high"	"no water"	3	4	10.0968390131493	"high,no water"	9
+"88"	"low"	"water"	3	4	6.4351814908338	"low,water"	6
+"89"	"medium"	"water"	3	4	7.67406841446877	"medium,water"	8
+"90"	"high"	"water"	3	4	16.1488076184511	"high,water"	15
+"91"	"low"	"no water"	4	4	5.99350385596212	"low,no water"	5
+"92"	"medium"	"no water"	4	4	7.54839695950807	"medium,no water"	7
+"93"	"high"	"no water"	4	4	9.23873173511144	"high,no water"	9
+"94"	"low"	"water"	4	4	5.37209392396063	"low,water"	6
+"95"	"medium"	"water"	4	4	9.36065244853001	"medium,water"	8
+"96"	"high"	"water"	4	4	14.3997404128529	"high,water"	15
+"97"	"low"	"no water"	1	5	7.18733299301658	"low,no water"	5
+"98"	"medium"	"no water"	1	5	8.53261062618519	"medium,no water"	7
+"99"	"high"	"no water"	1	5	8.76429964089952	"high,no water"	9
+"100"	"low"	"water"	1	5	4.97357909969322	"low,water"	6
+"101"	"medium"	"water"	1	5	7.2895934363007	"medium,water"	8
+"102"	"high"	"water"	1	5	15.2568837091565	"high,water"	15
+"103"	"low"	"no water"	2	5	4.75330812153763	"low,no water"	5
+"104"	"medium"	"no water"	2	5	6.65245740060227	"medium,no water"	7
+"105"	"high"	"no water"	2	5	8.04838143273498	"high,no water"	9
+"106"	"low"	"water"	2	5	5.95497227519108	"low,water"	6
+"107"	"medium"	"water"	2	5	7.21509553054292	"medium,water"	8
+"108"	"high"	"water"	2	5	13.3320580634119	"high,water"	15
+"109"	"low"	"no water"	3	5	4.61977347971224	"low,no water"	5
+"110"	"medium"	"no water"	3	5	7.91899660906077	"medium,no water"	7
+"111"	"high"	"no water"	3	5	8.42465303739161	"high,no water"	9
+"112"	"low"	"water"	3	5	6.60796432222503	"low,water"	6
+"113"	"medium"	"water"	3	5	6.38211729171084	"medium,water"	8
+"114"	"high"	"water"	3	5	14.9444380344755	"high,water"	15
+"115"	"low"	"no water"	4	5	5.51940720394346	"low,no water"	5
+"116"	"medium"	"no water"	4	5	7.30115336216671	"medium,no water"	7
+"117"	"high"	"no water"	4	5	9.10567619414894	"high,no water"	9
+"118"	"low"	"water"	4	5	5.35929399169462	"low,water"	6
+"119"	"medium"	"water"	4	5	7.15029565396642	"medium,water"	8
+"120"	"high"	"water"	4	5	13.9758712093951	"high,water"	15
