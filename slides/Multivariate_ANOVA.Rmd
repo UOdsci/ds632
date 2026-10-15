@@ -37,13 +37,13 @@ Linear models...
 Say we have $n$ observations coming from combinations of *two* factors,
 so that the $k$th observation in the $i$th group of factor $A$ and the $j$th group of factor $B$ is
 $$\begin{equation}
-    X_{ijk} = \mu + \alpha_i + \beta_j + \gamma_{ij} + \epsilon_{ijk} ,
+    Y_{ijk} = \mu + \alpha_i + \beta_j + \gamma_{ij} + \epsilon_{ijk} ,
 \end{equation}$$
 where
 
 - $\mu$: overall mean
-- $\alpha_i$: mean deviation of group $i$ of factor A from $\mu$ and average of B,
-- $\beta_j$: mean deviation of group $j$ of factor B from $\mu$ and average of A,
+- $\alpha_i$: mean deviation of group $i$ of factor A from $\mu$
+- $\beta_j$: mean deviation of group $j$ of factor B from $\mu$
 - $\gamma_{ij}$: mean deviation of combination $i + j$ from $\mu + \alpha_i + \beta_j$, and
 - $\epsilon_{ijk}$: what's left over ("error", or "residual")
 
