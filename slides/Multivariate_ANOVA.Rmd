@@ -100,7 +100,7 @@ Ignore any "plant" and "plot" effects.
 Say that $i=1, 2, 3$ indexes fertilizer levels (low to high),
 and $j=1, 2$ indexes late watering (no or yes), and
 $$\begin{equation}\begin{split}
-    X_{ijk} 
+    Y_{ijk} 
     &=  \text{(weight of $k$th pumpkin in plot with conditions $i$, $j$)} \\
     &= \mu + \alpha_i + \beta_j + \gamma_{ij} + \epsilon_{ijk} ,
 \end{split}\end{equation}$$
