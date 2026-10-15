@@ -873,8 +873,20 @@ cell.</strong></p>
 9.8</figcaption>
 </figure>
 </section>
-<section id="which-levels-are-different-from-which-other-ones" class="slide level2">
-<h2>Which levels are different from which other ones?</h2>
+<section id="does-the-effect-of-fertilizer-depend-on-water" class="slide level2">
+<h2>Does the effect of fertilizer depend on water?</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(weight <span class="sc">~</span> fertilizer <span class="sc">*</span> water, <span class="at">data=</span>pumpkins))</span></code></pre></div>
+<pre><code>##                   Df Sum Sq Mean Sq F value Pr(&gt;F)    
+## fertilizer         2  834.8   417.4   520.6 &lt;2e-16 ***
+## water              1  180.3   180.3   224.9 &lt;2e-16 ***
+## fertilizer:water   2  176.2    88.1   109.9 &lt;2e-16 ***
+## Residuals        114   91.4     0.8                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</section>
+<section id="another-question-which-levels-are-different-from-which-other-ones" class="slide level2">
+<h2>Another question: Which levels are different from which other
+ones?</h2>
 <div class="fragment">
 <p>John Tukey <a href="https://en.wikipedia.org/wiki/Tukey%27s_range_test">has a
 method</a> for that.</p>
@@ -908,7 +920,7 @@ Description:
 </section>
 <section id="example" class="slide level2">
 <h2>Example</h2>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(weight <span class="sc">~</span> fertilizer <span class="sc">+</span> water, <span class="at">data=</span>pumpkins))</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(weight <span class="sc">~</span> fertilizer <span class="sc">+</span> water, <span class="at">data=</span>pumpkins))</span></code></pre></div>
 <pre><code>##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
 ## 
@@ -923,17 +935,6 @@ Description:
 ## $water
 ##                    diff      lwr      upr p adj
 ## water-no water 2.451666 1.902432 3.000899     0</code></pre>
-</section>
-<section id="does-the-effect-of-fertilizer-depend-on-water" class="slide level2">
-<h2>Does the effect of fertilizer depend on water?</h2>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(weight <span class="sc">~</span> fertilizer <span class="sc">*</span> water, <span class="at">data=</span>pumpkins))</span></code></pre></div>
-<pre><code>##                   Df Sum Sq Mean Sq F value Pr(&gt;F)    
-## fertilizer         2  834.8   417.4   520.6 &lt;2e-16 ***
-## water              1  180.3   180.3   224.9 &lt;2e-16 ***
-## fertilizer:water   2  176.2    88.1   109.9 &lt;2e-16 ***
-## Residuals        114   91.4     0.8                   
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 </section></section>
 <section>
 <section id="what-the-f" class="title-slide slide level1">

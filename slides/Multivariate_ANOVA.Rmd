@@ -309,7 +309,14 @@ anova(lm(weight ~ fertilizer + water, data=pumpkins))
 ![Quinn & Keough, table 9.8](images/qk-table_9_8.png)
 
 
-## Which levels are different from which other ones?
+## Does the effect of fertilizer depend on water?
+
+```{r aov3}
+summary(aov(weight ~ fertilizer * water, data=pumpkins))
+```
+
+
+## Another question: Which levels are different from which other ones?
 
 . . .
 
@@ -348,13 +355,6 @@ Description:
 ```{r tukey}
 TukeyHSD(aov(weight ~ fertilizer + water, data=pumpkins))
 ```
-
-## Does the effect of fertilizer depend on water?
-
-```{r aov3}
-summary(aov(weight ~ fertilizer * water, data=pumpkins))
-```
-
 
 # What the $F$
 
