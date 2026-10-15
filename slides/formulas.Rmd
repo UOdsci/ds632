@@ -182,3 +182,41 @@ Make formulas that give you estimates of
 ```{r lm1}
 summary(lm(weight ~ fertilizer + water, data=pumpkins))
 ```
+
+------
+
+Change the reference level:
+```{r relevel}
+pumpkins$fertilizer <- factor(pumpkins$fertilizer, levels=c("low", "medium", "high"))
+pumpkins$water <- factor(pumpkins$water, levels=c("no water", "water"))
+```
+
+-----------
+
+
+Three fertilizer effects ($\alpha_\text{low}$, $\alpha_\text{medium}$ and $\alpha_\text{high}$),
+    and one water effect ($\beta_\text{water}$).
+
+```{r ex2}
+lm(weight ~ 0 + fertilizer + water, data=pumpkins) |> summary()
+```
+
+----------
+
+
+Two fertilizer effects ($\alpha_\text{medium}$ and $\alpha_\text{high}$),
+    and two water effect ($\beta_\text{no water}$ and $\beta_\text{water}$).
+
+```{r ex3}
+lm(weight ~ water + fertilizer - 1, data=pumpkins) |> summary()
+```
+
+---------
+
+A single mean for each of the six conditions 
+   ($\gamma_\text{high, water}$, $\gamma_\text{medium, water}$, $\gamma_\text{low, water}$, 
+   $\gamma_\text{high, no water}$, $\gamma_\text{medium, no water}$, $\gamma_\text{low, no water}$).
+   
+```{r ex4}
+lm(weight ~ 0 + water : fertilizer, data=pumpkins) |> summary()
+```

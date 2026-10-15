@@ -1142,6 +1142,91 @@ fertilizer effects (<span class="math inline">\(\alpha_\text{medium}\)</span> an
 ## Residual standard error: 1.519 on 116 degrees of freedom
 ## Multiple R-squared:  0.7914, Adjusted R-squared:  0.786 
 ## F-statistic: 146.7 on 3 and 116 DF,  p-value: &lt; 2.2e-16</code></pre>
+</section>
+<section class="slide level2">
+
+<p>Change the reference level:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pumpkins<span class="sc">$</span>fertilizer <span class="ot">&lt;-</span> <span class="fu">factor</span>(pumpkins<span class="sc">$</span>fertilizer, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;high&quot;</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>pumpkins<span class="sc">$</span>water <span class="ot">&lt;-</span> <span class="fu">factor</span>(pumpkins<span class="sc">$</span>water, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;no water&quot;</span>, <span class="st">&quot;water&quot;</span>))</span></code></pre></div>
+</section>
+<section class="slide level2">
+
+<p>Three fertilizer effects (<span class="math inline">\(\alpha_\text{low}\)</span>, <span class="math inline">\(\alpha_\text{medium}\)</span> and <span class="math inline">\(\alpha_\text{high}\)</span>), and one water effect
+(<span class="math inline">\(\beta_\text{water}\)</span>).</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(weight <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> fertilizer <span class="sc">+</span> water, <span class="at">data=</span>pumpkins) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = weight ~ 0 + fertilizer + water, data = pumpkins)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.2699 -1.1239 -0.0396  1.0029  3.5422 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## fertilizerlow      4.4726     0.2773  16.129  &lt; 2e-16 ***
+## fertilizermedium   6.1750     0.2773  22.268  &lt; 2e-16 ***
+## fertilizerhigh    10.7212     0.2773  38.662  &lt; 2e-16 ***
+## waterwater         2.4517     0.2773   8.841 1.22e-14 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.519 on 116 degrees of freedom
+## Multiple R-squared:  0.9723, Adjusted R-squared:  0.9713 
+## F-statistic:  1016 on 4 and 116 DF,  p-value: &lt; 2.2e-16</code></pre>
+</section>
+<section class="slide level2">
+
+<p>Two fertilizer effects (<span class="math inline">\(\alpha_\text{medium}\)</span> and <span class="math inline">\(\alpha_\text{high}\)</span>), and two water effect
+(<span class="math inline">\(\beta_\text{no water}\)</span> and <span class="math inline">\(\beta_\text{water}\)</span>).</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(weight <span class="sc">~</span> water <span class="sc">+</span> fertilizer <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data=</span>pumpkins) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = weight ~ water + fertilizer - 1, data = pumpkins)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.2699 -1.1239 -0.0396  1.0029  3.5422 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## waterno water      4.4726     0.2773  16.129  &lt; 2e-16 ***
+## waterwater         6.9243     0.2773  24.970  &lt; 2e-16 ***
+## fertilizermedium   1.7024     0.3396   5.013 1.95e-06 ***
+## fertilizerhigh     6.2486     0.3396  18.398  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.519 on 116 degrees of freedom
+## Multiple R-squared:  0.9723, Adjusted R-squared:  0.9713 
+## F-statistic:  1016 on 4 and 116 DF,  p-value: &lt; 2.2e-16</code></pre>
+</section>
+<section class="slide level2">
+
+<p>A single mean for each of the six conditions (<span class="math inline">\(\gamma_\text{high, water}\)</span>, <span class="math inline">\(\gamma_\text{medium, water}\)</span>, <span class="math inline">\(\gamma_\text{low, water}\)</span>, <span class="math inline">\(\gamma_\text{high, no water}\)</span>, <span class="math inline">\(\gamma_\text{medium, no water}\)</span>, <span class="math inline">\(\gamma_\text{low, no water}\)</span>).</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(weight <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> water <span class="sc">:</span> fertilizer, <span class="at">data=</span>pumpkins) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = weight ~ 0 + water:fertilizer, data = pumpkins)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.19455 -0.56686 -0.04693  0.46657  2.08451 
+## 
+## Coefficients:
+##                                Estimate Std. Error t value Pr(&gt;|t|)    
+## waterno water:fertilizerlow      5.2757     0.2002   26.35   &lt;2e-16 ***
+## waterwater:fertilizerlow         6.1212     0.2002   30.57   &lt;2e-16 ***
+## waterno water:fertilizermedium   7.0845     0.2002   35.38   &lt;2e-16 ***
+## waterwater:fertilizermedium      7.7173     0.2002   38.54   &lt;2e-16 ***
+## waterno water:fertilizerhigh     9.0087     0.2002   44.99   &lt;2e-16 ***
+## waterwater:fertilizerhigh       14.8854     0.2002   74.34   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.8955 on 114 degrees of freedom
+## Multiple R-squared:  0.9905, Adjusted R-squared:   0.99 
+## F-statistic:  1986 on 6 and 114 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section></section>
     </div>
   </div>
