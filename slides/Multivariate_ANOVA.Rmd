@@ -451,3 +451,203 @@ Make sure plot is nested within treatment!
 
 *Data:* [pumkpins.tsv](data/pumpkins.tsv)
 
+
+# Supplementary figures
+
+
+```{r diagrams, echo=FALSE, fig.width=3*fig.dim, fig.height=2*fig.dim}
+m <- mean(pumpkins$weight)
+fm <- tapply(pumpkins$weight, pumpkins$fertilizer, mean)
+wm <- tapply(pumpkins$weight, pumpkins$water, mean)
+fwm <- tapply(pumpkins$weight, pumpkins[c("fertilizer", "water")], mean)
+
+pk <- pumpkins |> 
+    mutate(
+        fertilizer=fct_relevel(fertilizer, c("low", "medium", "high")),
+        water=fct_relevel(water, c("no water", "water")),
+        nudge=((water=='water')-0.5)/3+(runif(nrow(pumpkins))-0.5)/5,
+        x=match(fertilizer, c("low", "medium", "high")) + nudge,
+        mean=mean(weight) 
+    ) |>
+    mutate(fm=mean(weight), .by=fertilizer) |>
+    mutate(wm=mean(weight), .by=water) |>
+    mutate(fwm=mean(weight), .by=c(fertilizer,water))
+
+p <- pk |>
+    ggplot(aes(x=fertilizer, y=weight, group=fertilizer, color=water, nudge_x=nudge)) + 
+    geom_point(position=position_nudge(), alpha=0.5) +
+    geom_hline(yintercept=mean(pumpkins$weight), alpha=0.5)
+p
+```
+
+------------
+
+```{r diagrams2, echo=FALSE, fig.width=3*fig.dim, fig.height=2*fig.dim}
+# overall mean
+p + geom_point(mapping=aes(y=mean), position=position_nudge())
+```
+
+------------
+
+```{r diagrams3, echo=FALSE, fig.width=3*fig.dim, fig.height=2*fig.dim}
+# fertilizer mean
+p + geom_point(mapping=aes(y=fm), position=position_nudge()) +
+    geom_segment(mapping=aes(y=fm, yend=mean), position=position_nudge(), alpha=0.3)
+```
+
+------------
+
+```{r diagrams4, echo=FALSE, fig.width=3*fig.dim, fig.height=2*fig.dim}
+
+# water mean
+p + geom_point(mapping=aes(y=wm), position=position_nudge()) +
+    geom_segment(mapping=aes(y=wm, yend=mean), position=position_nudge(), alpha=0.3)
+```
+
+------------
+
+```{r diagrams5, echo=FALSE, fig.width=3*fig.dim, fig.height=2*fig.dim}
+
+# fertilizer + water mean
+p + geom_point(mapping=aes(y=fm+wm-mean), position=position_nudge()) +
+    geom_segment(mapping=aes(y=fm+wm-mean, yend=fm), position=position_nudge(), alpha=0.3) +
+    geom_segment(mapping=aes(y=mean, yend=fm, x=fertilizer),
+                 data=pk |> summarise(
+                     nudge=0,
+                     fm=mean(weight),
+                     mean=mean(mean),
+                     .by=fertilizer),
+                 arrow=grid::arrow(length=unit(0.1, units="inches")),
+                 color='black', alpha=0.8
+    ) +
+    geom_segment(mapping=aes(x=x-1/3, xend=x+1/3),
+             data=pk |> summarise(
+                 weight=mean(weight), 
+                 x=match(fertilizer, c("low", "medium", "high"))[1],
+                 nudge=0,
+                 .by=fertilizer),
+             color='grey')
+```
+
+------------
+
+```{r diagrams6, echo=FALSE, fig.width=3*fig.dim, fig.height=2*fig.dim}
+
+# fertilizer * water mean
+p +  geom_point(mapping=aes(y=fwm), position=position_nudge()) +
+    geom_segment(mapping=aes(y=fm+wm-mean, yend=fwm), position=position_nudge(), alpha=0.3) +
+    # f + w offsets
+    geom_segment(mapping=aes(y=mean, yend=fm, x=fertilizer),
+                 data=pk |> summarise(
+                     nudge=0,
+                     fm=mean(weight),
+                     mean=mean(mean),
+                     .by=fertilizer),
+                 arrow=grid::arrow(length=unit(0.1, units="inches")),
+                 color='black', alpha=0.8
+    ) +
+    geom_segment(mapping=aes(x=x-1/3, xend=x+1/3),
+             data=pk |> summarise(
+                 weight=mean(weight), 
+                 x=match(fertilizer, c("low", "medium", "high"))[1],
+                 nudge=0,
+                 .by=fertilizer),
+             color='grey') +
+    # f * w offsets from that 
+    geom_segment(mapping=aes(y=fm, yend=fm+wm-mean, x=x),
+                 data=pk |> summarise(
+                     nudge=0,
+                     fwm=mean(weight),
+                     fm=mean(fm),
+                     wm=mean(wm),
+                     mean=mean(mean),
+                     x=((water[1]=="water")-1/2)/3+ match(fertilizer, c("low", "medium", "high"))[1],
+                     .by=c(fertilizer, water)
+                 ),
+                 arrow=grid::arrow(length=unit(0.1, units="inches")),
+                 color='black', alpha=0.8
+    ) +
+    geom_segment(mapping=aes(x=x-1/6, xend=x+1/6, y=fm+wm-mean),
+             data=pk |>  summarise(
+                 mean=mean(mean), 
+                 fm=mean(fm),
+                 wm=mean(wm),
+                 x=mean(nudge)+ match(fertilizer, c("low", "medium", "high"))[1],
+                 nudge=0,
+                 .by=c(fertilizer, water)),
+             color='grey')
+```
+
+------------
+
+```{r diagrams7, echo=FALSE, fig.width=3*fig.dim, fig.height=2*fig.dim}
+
+# residuals
+p +  geom_point(mapping=aes(y=weight), position=position_nudge()) +
+    geom_segment(mapping=aes(y=weight, yend=fwm), position=position_nudge(), alpha=0.3) +
+    # f + w offsets
+    geom_segment(mapping=aes(y=mean, yend=fm, x=fertilizer),
+                 data=pk |> summarise(
+                     nudge=0,
+                     fm=mean(weight),
+                     mean=mean(mean),
+                     .by=fertilizer),
+                 arrow=grid::arrow(length=unit(0.1, units="inches")),
+                 color='black', alpha=0.8
+    ) +
+    geom_segment(mapping=aes(x=x-1/3, xend=x+1/3),
+             data=pk |> summarise(
+                 weight=mean(weight), 
+                 x=match(fertilizer, c("low", "medium", "high"))[1],
+                 nudge=0,
+                 .by=fertilizer),
+             color='grey') +
+    # f * w offsets from that 
+    geom_segment(mapping=aes(y=fm, yend=fm+wm-mean, x=x),
+                 data=pk |> summarise(
+                     nudge=0,
+                     fwm=mean(weight),
+                     fm=mean(fm),
+                     wm=mean(wm),
+                     mean=mean(mean),
+                     x=((water[1]=="water")-1/2)/3+ match(fertilizer, c("low", "medium", "high"))[1],
+                     .by=c(fertilizer, water)
+                 ),
+                 arrow=grid::arrow(length=unit(0.1, units="inches")),
+                 color='black', alpha=0.8
+    ) +
+    geom_segment(mapping=aes(x=x-1/6, xend=x+1/6, y=fm+wm-mean),
+             data=pk |>  summarise(
+                 mean=mean(mean), 
+                 fm=mean(fm),
+                 wm=mean(wm),
+                 x=mean(nudge)+ match(fertilizer, c("low", "medium", "high"))[1],
+                 nudge=0,
+                 .by=c(fertilizer, water)),
+             color='grey') +
+    # and to fwm
+    geom_segment(mapping=aes(y=fm+wm-mean, yend=fwm, x=x),
+                 data=pk |> summarise(
+                     nudge=0,
+                     fwm=mean(weight),
+                     fm=mean(fm),
+                     wm=mean(wm),
+                     fwm=mean(fwm),
+                     mean=mean(mean),
+                     x=((water[1]=="water")-1/2)/4+ match(fertilizer, c("low", "medium", "high"))[1],
+                     .by=c(fertilizer, water)
+                 ),
+                 arrow=grid::arrow(length=unit(0.1, units="inches")),
+                 color='black', alpha=0.8
+    ) +
+    geom_segment(mapping=aes(x=x-1/6, xend=x+1/6, y=fwm),
+             data=pk |>  summarise(
+                 mean=mean(mean), 
+                 fm=mean(fm),
+                 wm=mean(wm),
+                 fwm=mean(fwm),
+                 x=mean(nudge)+ match(fertilizer, c("low", "medium", "high"))[1],
+                 nudge=0,
+                 .by=c(fertilizer, water)),
+             color='grey')
+```
