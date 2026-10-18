@@ -31,12 +31,27 @@ How many would find a statistically significant difference at $p < 0.05$?
 
 . . .
 
-Would any find a large effect size?
+Would any find a large effect?
+
+## Another silly example
+
+Suppose 100 people did 100 well-executed experiments
+to ask if dogs are more likely to wag their tails when they see their owners
+than cats.
+
+. . .
+
+How many would find a statistically significant difference at $p < 0.05$?
+
+. . .
+
+Would any find a large effect?
+
 
 ## A less silly example
 
 Suppose someone conducts a well-controlled study
-that records coronavirus infection rates
+that records cancer incidence
 and the mean daily consumption of 100 different foods
 in a bunch of people.
 
@@ -46,7 +61,22 @@ How many of the foods would be statistically significantly associated with lower
 
 . . .
 
-Would any have a large effect size?
+Would any have a large effect?
+
+## Another less silly example
+
+Suppose someone conducts 100 well-controlled Phase II clinical studies
+that each record disease severity
+for a different drug that showed promise in earlier studies.
+
+. . .
+
+How many of the drugs would be statistically significantly associated with reduced disease severity at $p < 0.05$?
+
+. . .
+
+Would any have a large effect?
+
 
 ## The problem
 
@@ -63,6 +93,10 @@ $p$-values are uniformly distributed between 0 and 1,
 . . .
 
 and so $\P\{ p < 0.05 \} = 0.05$.
+
+. . .
+
+*Note:* if the null hypothesis is *not* true, then what happens depends on the statistical power and the size of the effect.
 
 ## The Bonferroni Correction
 
@@ -84,8 +118,8 @@ take a cutoff of $p < 0.05/n$.
 ```{r null, fig.width=3*fig.dim, fig.height=1.5*fig.dim}
 tp <- replicate(1000, t.test(rnorm(20))$p.value)
 layout(t(1:2))
-hist(tp, breaks=40, xlab='p-value')
-plot(sort(tp), xlim=c(1,100), ylim=c(0, 0.1), ylab='p-values, sorted')
+hist(tp, breaks=40, xlab='p-value', main='p-values')
+plot(sort(tp), xlim=c(1,100), ylim=c(0, 0.1), ylab='p-values, sorted', main='top 100 p-values')
 abline(h=c(0.05, 0.05/length(tp)), col=1:2)
 legend("topright", lty=1, col=1:2, legend=paste("p=", c(0.05, 0.05/length(tp))))
 ```
@@ -105,7 +139,7 @@ and study further those with $p < p_0$.
 
 We expect* *no* false positives 
 if $p_0 = 0.05 / 1000 = 0.00005$ (**Bonferroni**). 
-($*$*at the 5% level*)
+($*$*19 times out of 20*)
 
 . . .
 
@@ -311,15 +345,18 @@ From [*Host Genotype and Microbiota Contribute Asymmetrically to Transcriptional
 Clayton M. Small,  Kathryn Milligan-Myhre,  Susan Bassham,  Karen Guillemin, William A. Cresko.
 Genome Biology and Evolution, March 2017.](https://academic.oup.com/gbe/article/9/3/504/3058199)
 
-- Metadata: [CVvsGF_RNAseq_Metadata.tsv](../Datasets/stickleback_GFvsCV_RNAseq/CVvsGF_RNAseq_Metadata.tsv) ([direct link](https://github.com/UO-Biostats/UO_ABS/raw/master/CLASS_MATERIALS/Datasets/stickleback_GFvsCV_RNAseq/CVvsGF_RNAseq_Metadata.tsv))
-- RNA-Seq: [CVvsGF_RNAseq_CPM.tsv](../Datasets/stickleback_GFvsCV_RNAseq/CVvsGF_RNAseq_CPM.tsv) ([direct link](https://github.com/UO-Biostats/UO_ABS/raw/master/CLASS_MATERIALS/Datasets/stickleback_GFvsCV_RNAseq/CVvsGF_RNAseq_CPM.tsv))
+- Metadata: [CVvsGF_RNAseq_Metadata.tsv](../datasets/stickleback_GFvsCV_RNAseq/CVvsGF_RNAseq_Metadata.tsv) ([direct link](https://github.com/uodsci/ds632/raw/main/datasets/stickleback_GFvsCV_RNAseq/CVvsGF_RNAseq_Metadata.tsv))
+- RNA-Seq: [CVvsGF_RNAseq_CPM.tsv](../datasets/stickleback_GFvsCV_RNAseq/CVvsGF_RNAseq_CPM.tsv) ([direct link](https://github.com/uodsci/ds632/raw/main/datasets/stickleback_GFvsCV_RNAseq/CVvsGF_RNAseq_CPM.tsv))
 
 ## Study design:
 
-![study_design](../Datasets/stickleback_GFvsCV_RNAseq/study_design.png)
+![study_design](../datasets/stickleback_GFvsCV_RNAseq/study_design.png)
 
 
 ## The data
+
+We'll keep `expression` as a *matrix* (not a data frame)
+because it's more convenient to do both row-wise and column-wise opertions.
 
 ```{r parse_data, cache=TRUE, fig.width=1.5*fig.dim, fig.height=1.5*fig.dim}
 fish <- read.table("../datasets/stickleback_GFvsCV_RNAseq/CVvsGF_RNAseq_Metadata.tsv",
@@ -328,6 +365,7 @@ tmp <- read.table("../datasets/stickleback_GFvsCV_RNAseq/CVvsGF_RNAseq_CPM.tsv",
                   header=TRUE, sep='\t', stringsAsFactors=FALSE, check.names=FALSE)
 genes <- tmp[,1:5]
 expression <- as.matrix(tmp[,6:ncol(tmp)])
+rownames(expression) <- genes$Gene_ID
 # consistency check
 stopifnot(all(match(colnames(expression), fish$Individual) == 1:nrow(fish)))
 ```
@@ -340,30 +378,49 @@ There are `r nrow(genes)` genes whose expression is measured in `r nrow(fish)` f
 fish
 ```
 
+## The plan
+
+*Question:* which genes differ most in expression between treatment,
+while controlling for location ("population").
+What about between sexes?
+
+. . .
+
+1. Normalize expression levels by gene so units are comparable.
+2. For each gene, ask whether treatment and/or sex predict expression levels, controlling for population. *(anova)*
+3. Find which genes have the strongest *evidence* and the strongest *effects*. *($p$-values)*
+4. See whether it's treatment or sex that's creating those differences. *(coefficients)*
+
 ## Expression levels
 
 ```{r plot_data, echo=FALSE, fig.width=2.5*fig.dim, fig.height=1.7*fig.dim}
-plot(rowMedians(expression), rowMads(expression), log='xy',
-     xlab='median expression', ylab='MAD expression',
-     pch=20)
+genes$MedianExpression <- rowMedians(expression)
+genes$MadExpression <- rowMads(expression)
+
+genes |> ggplot(aes(x=MedianExpression, y=MadExpression)) +
+    geom_point() + scale_x_continuous(transform='log') + scale_y_continuous(transform='log') +
+    labs(x="median expression", y="MAD expression")
 ```
 
 ## Normalize
 
-To put coefficients on the same scale:
+To put coefficients on the same scale,
+we'll divide genes by their mean expression values.
 
 ```{r parse_data2}
 expr <- sweep(expression, 1, rowMeans(expression), "/")
 ```
 ```{r plotdata2, echo=FALSE, fig.width=2.5*fig.dim, fig.height=1.7*fig.dim}
-plot(rowMedians(expr), rowMads(expr), log='xy',
-     xlab='median normalized expression', ylab='MAD normalized expression',
-     pch=20)
+genes$MedianNormExpression <- rowMedians(expr)
+genes$MadNormExpression <- rowMads(expr)
+genes |> ggplot(aes(x=MedianNormExpression, y=MadNormExpression)) +
+    geom_point() + scale_x_continuous(transform='log') + scale_y_continuous(transform='log') +
+    labs(x="median normalized expression", y="MAD normalized expression")
 ```
 
 ## 
 
-Fit *lots* of models:
+Fit *lots* of models: (*note:* could also be done [with purrr](https://purrr.tidyverse.org/articles/base.html))
 ```{r stickleback, cache=TRUE, dependson="parse_data"}
 pop_lms <- apply(expr, 1, function (x) (lm(x ~ Population, data=fish)))
 all_lms <- apply(expr, 1, function (x) (lm(x ~ Population + Treatment + Sex, data=fish)))
