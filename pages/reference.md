@@ -29,6 +29,10 @@ for a variety of topics and from a variety of angles and backgrounds:
 
 * Wasserman, 2003. [*All of Statistics*.](https://www.stat.cmu.edu/~larry/)
 
+* Çetinkaya-Rundel and Hardin. *Introduction to Modern Statistics*.
+    ([website with data, book, and code](https://openintro-ims.netlify.app/)
+    A gentle introduction to introductory statistics up through multivariate linear models .
+
 * Bruce, Bruce, and Gedeck, *Practical Statistics for Data Scientists.* O'Reilley Publishers.
     [code repository](https://github.com/gedeck/practical-statistics-for-data-scientists)
     and [link to the book](https://www.oreilly.com/library/view/practical-statistics-for/9781491952955/)

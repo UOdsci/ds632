@@ -59,17 +59,13 @@ Week 4 (*10/19*)
 : Multiple testing, error rates, and some history.
 
 
-<!--
-
-    - Slides: [Multiple testing](../slides/Week_04_Multiple_testing.slides.html)
-    - Slides: [Statistics and eugenics](../slides/Week_04_Statistics_and_eugenics.slides.html)
-    - Slides: [A note on P-value thresholds](../slides/Week_04_P_threshold.slides.html)
+    - Slides: [Multiple testing](../slides/multiple_testing.slides.html)
+    - Slides: [Statistics and eugenics](../slides/statistics_and_eugenics.slides.html)
+    - Slides: [A note on P-value thresholds](../slides/p_threshold.slides.html)
     - Reading (pick one of the following, or something else): 
         * James, Witten, Hastie & Tibshirani chapter 13 (again)
         * Quinn & Keough chapter 7
     - [Homework 4](../homeworks/HW04.html) *(due 10/27)*
-    - Slides: [Overfitting and crossvalidation](../slides/Week_14_overfitting_crossvalidation.slides.html)
--->
 
 Week 5 (*10/26*)
 

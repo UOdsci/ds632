@@ -9,9 +9,22 @@ css: "plans.css"
 
 **Goals:**
 
+- Demystify Wilkinsonian formulas.
+- Getting used to lm(), and interpreting the tables it produces.
+- There are different ways to parameterize the same model and how to change this in R.
+- Choice of parameterization affects interpretation.
+- Why the word "regression".
+- The linear model
+- Relationship of the correlation coefficient to a 1d linear model.
+- The CLT and the distinction between the Normal and T limits.
+- Stepping through setting up a model and simulating from it, relating the conceptual choices to parameters.
+- Intro: model comparison with ANOVA.
+
 
 **Notes:**
 
+- We only got to "here's ANOVA", without explanation of it.
+- Next time move the CLT earlier in class (merge with CLT for the T?), so we can do more on ANOVA.
 
 ::: {.paper}
     when                                                                                                                       slides             what          how long  
