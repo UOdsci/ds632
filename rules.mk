@@ -34,7 +34,7 @@ endif
 	Rscript -e 'knitr::knit_patterns[["set"]]($(KNITR_PATTERNS)); templater::render_template("$<", output="$@", change.rootdir=TRUE, clean=FALSE)'
 
 %.html : %.md .pandoc.$(LATEX_MACROS)
-	pandoc -o $@ $(PANDOC_OPTS) $(MATHJAX_OPTS) $<
+	pandoc -V maxwidth=1040px -o $@ $(PANDOC_OPTS) $(MATHJAX_OPTS) $<
 
 %.local.html : %.md .pandoc.$(LATEX_MACROS)
 	pandoc -o $@ $(PANDOC_OPTS) $(LOCAL_MATHJAX_OPTS) $<
