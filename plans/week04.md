@@ -20,12 +20,13 @@ css: "plans.css"
     when                                                                                                                       slides             what          how long  
 --------     ----------------------------------------------------------------------------------------------------------    -------------    ---------------    -----------
    begin                                                                                                                                                               .
-    0:00     ANOVA: how's it work - go over different sums of squares etc on the board                                        anova                               25 min
+    0:00     ANOVA: how's it work - go over different sums of squares etc on the board                                        anova            lecture            30 min
+       .       recall that the goal here is a good test statistic                                                                              disco                   .
        .       draw examples with large sums of squares on the board                                                                                                   .
-    0:25                                                                                                                                                               .
+    0:30     Multiple testing: lots of p-values                                                                                                lecture            20 min
        .                                                                                                                                                               .
-    0:55     break                                                                                                                                                10 min
-    1:05                                                                                                                                                           X min
+    0:50     break                                                                                                                                                10 min
+    1:00     Exercise: develop a simulation that tests the FDR                                                                                 exercise            X min
        .                                                                                                                                                               .
     1:50                                                                                                                                                             end
 --------     ----------------------------------------------------------------------------------------------------------    -------------    ---------------    -----------

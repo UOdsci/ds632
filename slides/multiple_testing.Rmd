@@ -337,6 +337,17 @@ legend("topright", lty=1, col=1:2, legend=paste("p=", c(0.05, 0.05/length(tp))))
 ```
 
 
+# Exercise
+
+-----------
+
+Design a simulation that tests the FDR correction:
+
+- pick a framework and a statistical procedure making a $p$-value
+- simulate a bunch of experiments
+- some should have  "real effect" and others not
+- not all with a "real effect" should have high power
+- how many true positives and false positives do you find with various $p$-value adjustments?
 
 
 # Many linear models
