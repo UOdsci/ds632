@@ -33,19 +33,6 @@ How many would find a statistically significant difference at $p < 0.05$?
 
 Would any find a large effect?
 
-## Another silly example
-
-Suppose 100 people did 100 well-executed experiments
-to ask if dogs are more likely to wag their tails when they see their owners
-than cats.
-
-. . .
-
-How many would find a statistically significant difference at $p < 0.05$?
-
-. . .
-
-Would any find a large effect?
 
 
 ## A less silly example
@@ -58,20 +45,6 @@ in a bunch of people.
 . . .
 
 How many of the foods would be statistically significantly associated with lower infection rates at $p < 0.05$?
-
-. . .
-
-Would any have a large effect?
-
-## Another less silly example
-
-Suppose someone conducts 100 well-controlled Phase II clinical studies
-that each record disease severity
-for a different drug that showed promise in earlier studies.
-
-. . .
-
-How many of the drugs would be statistically significantly associated with reduced disease severity at $p < 0.05$?
 
 . . .
 
@@ -97,6 +70,35 @@ and so $\P\{ p < 0.05 \} = 0.05$.
 . . .
 
 *Note:* if the null hypothesis is *not* true, then what happens depends on the statistical power and the size of the effect.
+
+## Another silly example
+
+Suppose 100 people did 100 well-executed experiments
+to ask if dogs are more likely to wag their tails when they see their owners
+than cats.
+
+. . .
+
+How many would find a statistically significant difference at $p < 0.05$?
+
+. . .
+
+Would any find a large effect?
+
+## Another less silly example
+
+Suppose someone conducts 100 well-controlled Phase II clinical studies
+that each record disease severity
+for a different drug that showed promise in earlier studies.
+
+. . .
+
+How many of the drugs would be statistically significantly associated with reduced disease severity at $p < 0.05$?
+
+. . .
+
+Would any have a large effect?
+
 
 ## The Bonferroni Correction
 
