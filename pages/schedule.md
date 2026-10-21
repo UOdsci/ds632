@@ -60,7 +60,7 @@ Week 4 (*10/19*)
 
 
     - Slides: [Multiple testing](../slides/multiple_testing.slides.html)
-    - Slides: [Statistics and eugenics](../slides/statistics_and_eugenics.slides.html)
+    - Slides: [Statistics and eugenics](../slides/statistics-and-eugenics.slides.html)
     - Slides: [A note on P-value thresholds](../slides/p_threshold.slides.html)
     - Reading (pick one of the following, or something else): 
         * James, Witten, Hastie & Tibshirani chapter 13 (again)

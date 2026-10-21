@@ -349,6 +349,74 @@ Design a simulation that tests the FDR correction:
 - not all with a "real effect" should have high power
 - how many true positives and false positives do you find with various $p$-value adjustments?
 
+## In class
+
+Plan:
+
+We are studying whether there's more crabs
+in tide pools at low vs high tide.
+So: within each tide pool we count numbers of crabs
+at low and high tide every day for a while.
+
+- 300 tide pools 
+- count each pool once a day for 30 days
+- do a t-test
+- simulate from Poisson
+- typically like 40 crabs per tide pool
+- no difference between tides in 90% of the tide pools
+- a difference in the remainder:
+    * choose the diff randomly uniformly between 5 and 10, with more at high tide
+- look at the percent of p-values that are < 0.05
+
+
+-----------
+
+```{r inclass}
+num_pools <- 300
+num_obs <- 30
+prob_diff <- 0.1
+baseline <- 40
+
+pools <- data.frame(
+    id = 1:num_pools,
+    is_different = rbinom(num_pools, size=1, prob=prob_diff)
+) |> mutate(
+    difference = ifelse(
+        is_different,
+        runif(num_pools, min=5, max=10),
+        0
+    ),
+    mean_low_tide = baseline,
+    mean_high_tide = baseline + difference
+)
+# pools$meanlow_tide <- NA
+# pools$high_tide <- NA
+# for (k in 1:nrow(pools)) {
+#     low_nums <- rpois(num_obs, pools$mean_low_tide[k])
+#     high_nums <- rpois(num_obs, mean_high_tide[k])
+#     pools$mean_low_tide
+# )
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Many linear models
 
