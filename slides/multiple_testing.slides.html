@@ -837,13 +837,22 @@ high tide</li>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_low_tide =</span> baseline,</span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_high_tide =</span> baseline <span class="sc">+</span> difference</span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># pools$meanlow_tide &lt;- NA</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co"># pools$high_tide &lt;- NA</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># for (k in 1:nrow(pools)) {</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#     low_nums &lt;- rpois(num_obs, pools$mean_low_tide[k])</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co">#     high_nums &lt;- rpois(num_obs, mean_high_tide[k])</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">#     pools$mean_low_tide</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span></code></pre></div>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>pools<span class="sc">$</span>avg_low_tide <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>pools<span class="sc">$</span>avg_high_tide <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>pools<span class="sc">$</span>t <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>pools<span class="sc">$</span>pval <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pools)) {</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    low_nums <span class="ot">&lt;-</span> <span class="fu">rpois</span>(num_obs, pools<span class="sc">$</span>mean_low_tide[k])</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    high_nums <span class="ot">&lt;-</span> <span class="fu">rpois</span>(num_obs, pools<span class="sc">$</span>mean_high_tide[k])</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    pools<span class="sc">$</span>avg_low_tide[k] <span class="ot">&lt;-</span> <span class="fu">mean</span>(low_nums)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    pools<span class="sc">$</span>avg_high_tide[k] <span class="ot">&lt;-</span> <span class="fu">mean</span>(high_nums)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    tt <span class="ot">&lt;-</span> <span class="fu">t.test</span>(low_nums, high_nums, <span class="at">paired=</span><span class="cn">TRUE</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    pools<span class="sc">$</span>t[k] <span class="ot">&lt;-</span> tt<span class="sc">$</span>statistic</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    pools<span class="sc">$</span>pval[k] <span class="ot">&lt;-</span> tt<span class="sc">$</span>p.value</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</section>
+<section class="slide level2">
+
 </section></section>
 <section>
 <section id="many-linear-models" class="title-slide slide level1">

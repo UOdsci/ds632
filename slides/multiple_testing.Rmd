@@ -389,17 +389,25 @@ pools <- data.frame(
     mean_low_tide = baseline,
     mean_high_tide = baseline + difference
 )
-# pools$meanlow_tide <- NA
-# pools$high_tide <- NA
-# for (k in 1:nrow(pools)) {
-#     low_nums <- rpois(num_obs, pools$mean_low_tide[k])
-#     high_nums <- rpois(num_obs, mean_high_tide[k])
-#     pools$mean_low_tide
-# )
-
+pools$avg_low_tide <- NA
+pools$avg_high_tide <- NA
+pools$t <- NA
+pools$pval <- NA
+for (k in 1:nrow(pools)) {
+    low_nums <- rpois(num_obs, pools$mean_low_tide[k])
+    high_nums <- rpois(num_obs, pools$mean_high_tide[k])
+    pools$avg_low_tide[k] <- mean(low_nums)
+    pools$avg_high_tide[k] <- mean(high_nums)
+    tt <- t.test(low_nums, high_nums, paired=TRUE)
+    pools$t[k] <- tt$statistic
+    pools$pval[k] <- tt$p.value
+}
 ```
 
+--------
 
+```{r plotit}
+```
 
 
 
