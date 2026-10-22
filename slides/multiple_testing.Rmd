@@ -406,23 +406,56 @@ for (k in 1:nrow(pools)) {
 
 --------
 
-```{r plotit}
+What now?
+
+1. sum all the pools that were significant
+
+    * mean differences
+    * is the difference zero
+    
+2. Adjust p-values with FDR,
+
+    * plot with x=adjusted p-value, y=raw p-value
+    * show where Bonferroni and FDR thresholds are
+    * color by `is_different`
+    
+Let's start with:
+How many pools have $p < 0.05$ 
+that either do or do not have a difference
+(a) without correction; (b) with Bonferroni, (c) with FDR.
+
+-----------
+
+
+```{r inclass2}
+pools |> mutate(
+        is_different = ifelse(is_different, "different", "not diff"),
+        bonferroni = p.adjust(pval, method="bonferroni"),
+        fdr = p.adjust(pval, method="fdr")
+ ) |>
+    summarize(
+        uncorrected=mean(pval < 0.05),
+        bonferroni=mean(bonferroni < 0.05),
+        fdr=mean(fdr < 0.05),
+        n = n(),
+        .by=is_different
+)
+
 ```
 
+----------
 
+Empirical FDR:
 
+```{r fdrit}
+adj_p <- p.adjust(pools$pval, method='fdr')
+num_sig <- sum(adj_p < 0.05)
+num_false_pos <- sum(adj_p < 0.05 & !pools$is_different)
+fpr <- num_false_pos / num_sig
+```
 
-
-
-
-
-
-
-
-
-
-
-
+The empirical false positive rate is
+`r 100 * round(fpr, 2)`%.
 
 
 
