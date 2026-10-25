@@ -1,7 +1,7 @@
 ---
 layout: page
 title: R Markdown Tips
-description: tips on how to improve r markdown aesthetics
+description: tips on how to improve Rmarkdown aesthetics
 ---
 
 ```{r setup, echo=FALSE}

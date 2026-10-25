@@ -56,7 +56,7 @@ The results will depend on $\theta$, so we'll pick two reasonable values of $\th
 and show results for each; `r sprintf("%0.1f", 100*thetavals[1])`% and `r sprintf("%0.1f", 100*thetavals[2])`%.
 
 Let's look at how close $\hat p$ tends to be to $\theta$.
-The figure below shows the range of estimated prevalences
+Figure 1 below shows the range of estimated prevalences
 across a range of sample sizes:
 the black line, grey lines, and red lines, respectively,
 show the mean, middle 50%, and middle 95% of the estimated prevalences
@@ -64,7 +64,7 @@ across `r nreps` simulated surveys.
 So, for instance, the results of a new survey of sample size `n`
 will fall between the grey lines above that value of `n` with probability 50%,
 and between the red lines with probability 95%.
-```{r range, fig.cap="Range of estimated prevalences."}
+```{r range, fig.cap="Figure 1: Range of estimated prevalences."}
 nvals <- seq(100, 4000, length.out=101)
 
 layout(t(1:2))
@@ -95,6 +95,7 @@ Notice that at the lower prevalence ($\theta = 0.2$%),
 the grey line is at zero until around 800, indicating that with sample sizes less than this,
 there is at least a 25% chance that the survey finds no cases.
 This makes sense, since 0.2% is only 2 in 1,000.
+
 
 # Conclusions
 

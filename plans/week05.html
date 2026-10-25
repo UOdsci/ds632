@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lesson plan: Week 05</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="plans.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Lesson plan: Week 05</h1>
+</header>
+<p><strong>Goals:</strong></p>
+<ul>
+<li>Understand the concept of <em>random effects</em> and know how to
+use lme4 to fit them
+<ul>
+<li>write down the likelihoods on the board</li>
+</ul></li>
+<li>Understand <em>hierarchical</em> modeels: putting a distribution on
+a parameter</li>
+<li>Understand the basics of Bayesian analysis (prior/posterior)</li>
+<li>Review the rules of probability</li>
+<li>Gain familiarity and experience with the Beta-Binomial/random coin
+concept</li>
+<li>Meet the Beta distribution</li>
+</ul>
+<h1 id="tuesday">Tuesday</h1>
+<p><strong>Notes:</strong></p>
+<div class="paper">
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">when</th>
+<th></th>
+<th style="text-align: center;">slides</th>
+<th style="text-align: center;">what</th>
+<th style="text-align: center;">how long</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">begin</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">0:00</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X min</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">0:55</td>
+<td>break</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">10 min</td>
+</tr>
+<tr>
+<td style="text-align: right;">1:05</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X min</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">1:50</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">end</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="thursday">Thursday</h1>
+<p><strong>Notes:</strong></p>
+<p>We do random effects here so that (a) they can start on the homework
+sooner, and (b) we can connect up the topic of the week (hierarchical
+models) to what we were doing already (linear models).</p>
+<div class="paper">
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">when</th>
+<th></th>
+<th style="text-align: center;">slides</th>
+<th style="text-align: center;">what</th>
+<th style="text-align: center;">how long</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">begin</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">0:00</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X min</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">0:55</td>
+<td>break</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">10 min</td>
+</tr>
+<tr>
+<td style="text-align: right;">1:05</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X min</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">1:50</td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">end</td>
+</tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>

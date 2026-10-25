@@ -72,16 +72,15 @@ Week 5 (*10/26*)
 : Random effects and mixed models; intro to Bayesian stats.
 
 
-<!--
-    - Slides: [Random effects](../slides/Week_05_Random_effects.slides.html)
-    - Slides: [Probability rules](../slides/Week_05_Probability_rules.slides.html)
-    - Slides: [Prior distributions](../slides/Week_05_Prior_distributions.slides.html)
-    - Slides: [The Beta distribution](../slides/Week_05_Beta_distribution.slides.html)
-    - Slides: [Maximum posterior example](../slides/Week_05_Bayesian_normals.slides.html)
+    - Slides: [Random effects](../slides/random_effects.slides.html)
+    - Slides: [Probability rules](../slides/probability_rules.slides.html)
+    - Slides: [Prior distributions](../slides/prior_distributions.slides.html)
+    - Slides: [The Beta distribution](../slides/beta_distribution.slides.html)
     - [Homework 5](../homeworks/HW05.html) *(due 11/3)*
-    - Reading: Quinn & Keough chapter 13
-    - Reading: Kruschke, chapters 1, 2
--->
+    - Reading:
+        * Reading: Quinn & Keough chapter 13 (about random effects models)
+        * Reading: Kruschke, chapters 1, 2
+        * or, if it strikes you better, Wasserman chapter 11
 
 
 Week 6 (*11/2*)

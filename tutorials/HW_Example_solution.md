@@ -1,7 +1,7 @@
 ---
 title: "Example homework: COVID prevalence"
 author: "Peter Ralph"
-date: "Sun Sep 27 20:07:30 2026"
+date: "Sat Oct 24 08:15:44 2026"
 output:
     html_document:
         fig_caption: yes
@@ -43,7 +43,7 @@ The results will depend on $\theta$, so we'll pick two reasonable values of $\th
 and show results for each; 0.2% and 2.0%.
 
 Let's look at how close $\hat p$ tends to be to $\theta$.
-The figure below shows the range of estimated prevalences
+Figure 1 below shows the range of estimated prevalences
 across a range of sample sizes:
 the black line, grey lines, and red lines, respectively,
 show the mean, middle 50%, and middle 95% of the estimated prevalences
@@ -52,8 +52,8 @@ So, for instance, the results of a new survey of sample size `n`
 will fall between the grey lines above that value of `n` with probability 50%,
 and between the red lines with probability 95%.
 <div class="figure" style="text-align: center">
-<img src="figure/HW_Example_solution/r range-1.png" alt="Range of estimated prevalences."  />
-<p class="caption">Range of estimated prevalences.</p>
+<img src="figure/HW_Example_solution/r range-1.png" alt="Figure 1: Range of estimated prevalences."  />
+<p class="caption">Figure 1: Range of estimated prevalences.</p>
 </div>
 
 Here, we see that the mean always tracks the truth,
@@ -62,6 +62,7 @@ Notice that at the lower prevalence ($\theta = 0.2$%),
 the grey line is at zero until around 800, indicating that with sample sizes less than this,
 there is at least a 25% chance that the survey finds no cases.
 This makes sense, since 0.2% is only 2 in 1,000.
+
 
 # Conclusions
 
