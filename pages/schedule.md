@@ -72,10 +72,10 @@ Week 5 (*10/26*)
 : Random effects and mixed models; intro to Bayesian stats.
 
 
-    - Slides: [Random effects](../slides/random_effects.slides.html)
     - Slides: [Probability rules](../slides/probability_rules.slides.html)
     - Slides: [Prior distributions](../slides/prior_distributions.slides.html)
     - Slides: [The Beta distribution](../slides/beta_distribution.slides.html)
+    - Slides: [Random effects](../slides/random_effects.slides.html)
     - [Homework 5](../homeworks/HW05.html) *(due 11/3)*
     - Reading:
         * Reading: Quinn & Keough chapter 13 (about random effects models)
