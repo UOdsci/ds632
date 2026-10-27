@@ -111,4 +111,22 @@ $$\begin{aligned}
 3. Make a histogram of the *probabilities* of those coins
     that got exactly 3 heads, and compare to the first histogram.
 
+## IN CLASS
 
+```{r inclass}
+df <- data.frame(
+    p = rbeta(100000, shape1=5, shape2=5)
+) |> mutate(
+    heads=rbinom(n=100000, size=10, prob=p)
+)
+
+# plot 1: all the p's
+p1 <- df |> ggplot(aes(x=p)) + geom_histogram()
+
+# plot 2:  
+p2 <- df |> filter(heads==3) |> 
+    ggplot(aes(x=p)) + geom_histogram()
+
+library(patchwork)
+p1 / p2
+```
