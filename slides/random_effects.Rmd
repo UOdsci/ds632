@@ -28,11 +28,23 @@ pumpkins$plot <- factor(pumpkins$plot)
 
 ## An example: sleep
 
+::: {.smaller}
+
 From [Belenky et al](https://doi.org/10.1046/j.1365-2869.2003.00337.x),
 *Patterns of performance degradation and restoration during sleep restriction and subsequent recovery: a sleep dose-response study*
 (and included in the `lme4` package).
 
+
+> The average reaction time per day (in milliseconds) for subjects in a sleep deprivation study.
+> These data are from the study described in Belenky et al. (2003), for the
+> most sleep-deprived group (3 hours time-in-bed) and for the first 10 days of the
+> study, up to the recovery period.
+
+:::
+
+
 ```{r sleepdata}
+library(lme4)
 head(sleepstudy)
 ```
 
@@ -44,7 +56,7 @@ sleepstudy |> summarize(n=n(), Reaction=mean(Reaction), .by=Subject)
 
 ## Do subjects differ?
 
-```{r pldata}
+```{r pldata, fig.width=2.5*fig.dim, fig.height=1.5*fig.dim}
 sleepstudy |> ggplot(aes(x=Days, y=Reaction)) +
     geom_point() + geom_smooth(method="lm", formula=y~x) +
     facet_wrap(~ Subject, nrow=2)
@@ -63,12 +75,9 @@ summary(lm1)
 Reaction ~ Days
 ```
 
-------------------
 
-```{r plot_lm1}
-sleep <- sleepstudy |> mutate(
-    lm1 = predict(lm1, newdata=sleepstudy)
-)
+```{r plot_lm1, fig.width=2.5*fig.dim, fig.height=1.5*fig.dim}
+sleep <- sleepstudy |> mutate( lm1 = predict(lm1, newdata=sleepstudy) )
 sleep |> pivot_longer(cols=c(Reaction, lm1), values_to="Reaction", names_to="what") |>
     mutate(what=fct_recode(what, data="Reaction")) |>
     ggplot(aes(x=Days, y=Reaction, color=what)) +
@@ -76,22 +85,60 @@ sleep |> pivot_longer(cols=c(Reaction, lm1), values_to="Reaction", names_to="wha
     facet_wrap(~ Subject, nrow=2)
 ```
 
+## 
+
+*Critique:*
+
+That single line more or less summarizes how much reaction time goes up per night.
+
+After all, it's what we'd get if we ignored Subject.
+
+But, this is wrong!
+```{r plotonce}
+sleep |> ggplot(aes(x=Days, y=Reaction)) +
+    geom_point(aes(color=Subject)) + geom_smooth(method="lm", formula=y~x)
+```
+
+----------
+
+![xkcd:2533](images/slope_hypothesis_testing_2x.png){width=90%}
+
+::: {.caption .floatright}
+[xkcd:2533](https://xkcd.com/2533/)
+:::
+
+## A reminder: "the" linear model
+
+```
+lm(Reaction ~ Days)
+```
+fits the model ($R_i$ and $D_i$ are the $i^\text{th}$ Reaction and Days entries)
+$$\begin{aligned}
+    R_i &= b_0 + b_{\text{Days}} \times D_i + \epsilon_i \\
+    \epsilon_i &\sim \text{Normal}(\text{mean}=0, \text{sd}=\sigma) ,
+\end{aligned}$$
+where the $\epsilon_i$ are *independent*.
+
+. . . 
+
+This means that we'll be *wrong*: overconfident about the estimate.
+
 ## Separate lines per subject?
 
-```{r lm2}
+```{r lm2, fig.width=2.5*fig.dim, fig.height=1.5*fig.dim}
 lm2 <- lm(Reaction ~ Days * Subject, data=sleepstudy)
 summary(lm2)
 ```
+
+----------------------
+
 ```
 Reaction ~ Days * Subject
 ```
 
-------------------
 
-```{r plot_lm1}
-sleep <- sleep |> mutate(
-    lm2 = predict(lm2, newdata=sleepstudy)
-)
+```{r plot_lm3, fig.width=2.5*fig.dim, fig.height=1.5*fig.dim}
+sleep <- sleep |> mutate( lm2 = predict(lm2, newdata=sleepstudy) )
 sleep |> pivot_longer(cols=c(Reaction, lm2, lm1), values_to="Reaction", names_to="what") |>
     mutate(what=fct_recode(what, data="Reaction")) |>
     ggplot(aes(x=Days, y=Reaction, color=what)) +
@@ -99,15 +146,39 @@ sleep |> pivot_longer(cols=c(Reaction, lm2, lm1), values_to="Reaction", names_to
     facet_wrap(~ Subject, nrow=2)
 ```
 
-## Random effects
+## What'd we do there?
 
-```{r lmer}
-fm1 <- lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
 ```
+lm(Reaction ~ Days * Subject)
+```
+fits the model ($R_i$, $D_i$ and $S_i$ are the $i^\text{th}$ Reaction, Days, and Subject entries)
+$$\begin{aligned}
+    R_{i} &= b_{S_i,0} + b_{S_i,\text{Days}} \times D_i + \epsilon_i \\
+    \epsilon_i &\sim \text{Normal}(\text{mean}=0, \text{sd}=\sigma) .
+\end{aligned}$$
+The $\epsilon_i$ are still independent, but there's a different slope and intercept for each subject.
 
-## Random effects
+. . .
 
-This has *random intercepts and slopes* by subject:
+**But** we wanted to know the *overall* effect!
+
+# Random effects
+
+------------
+
+Here's one approach:
+$$\begin{aligned}
+    R_{i} &= b_0 + b_\text{Days} \times D_i + b_{S_i,0} + b_{S_i,\text{Days}} \times D_i + \epsilon_i \\
+    \epsilon_i &\sim \text{Normal}(\text{mean}=0, \text{sd}=\sigma)  \\
+    b_{S_i,0}  &\sim \text{Normal}(\text{mean}=0, \text{sd}=\eta) \\
+    b_{S_i,\text{Days}}  &\sim \text{Normal}(\text{mean}=0, \text{sd}=\eta) \\
+\end{aligned}$$
+We're allowing *subject-specific deviations*
+from a common slope and intercept.
+
+## `lme4::lmer`
+
+*This* has *random intercepts and slopes* by subject:
 ```{r lmer}
 fm1 <- lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
 summary(fm1)
@@ -121,11 +192,15 @@ rf1 <- ranef(fm1) |> as.data.frame()
 rf1 |> ggplot(aes(y=grp, x=condval)) +
     geom_point() + facet_wrap(~term, scales="free_x") +
     geom_errorbar(aes(xmin=condval -2*condsd,
-                      xmax=condval +2*condsd), width=0)
-
+                      xmax=condval +2*condsd), width=0) +
+    labs(x="coefficent", y="subject")
 ```
 
-```{r plot_lm1}
+-------------------
+
+And, the per-subject results:
+
+```{r plot_lm2, fig.width=2.5*fig.dim, fig.height=1.5*fig.dim}
 sleep <- sleep |> mutate(
     rf1 = predict(fm1, newdata=sleepstudy)
 )
@@ -155,7 +230,7 @@ From Logan:
 ## An example: urchins eat algae
 
 ```{r andrewdata}
-andrew_data <- read.table('../Datasets/Logan_data/andrew.tsv', header=T, sep='\t')
+andrew_data <- read.table('../datasets/Logan_data/andrew.tsv', header=T, sep='\t')
 head(andrew_data)
 ```
 
@@ -183,8 +258,9 @@ with(andrew_data, table(PATCH, QUAD, TREAT))
 ## Response distribution
 
 ```{r boxit, fig.width=2.5*fig.dim, fig.height=1.5*fig.dim}
-plot(ALGAE ~ TREAT, data=andrew_data)
-points(ALGAE ~ jitter(as.numeric(TREAT)), data=andrew_data, pch=20, col=1+as.numeric(PATCH)%%4)
+andrew_data |> mutate(patch_num=factor(as.numeric(PATCH)%%4)) |> 
+    ggplot(aes(x=TREAT, y=ALGAE)) + geom_boxplot() +
+    geom_jitter(aes(color=patch_num))
 ```
 
 ##
@@ -194,14 +270,6 @@ Why is this wrong?
 ```{r lme_urchins}
 summary(lm(ALGAE ~ TREAT, data=andrew_data))
 ```
-
-----------
-
-![xkcd:2533](images/slope_hypothesis_testing_2x.png){width=90%}
-
-::: {.caption .floatright}
-[xkcd:2533](https://xkcd.com/2533/)
-:::
 
 
 ##
@@ -273,11 +341,11 @@ ranef(alglm)
 ##
 
 ```{r plot_ranef}
-rfs <- ranef(alglm)$PATCH
-ses <- rfs[,1] + outer(sqrt(as.vector(attr(rfs, "postVar"))), c(-2, 2), "*")
-plot(rfs[,1], 1:nrow(rfs), xlab='patch mean', xlim=range(ses), ylab='')
-segments(x0=ses[,1], x1=ses[,2], y0=1:nrow(rfs))
-abline(v=0, col='red')
+ranef(alglm) |> as.data.frame() |> ggplot(aes(y=grp, x=condval)) +
+    geom_point() + facet_wrap(~term, scales="free_x") +
+    geom_errorbar(aes(xmin=condval -2*condsd,
+                      xmax=condval +2*condsd), width=0) +
+    labs(x="mean offset", y="patch number")
 ```
 
 # Notes on mixed models
@@ -363,34 +431,22 @@ pumpkins <- expand.grid(
           weight=NA)
 
 params <- list(
-    mu = 5, # kg
-    alpha = c("low" = 0,
-              "medium" = +0.5,
-              "high" = +1
-    ),
-    beta = c("no water" = 0,
-             "water" = +1
-    ),
-    gamma = c("high,water" = -1),
-    sigma = 1.5
+    mu = 5, # all units are kg
+    alpha = c(low=0, medium=2, high=4),
+    beta = c("no water"=0, water=1),
+    sigma = 1
 )
+params$gamma <- rep(0, 6)
+names(params$gamma) <- outer(c("low", "medium", "high"), c("no water", "water"), paste, sep=",")
+params$gamma["high,water"] <-  5
 
-inter_name <- paste(pumpkins$fertilizer, pumpkins$water, sep=",")
-gamma <- ifelse(
-        inter_name %in% names(params$gamma),
-        params$gamma[inter_name],
-        0
-)
-pumpkins$mean_weight <- (
-    params$mu
-    + params$alpha[as.character(pumpkins$fertilizer)]
-    + params$beta[as.character(pumpkins$water)]
-    + gamma
-)
+pumpkins$condition <- paste(pumpkins$fertilizer, pumpkins$water, sep=",")
+pumpkins$mean_weight <-
+    params$mu +
+    params$alpha[pumpkins$fertilizer] +
+    params$beta[pumpkins$water] +
+    params$gamma[pumpkins$condition]
 
-pumpkins$weight <- rnorm(
-    nrow(pumpkins),
-    mean=pumpkins$mean_weight,
-    sd=params$sigma
-)
+set.seed(123)
+pumpkins$weight <- rnorm(nrow(pumpkins), mean=pumpkins$mean_weight, sd=params$sigma)
 ```
