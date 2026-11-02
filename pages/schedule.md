@@ -87,12 +87,10 @@ Week 6 (*11/2*)
 
 : Bayesian model fitting, Markov chain Monte Carlo
 
-<!--
-    - Slides: [Posterior sampling with MCMC](../slides/Week_06_Posterior_sampling.slides.html)
-    - Slides: [Baseball: Hierarchical logistic models](../slides/Week_06_Baseball.slides.html)
+    - Slides: [Posterior sampling with MCMC](../slides/posterior_sampling.slides.html)
+    - Slides: [Baseball: Hierarchical logistic models](../slides/baseball.slides.html)
     - Reading: Kruschke, chapters 4, 5, 6, 7
     - [Homework 6](../homeworks/HW06.html) *(due 11/15)*
--->
 
 Week 7 (*11/9*)
 

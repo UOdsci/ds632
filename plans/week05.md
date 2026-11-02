@@ -50,6 +50,10 @@ css: "plans.css"
 We do random effects second so that (a) they can start on the homework sooner,
 and (b) we can connect up the topic of the week (hierarchical models) to what we were doing already (linear models).
 
+The slides have the "urchin" example also, but we just cover the "sleep" example.
+
+Didn't get to the "simulate random effects for pumpkins" thing, unfortunately.
+
 ::: {.paper}
     when                                                                                                                       slides             what          how long  
 --------     ----------------------------------------------------------------------------------------------------------    -------------    ---------------    -----------
@@ -59,10 +63,12 @@ and (b) we can connect up the topic of the week (hierarchical models) to what we
        .        point exclusion                                                                                                                                        .
        .        point estimate                                                                                                                                         .
        .        uncertainty estimation                                                                                                                                 .
-    0:50     Homework discussion                                                                                                                                  15 min
-    1:05     break                                                                                                                                                 5 min
-    1:10     Random effects                                                                                                                                        X min
-       .                                                                                                                                                               .
+    0:45     Homework discussion                                                                                                                                  10 min
+    1:00     break                                                                                                                                                 5 min
+    1:00     Random effects                                                                                                                                       25 min
+       .       sleep example: lmer, talk through different types of model                                                                                              .
+       .     Math: write down likelihood for the lm() and then the lmer()                                                                                         25 min
+       .       on the board                                                                                                                                            .
     1:50                                                                                                                                                             end
 --------     ----------------------------------------------------------------------------------------------------------    -------------    ---------------    -----------
 :::
