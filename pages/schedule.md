@@ -90,7 +90,7 @@ Week 6 (*11/2*)
     - Slides: [Posterior sampling with MCMC](../slides/posterior_sampling.slides.html)
     - Slides: [Baseball: Hierarchical logistic models](../slides/baseball.slides.html)
     - Reading: Kruschke, chapters 4, 5, 6, 7
-    - [Homework 6](../homeworks/HW06.html) *(due 11/15)*
+    - [Homework 6](../homeworks/HW06.html) *(due 11/10)*
 
 Week 7 (*11/9*)
 

@@ -72,6 +72,35 @@ batting |>
 
 *Come up with some quick-and-dirty statistics to answer these questions.*
 
+## IN CLASS: exploration
+
+*Observations:*
+
+```{r plots}
+batting |> mutate(BattingAvg = Hits/AtBats) |>
+    ggplot(aes(x=AtBats, y=BattingAvg, color=PriPos)) + geom_point()
+```
+
+----------
+
+```{r plots2}
+batting |> mutate(BattingAvg = Hits/AtBats) |>
+    filter(PriPos != "Pitcher" & AtBats > 40) |>
+    ggplot(aes(x=AtBats, y=BattingAvg, color=PriPos)) + geom_point() +
+    geom_smooth(method="lm")
+```
+
+-----------
+
+```{r plots3}
+p1 <- batting |> mutate(BattingAvg = Hits/AtBats) |>
+    filter(PriPos != "Pitcher" & AtBats > 40) |>
+    ggplot(aes(x=height, y=BattingAvg, color=PriPos)) + geom_point()
+p2 <- batting |> mutate(BattingAvg = Hits/AtBats) |>
+    filter(PriPos != "Pitcher" & AtBats > 40) |>
+    ggplot(aes(x=weight, y=BattingAvg, color=PriPos)) + geom_point()
+p1 | p2
+```
 
 # Predicting probabilities
 
