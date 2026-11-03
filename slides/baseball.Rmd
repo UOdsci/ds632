@@ -338,7 +338,7 @@ fm_pp <- predict(fm)
 head(fm_pp)
 ```
 
----------
+## A posterior predictive check:
 
 ```{r plot_first_predall, echo=FALSE, fig.width=2*fig.dim, fig.height=1.5*fig.dim}
 cbind(batting, fm_pp) |> filter(AtBats > 40) |> mutate(

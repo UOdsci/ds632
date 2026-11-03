@@ -35,6 +35,13 @@
 </header>
 <h1 id="tuesday">Tuesday</h1>
 <p><strong>Goals:</strong></p>
+<ul>
+<li>Think hard about hierarchical models, and sharing of power.</li>
+<li>Introduce MCMC as a way of sampling from the posterior.</li>
+<li>Get more experience with interpreting posteriors to get
+answers.</li>
+<li>Learn about the logistic-binomial model.</li>
+</ul>
 <p><strong>Notes:</strong></p>
 <div class="paper">
 <table>
@@ -57,14 +64,120 @@
 </tr>
 <tr>
 <td style="text-align: right;">0:00</td>
-<td></td>
+<td>Reminder of posterior distributions, and how to get credible
+intervals</td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
-<td style="text-align: center;">X min</td>
+<td style="text-align: center;">10 min</td>
 </tr>
 <tr>
 <td style="text-align: right;">.</td>
-<td></td>
+<td>write/draw on board to remind that posterior = likelihood *
+prior</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>and motivate that the likelihood gives relative weights of evidence;
+Bayes gives a distribution</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>Hierarchical coins: Bayesian version</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">10 min</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>contrast to homework, where they got an MLE for alpha, beta; here we
+get CIs</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>thought experiment: one vs many coins? (reminder we answered this
+quickly last week)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>ask which of the histograms is from “one coin” vs “many”</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>thought experiment: if each coin was flipped once, could we
+tell?</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>Stan, and MCMC</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">10 min</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>what’s Stan (quick overview)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>what’s Monte Carlo, and what’s MCMC; including saying that sim-based
+answers are “MC”</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">0:30</td>
+<td>Exercise: random walks!</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">10 min</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>have them walk around, in pairs, starting somewhere nearby</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>Quick preview of brms (so we can solve the coin problem!)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">5 min</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>basically just say “now by some magic, we can get brms to do a
+random walk for us for this model,</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>see look posterior distributions”</td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">.</td>
@@ -78,14 +191,71 @@
 </tr>
 <tr>
 <td style="text-align: right;">1:05</td>
-<td></td>
+<td>Baseball: intro to the game and the dataset</td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
-<td style="text-align: center;">X min</td>
+<td style="text-align: center;">10 min</td>
 </tr>
 <tr>
 <td style="text-align: right;">.</td>
-<td></td>
+<td>Disco: how to answer these questions?</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">10 min</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>do some visualization live</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">10 min</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>The binomial model, and then the logistic binomial model</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>fit the model without random effects, in brms</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>talk through the checklist: convergence? interpret the
+parameters?</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>reminder that estimates are on a logit scale</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>How to interpret the posterior? Answering questions.</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>Disco: what’s wrong with the model? How to make it better?</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr>
+<td style="text-align: right;">.</td>
+<td>Ask folks to interpret the posterior predictive sim plot</td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">.</td>
