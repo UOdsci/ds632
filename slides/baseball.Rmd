@@ -382,7 +382,7 @@ cbind(batting, fm_pp) |> filter(AtBats > 40) |> mutate(
 
 # Exercise
 
-## In groups
+## 
 
 ::: {.columns}
 ::::::: {.column width=50%}
@@ -407,8 +407,8 @@ $$\begin{aligned}
 
 with:
 
-- $\beta_\text{pitcher} = 0.15$
-- and all other $\beta_p = 0.24$
+- $\beta_\text{pitcher} = \text{logit}(0.15)$
+- and all other $\beta_p = \text{logit}(0.24)$
 
 :::
 :::::::
@@ -525,15 +525,15 @@ mcmc_intervals(samps, regex_pars=c("b_PriPos.*")) +
 
 ## In the natural scale
 
-```{r moreviz}
-conditional_effects(logistic_fit, effects="PriPos")
+```{r moreviz, message=FALSE}
+conditional_effects(logistic_fit, effects="PriPos", trials=1)
 ```
 
 ## Let's look at some players?
 
 `posterior_epred()` gives posterior samples of expected responses:
 ```{r viz2, message=FALSE}
-players <- c("Mark Buehrle", "Matt Harvey", "Mike Leake")
+players <- c("John Buck", "Pedro Alvarez", "Prince Fielder")
 (player_data <- subset(batting, Player %in% players))
 ```
 
@@ -542,18 +542,41 @@ players <- c("Mark Buehrle", "Matt Harvey", "Mike Leake")
 ```{r getviz2, message=FALSE}
 player_preds <- posterior_epred(logistic_fit, newdata=player_data)
 colnames(player_preds) <- players
-player_preds <- player_preds / player_data$AtBats[col(player_preds)]
+player_preds <- (player_preds / player_data$AtBats[col(player_preds)]) |> data.frame()
 head(player_preds)
 ```
 
 -------
 
 ```{r plotviz2, fig.height=1.4*fig.dim}
-layout(seq_along(players))
-for (j in seq_along(players)) {
-    hist(player_preds[,j], xlim=range(player_preds), main=players[j], xlab='batting average', breaks=30)
-}
+player_preds |> pivot_longer(cols=everything(), names_to="Player", values_to="BattingAvg") |>
+    ggplot(aes(x=BattingAvg)) + geom_histogram(bins=30) +
+    facet_grid(Player ~ .) + labs(x="Batting Average")
 ```
+
+-------
+
+```{r plotviz3, fig.width=3*fig.dim, fig.height=1.4*fig.dim}
+make_plot <- function (i, j) {
+    pi <- make.names(players[i])
+    pj <- make.names(players[j])
+    player_preds |>
+    ggplot(aes(x=!!sym(pi), y=!!sym(pj))) + geom_point() +
+        geom_density_2d() +  geom_abline(slope=1, intercept=0) +
+        lims(x=c(0.15, 0.35), y=c(0.15, 0.35)) +
+        theme(aspect.ratio=1)
+}
+make_plot(1, 2) | make_plot(1, 3) | make_plot(2, 3)
+```
+
+-----------
+
+Do we have good evidence the players are different?
+
+```{r hyp}
+hypothesis(player_preds, c("John.Buck < Pedro.Alvarez", "John.Buck < Prince.Fielder", "Pedro.Alvarez < Prince.Fielder"))
+```
+
 
 ## Exercise:
 
