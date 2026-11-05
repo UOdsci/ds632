@@ -407,8 +407,8 @@ $$\begin{aligned}
 
 with:
 
-- $\beta_\text{pitcher} = \text{logit}(0.15)$
-- and all other $\beta_p = \text{logit}(0.24)$
+- $\beta_\text{pitcher} = -1.73$
+- and all other $\beta_p = -1.15$
 
 :::
 :::::::
