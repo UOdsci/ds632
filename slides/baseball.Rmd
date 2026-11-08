@@ -416,6 +416,40 @@ with:
 
 ## IN CLASS
 
+```{r simit}
+n <- 15 # number of players
+positions <- c("pitcher", "catcher", "right field")
+sim_batting <- data.frame(
+    name = c("jared", "sam", "bryce", "becky", "frankie", "ball",
+             "ana", "jack", "buster", "sam", "bob", "martha", "mike",
+             "jake", "peter"),
+   position = sample(positions, n, replace=TRUE),
+   AtBats = rpois(n, 200)
+)
+
+true_betas <- c(pitcher= -1.73,
+                catcher=-1.15,
+                "right field" = -1.15)
+stopifnot(all(names(true_betas) == positions))
+
+sim_batting <- sim_batting |> mutate(
+    mu = true_betas[position] + rnorm(n, mean=0, sd=0.05),
+    theta = 1/(1 + exp(-mu)),
+    hits = rbinom(n, size=AtBats, prob=theta)
+)
+```
+
+---------------
+
+```{r fitmodel, cache=TRUE}
+library(lme4)
+
+sim_batting$id <- 1:nrow(sim_batting)
+brm(hits | trials(AtBats) ~ 0 + position + (1|id), 
+     family="binomial",
+     data=sim_batting
+) |> summary()
+```
 
 
 # Back to the model
