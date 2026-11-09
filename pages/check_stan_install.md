@@ -14,7 +14,7 @@ If you get any errors, you should read them carefully!
 ## Quick check
 
 To run a quick check at the command line,
-navigate to `CLASS_MATERIALS/Tutorials/` in this repository, and run
+navigate to `tutorials/` in this repository, and run
 
 `Rscript check_rstan_install.R`
 
@@ -44,8 +44,8 @@ schools_dat <- list(J = 8,
 schools_block <- "
 data {
   int<lower=0> J;         // number of schools 
-  real y[J];              // estimated treatment effects
-  real<lower=0> sigma[J]; // standard error of effect estimates 
+  array[J] real y;              // estimated treatment effects
+  array[J] real<lower=0> sigma; // standard error of effect estimates 
 }
 parameters {
   real mu;                // population treatment effect
