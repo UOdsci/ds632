@@ -168,12 +168,14 @@ Other inverses:
 100 trials, where probability of success depends on $x$:
 ```{r sim_logistic, fig.width=2*fig.dim}
 alpha <- -7; beta <- 1.2
-df <- data.frame( x = runif(100, 0, 10) )
-df$y <- alpha + beta * df$x
-df$p <- 1 / (1 + exp(-df$y))
-df$z <- rbinom(100, size=1, prob=df$p)
-plot(z ~ x, data=df)
-curve(1/(1+exp(-(-7 + 1.2 * x))), 0, 10, col='red', add=TRUE)
+df <- data.frame( x = runif(100, 0, 10) ) |>
+    mutate(
+        y = alpha + beta * x,
+        p = 1 / (1 + exp(-y)),
+        z = rbinom(100, size=1, prob=p)
+    )        
+df |> ggplot(aes(x=x, y=z)) + geom_point() +
+    geom_function(fun=\(x) 1/(1+exp(-(-7 + 1.2 * x))), color='red')
 ```
 
 ## `glm()`
@@ -188,7 +190,7 @@ summary(
 ## `brms::brm()`
 
 ```{r run_brm, cache=TRUE}
-( brm_fit <- brm(z | trials(1) ~ x, family='binomial', data=df) )
+( brm_fit <- brm(z | trials(1) ~ x, family='binomial', data=df) ) |> summary()
 ```
 
 

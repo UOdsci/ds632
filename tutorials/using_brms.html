@@ -105,7 +105,7 @@ img { max-width:100%; height: auto; }
 <div id="header">
 <h1 class="title">Using brms</h1>
 <h4 class="author"><em>Peter Ralph</em></h4>
-<h4 class="date"><em>Sun Sep 27 20:10:58 2026</em></h4>
+<h4 class="date"><em>Mon Nov 9 22:00:47 2026</em></h4>
 </div>
 
 
@@ -150,11 +150,39 @@ head(kidney)</code></pre>
             warmup = 1000, iter = 2000, chains = 4,
             control = list(adapt_delta = 0.95))</code></pre>
 <pre><code>## Compiling Stan program...</code></pre>
-<pre><code>## Error in `.fun()`:
-## ! Eigen not found; call install.packages(&#39;RcppEigen&#39;)</code></pre>
+<pre><code>## Start sampling</code></pre>
 <pre class="r"><code>fit1</code></pre>
-<pre><code>## Error:
-## ! object &#39;fit1&#39; not found</code></pre>
+<pre><code>##  Family: lognormal 
+##   Links: mu = identity 
+## Formula: time | cens(censored) ~ age * sex + disease + (1 + age | patient) 
+##    Data: kidney (Number of observations: 76) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Multilevel Hyperparameters:
+## ~patient (Number of levels: 38) 
+##                    Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sd(Intercept)          0.42      0.30     0.02     1.07 1.00     1406     1763
+## sd(age)                0.01      0.01     0.00     0.02 1.00     1279     1955
+## cor(Intercept,age)    -0.15      0.45    -0.89     0.75 1.00     2700     2051
+## 
+## Regression Coefficients:
+##               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept         2.76      0.97     0.88     4.74 1.00     2197     2259
+## age               0.01      0.03    -0.04     0.06 1.00     1857     2201
+## sexfemale         2.39      1.14     0.12     4.70 1.00     2117     2120
+## diseaseGN        -0.37      0.54    -1.45     0.70 1.00     2201     2749
+## diseaseAN        -0.51      0.52    -1.55     0.49 1.00     2756     2916
+## diseasePKD        0.62      0.72    -0.82     2.06 1.00     2192     2360
+## age:sexfemale    -0.02      0.03    -0.07     0.03 1.00     1954     2133
+## 
+## Further Distributional Parameters:
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     1.14      0.13     0.91     1.41 1.00     2709     2750
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <p>Note that the <code>cens(censored)</code> call is documented in
 <code>help(&quot;addition-terms&quot;)</code> and <code>help(brmsformula)</code>,
 which says that</p>
@@ -251,13 +279,48 @@ for many types of model, but it is <em>commented</em> – nice! We can
 check that the data that <code>brms</code> actually passes to Stan
 matches this: <code>standata(fit1)</code> returns this:</p>
 <pre class="r"><code>str(standata(fit1))</code></pre>
-<pre><code>## Error:
-## ! object &#39;fit1&#39; not found</code></pre>
+<pre><code>## List of 13
+##  $ N         : int 76
+##  $ Y         : num [1:76(1d)] 8 23 22 447 30 24 7 511 53 15 ...
+##  $ cens      : num [1:76(1d)] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ K         : int 7
+##  $ Kc        : num 6
+##  $ X         : num [1:76, 1:7] 1 1 1 1 1 1 1 1 1 1 ...
+##   ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. ..$ : chr [1:76] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
+##   .. ..$ : chr [1:7] &quot;Intercept&quot; &quot;age&quot; &quot;sexfemale&quot; &quot;diseaseGN&quot; ...
+##   ..- attr(*, &quot;assign&quot;)= int [1:7] 0 1 2 3 3 3 4
+##   ..- attr(*, &quot;contrasts&quot;)=List of 2
+##   .. ..$ sex    : num [1:2, 1] 0 1
+##   .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. .. ..$ : chr [1:2] &quot;male&quot; &quot;female&quot;
+##   .. .. .. ..$ : chr &quot;female&quot;
+##   .. ..$ disease: num [1:4, 1:3] 0 1 0 0 0 0 1 0 0 0 ...
+##   .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. .. ..$ : chr [1:4] &quot;other&quot; &quot;GN&quot; &quot;AN&quot; &quot;PKD&quot;
+##   .. .. .. ..$ : chr [1:3] &quot;GN&quot; &quot;AN&quot; &quot;PKD&quot;
+##  $ Z_1_1     : num [1:76(1d)] 1 1 1 1 1 1 1 1 1 1 ...
+##   ..- attr(*, &quot;dimnames&quot;)=List of 1
+##   .. ..$ : chr [1:76] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
+##  $ Z_1_2     : num [1:76(1d)] 28 48 32 31 10 16 51 55 69 51 ...
+##   ..- attr(*, &quot;dimnames&quot;)=List of 1
+##   .. ..$ : chr [1:76] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
+##  $ J_1       : int [1:76(1d)] 1 2 3 4 5 6 7 8 9 10 ...
+##  $ N_1       : int 38
+##  $ M_1       : int 2
+##  $ NC_1      : int 1
+##  $ prior_only: int 0
+##  - attr(*, &quot;class&quot;)= chr [1:2] &quot;standata&quot; &quot;list&quot;</code></pre>
 <p>A key object here is <code>X</code>, the design matrix for the
 covariates. In this case, this is</p>
 <pre class="r"><code>head(standata(fit1)$X)</code></pre>
-<pre><code>## Error:
-## ! object &#39;fit1&#39; not found</code></pre>
+<pre><code>##   Intercept age sexfemale diseaseGN diseaseAN diseasePKD age:sexfemale
+## 1         1  28         0         0         0          0             0
+## 2         1  48         1         1         0          0            48
+## 3         1  32         0         0         0          0             0
+## 4         1  31         1         0         0          0            31
+## 5         1  10         0         0         0          0             0
+## 6         1  16         1         0         0          0            16</code></pre>
 <p>The transformed data block just centers the columns of
 <code>X</code>, producing <code>Xc</code>:</p>
 <pre><code>transformed data {
@@ -401,8 +464,7 @@ parameters</em>, or “dpars”. These are the parameters to the response
 distribution: for instance, those of the logNormal are <code>mu</code>
 and <code>sigma</code>:</p>
 <pre class="r"><code>fit1$family$dpars</code></pre>
-<pre><code>## Error:
-## ! object &#39;fit1&#39; not found</code></pre>
+<pre><code>## [1] &quot;mu&quot;    &quot;sigma&quot;</code></pre>
 <p>Since the (transformed) linear predictor is turned into
 <code>mu</code>, this means that each observation has it’s own posterior
 distribution on <code>mu</code> (and on <code>sigma</code>, too).</p>
@@ -415,16 +477,31 @@ parameter and one row per sample. Specific parameters can be obtained by
 the <code>pars</code> argument (which takes regular expressions). For
 instance, here are posterior samples of the “slope” parameters:</p>
 <pre class="r"><code>head(posterior_samples(fit1, pars=&quot;b_&quot;))</code></pre>
-<pre><code>## Error:
-## ! object &#39;fit1&#39; not found</code></pre>
+<pre><code>##   b_Intercept        b_age b_sexfemale b_diseaseGN  b_diseaseAN b_diseasePKD b_age:sexfemale
+## 1    2.486727  0.016663843   2.4003292  -0.6823880  0.009779047    0.6855427    -0.026210828
+## 2    3.921968 -0.005843142   1.2369352  -0.7332751 -0.893944688    0.3007763     0.011500409
+## 3    2.039068  0.030716718   2.8410338  -0.4336228 -0.518563429    0.1993121    -0.036984563
+## 4    2.024128  0.028588992   3.0636612  -0.4328630 -0.577640160    0.2343412    -0.038505091
+## 5    2.609871  0.023671509   2.8539045  -0.6703520 -0.542595702    0.5986754    -0.033186932
+## 6    2.660134  0.034751402   0.9124251  -0.8124217 -0.806412988   -0.3433599    -0.008635196</code></pre>
 <p>and here are the SD and correlation parameters:</p>
 <pre class="r"><code>head(posterior_samples(fit1, pars=c(&quot;sd&quot;, &quot;cor&quot;, &quot;sigma&quot;)))</code></pre>
-<pre><code>## Error:
-## ! object &#39;fit1&#39; not found</code></pre>
+<pre><code>##   sd_patient__Intercept sd_patient__age cor_patient__Intercept__age     sigma
+## 1             0.1445616     0.010701527                  -0.4598516 1.2576715
+## 2             0.1878791     0.001451690                   0.2931622 1.0321559
+## 3             0.1928516     0.001978591                  -0.3339207 1.4801231
+## 4             0.2073315     0.002202141                  -0.3581772 1.4930626
+## 5             0.3456767     0.002829339                  -0.3172202 0.9432011
+## 6             0.2685197     0.006427924                   0.4590366 1.5056505</code></pre>
 <p>and here are some of the patient-specific effects:</p>
 <pre class="r"><code>head(posterior_samples(fit1, pars=&quot;^r_&quot;))[,1:5]</code></pre>
-<pre><code>## Error:
-## ! object &#39;fit1&#39; not found</code></pre>
+<pre><code>##   r_patient[1,Intercept] r_patient[2,Intercept] r_patient[3,Intercept] r_patient[4,Intercept] r_patient[5,Intercept]
+## 1             0.12364920          -0.0469052467            -0.05113222           -0.007531748              0.1347174
+## 2            -0.07759248          -0.0007134314             0.14218905           -0.110337304             -0.2415753
+## 3             0.04212838           0.0346039235            -0.03355916            0.050208605              0.1560462
+## 4             0.04787439           0.0430472883            -0.05607701            0.086266398              0.1403378
+## 5             0.12484446          -0.1937608464            -0.40567889           -0.090237146             -0.2563814
+## 6            -0.11990055           0.1941155648             0.22352500            0.104108430              0.0981655</code></pre>
 </section>
 <section id="fixef-fixed-effects" class="level2">
 <h2><code>fixef( )</code> : fixed effects</h2>
@@ -433,8 +510,14 @@ extracted with <code>fixef( )</code>, either as a summary table (if
 <code>summary=TRUE</code>) or as a matrix of samples (otherwise). Here
 it is for this model:</p>
 <pre class="r"><code>fixef(fit1)</code></pre>
-<pre><code>## Error:
-## ! object &#39;fit1&#39; not found</code></pre>
+<pre><code>##                  Estimate  Est.Error        Q2.5      Q97.5
+## Intercept      2.75907787 0.96794173  0.87890195 4.73664809
+## age            0.01364014 0.02509689 -0.03514203 0.06318216
+## sexfemale      2.38753877 1.13571049  0.12055213 4.69705741
+## diseaseGN     -0.37238278 0.54140421 -1.45483183 0.69696928
+## diseaseAN     -0.50817716 0.51523311 -1.55119715 0.48816055
+## diseasePKD     0.61876400 0.72481313 -0.81709533 2.06168777
+## age:sexfemale -0.02062493 0.02638764 -0.07300361 0.03175234</code></pre>
 <p>The <code>Estimate</code> and <code>Est.Error</code> columns give the
 mean and SD, respectively, of the posterior distributions of the listed
 parameters.</p>
@@ -446,8 +529,48 @@ slopes - are returned, as a 3D array, by <code>ranef( )</code>, in a
 similar format to <code>fixef( )</code>. For instance, here are the
 patient-specific age effects:</p>
 <pre class="r"><code>head(ranef(fit1, pars=&#39;age&#39;))</code></pre>
-<pre><code>## Error:
-## ! object &#39;fit1&#39; not found</code></pre>
+<pre><code>## $patient
+## , , age
+## 
+##         Estimate   Est.Error        Q2.5      Q97.5
+## 1  -1.092184e-03 0.010305189 -0.02293862 0.02014646
+## 2  -2.444209e-03 0.010895827 -0.02594862 0.01637038
+## 3   6.749236e-05 0.010813978 -0.02244510 0.02208646
+## 4   2.116140e-03 0.010639376 -0.01813141 0.02697002
+## 5  -1.512849e-04 0.011223047 -0.02302659 0.02262190
+## 6  -1.896939e-04 0.010031439 -0.02196197 0.02136051
+## 7  -3.893815e-03 0.010249072 -0.02748706 0.01269685
+## 8   1.332567e-03 0.009246878 -0.01909539 0.02135334
+## 9   1.830058e-03 0.008549499 -0.01472558 0.02069026
+## 10  3.016237e-03 0.010445422 -0.01445387 0.02626083
+## 11 -1.550062e-03 0.010032794 -0.02467184 0.01816385
+## 12  3.891741e-04 0.010116462 -0.02046759 0.02274930
+## 13 -7.740687e-04 0.011085990 -0.02302637 0.02066018
+## 14  3.879534e-03 0.012162125 -0.01509008 0.03106257
+## 15  2.716338e-04 0.011412303 -0.02479218 0.02284607
+## 16  1.199322e-04 0.009505384 -0.02067651 0.02082958
+## 17  2.038466e-03 0.009906910 -0.01601530 0.02270998
+## 18  1.345475e-03 0.011026532 -0.01832582 0.02386659
+## 19  4.151503e-03 0.010679113 -0.01399031 0.03073155
+## 20 -1.991867e-03 0.010228625 -0.02542293 0.01763039
+## 21  5.821917e-03 0.011261042 -0.01168740 0.03298776
+## 22  1.183348e-03 0.012538710 -0.02139108 0.02567876
+## 23 -3.437326e-03 0.009069816 -0.02538467 0.01240598
+## 24 -1.259302e-04 0.009481426 -0.02109770 0.02027656
+## 25  8.465244e-04 0.010053491 -0.02095121 0.02251541
+## 26  4.806089e-03 0.010471106 -0.01166978 0.02958462
+## 27  1.415033e-04 0.010976680 -0.02415496 0.02266712
+## 28 -3.079687e-03 0.010223070 -0.02757878 0.01450414
+## 29 -4.618035e-03 0.011119051 -0.03082681 0.01308803
+## 30 -1.354310e-03 0.009054787 -0.02157310 0.01724751
+## 31 -2.532087e-03 0.009462890 -0.02418266 0.01525337
+## 32 -9.691759e-04 0.010162104 -0.02335531 0.01972085
+## 33 -4.484659e-03 0.010452785 -0.03096105 0.01350322
+## 34  1.657022e-03 0.009810493 -0.01831209 0.02434951
+## 35 -2.195308e-03 0.011395234 -0.02765338 0.02069842
+## 36  1.116028e-03 0.011467891 -0.01970497 0.02616929
+## 37 -2.530240e-03 0.010374217 -0.02721702 0.01616207
+## 38  2.815455e-04 0.009905025 -0.01938536 0.02213845</code></pre>
 </section>
 <section id="predict-the-responses" class="level2">
 <h2><code>predict( )</code> : the responses</h2>
@@ -459,8 +582,13 @@ censored ones. With <code>summary=FALSE</code>, this gets a (num steps)
 x (num data points matrix of samples from the posterior distribution,
 and with <code>summary=TRUE</code> it returns a summary table, e.g.:</p>
 <pre class="r"><code>head(predict(fit1))</code></pre>
-<pre><code>## Error:
-## ! object &#39;fit1&#39; not found</code></pre>
+<pre><code>##       Estimate Est.Error      Q2.5     Q97.5
+## [1,]  43.13803  86.94933  1.558596  229.4663
+## [2,] 157.90587 415.71357  5.920393  833.0193
+## [3,]  55.81321 121.07422  2.077188  300.4687
+## [4,] 392.27517 863.34418 15.368408 2019.1934
+## [5,]  49.39941 149.53799  1.373719  274.0198
+## [6,] 298.73806 806.64746 11.215697 1546.5917</code></pre>
 <p>Under the hood, this just calls <code>rlnorm( )</code> with posterior
 samples from the <code>dpars</code>,</p>
 </section>
@@ -472,15 +600,25 @@ distribution of either the linear predictor (if
 <code>scale=&quot;response&quot;</code>). Again, <code>summary</code> can be used
 to return either a summary table or the full set of samples.</p>
 <pre class="r"><code>head(fitted(fit1, summary=TRUE))</code></pre>
-<pre><code>## Error:
-## ! object &#39;fit1&#39; not found</code></pre>
+<pre><code>##       Estimate Est.Error       Q2.5     Q97.5
+## [1,]  43.05845  25.50149  11.729466  107.2172
+## [2,] 157.73218 113.45492  37.964137  451.8708
+## [3,]  54.03798  32.27231  17.024275  133.0817
+## [4,] 398.86735 242.46383 134.978063 1045.1823
+## [5,]  46.12400  40.94527   9.264616  148.8988
+## [6,] 297.95764 174.13422  89.092018  752.0829</code></pre>
 <p>You can also pass <code>fitted( )</code> the name of a distributional
 parameter to have it return the posterior distribution of those
 parameters (one per data point). For instance, here are summaries of the
 posterior of <code>mu</code> the top few data points:</p>
 <pre class="r"><code>head(fitted(fit1, dpar=&#39;mu&#39;))</code></pre>
-<pre><code>## Error:
-## ! object &#39;fit1&#39; not found</code></pre>
+<pre><code>##      Estimate Est.Error     Q2.5    Q97.5
+## [1,] 2.953418 0.5201764 1.878344 3.923421
+## [2,] 4.206680 0.5801136 3.039859 5.328400
+## [3,] 3.194085 0.4993539 2.199009 4.198230
+## [4,] 5.192994 0.5079271 4.250286 6.273002
+## [5,] 2.909271 0.6952285 1.584357 4.276622
+## [6,] 4.893813 0.4994390 3.890535 5.864110</code></pre>
 <p>Under the hood, the standard <code>fitted( )</code> function uses the
 samples of the <code>dpars</code> and the analytical relationship
 between those and the mean. For instance, in this case, here’s what ends
