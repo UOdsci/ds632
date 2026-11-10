@@ -17,10 +17,12 @@ css: "plans.css"
     when                                                                                                                       slides             what          how long  
 --------     ----------------------------------------------------------------------------------------------------------    -------------    ---------------    -----------
    begin                                                                                                                                                               .
-    0:00                                                                                                                                                           X min
-       .                                                                                                                                                               .
-    0:55     break                                                                                                                                                10 min
-    1:05                                                                                                                                                           X min
+    0:00     GLMs: what are they, etc                                                                                                                             50 min
+       .        exercise: make up some GLMs                                                                                                                            .
+       .        talk about the homework!!!                                                                                                                             .
+       .        exercise: simulate from the Gamma GLM                                                                                                                  .
+    0:50     break                                                                                                                                                10 min
+    1:00     Intro to brms                                                                                                                                        50 min
        .                                                                                                                                                               .
     1:50                                                                                                                                                             end
 --------     ----------------------------------------------------------------------------------------------------------    -------------    ---------------    -----------

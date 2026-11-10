@@ -713,12 +713,13 @@ tutorial</a></li>
 <h2>… and, a GLMM</h2>
 <p><span class="math display">\[\begin{aligned}
     Y &amp;\sim \text{Family}(\text{mean}=\mu) \\
-    \mu &amp;= \text{link}(X \beta + Z u) .
+    \mu &amp;= \text{link}(X \beta + Z u) \\
+    u &amp;\sim \text{Normal}(0, \sigma_u) .
 \end{aligned}\]</span></p>
 <div class="fragment">
 <p>We can ask about:</p>
 <ol type="1">
-<li>the <em>coefficients</em>, <span class="math inline">\(\beta\)</span>,</li>
+<li>the <em>coefficients</em>, <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma_u\)</span>,</li>
 <li>the <em>mean</em>, <span class="math inline">\(\mu =
 \E[Y]\)</span>,</li>
 <li>the <em>response</em>, <span class="math inline">\(Y\)</span>.</li>

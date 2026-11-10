@@ -214,14 +214,15 @@ We can ask about:
 
 $$\begin{aligned}
     Y &\sim \text{Family}(\text{mean}=\mu) \\
-    \mu &= \text{link}(X \beta + Z u) .
+    \mu &= \text{link}(X \beta + Z u) \\
+    u &\sim \text{Normal}(0, \sigma_u) .
 \end{aligned}$$
 
 . . .
 
 We can ask about:
 
-1. the *coefficients*, $\beta$,
+1. the *coefficients*, $\beta$ and $\sigma_u$,
 2. the *mean*, $\mu = \E[Y]$,
 3. the *response*, $Y$.
 
