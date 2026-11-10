@@ -4,6 +4,11 @@ title: Verifying Stan Install
 description: verifying the rstan installation 
 ---
 
+> *Note, 9 November 2026:* At time of writing, you can use *either*
+> `rstan` or `cmdstanr` as the ['backend'](https://paulbuerkner.com/brms/reference/brm.html#arg-backend) for brms;
+> on some machines it may be easier to get `cmdstanr` to interface with the build tools than `rstan`;
+> if so, setting `options(brms.backend = "cmdstanr")` will ask brms to use it.
+
 Here we will check that RStan is installed on your machine.
 First we'll use a basic model, check that it compiles with `stan_model()`,
 then check that it correctly performs MCMC with `sampling()`.
