@@ -314,25 +314,25 @@ as a function of weight?
 
 `conditional_effects` for average-height-and-weight:
 
-```{r ce1}
-conditional_effects(bb_fit, effects="PriPos")
+```{r ce1, warning=FALSE,message=FALSE}
+conditional_effects(bb_fit, effects="PriPos", conditions=data.frame(AtBats=1))
 ```
 
 -------------
 
 `conditional_effects` by weight at average height:
 
-```{r ce2}
-conditional_effects(bb_fit, effects="scaled_weight:PriPos")
+```{r ce2, message=FALSE}
+conditional_effects(bb_fit, effects="scaled_weight:PriPos", conditions=data.frame(AtBats=1))
 ```
 
 -------------
 
 `conditional_effects` for shortstops by weight that are one SD above average height:
 
-```{r ce3}
+```{r ce3, message=FALSE}
 conditional_effects(bb_fit, effects="scaled_weight",
-                    conditions=data.frame(PriPos="Shortstop", scaled_height=1))
+                    conditions=data.frame(PriPos="Shortstop", scaled_height=1, AtBats=1))
 ```
 
 ------------
@@ -360,7 +360,7 @@ pp <- posterior_epred(bb_fit,
             scaled_weight=0,
             scaled_height=1.5,
             AtBats=50),
-        re_formula=NULL,
+        re_formula=NULL, # include all group-level effects
         allow_new_levels=TRUE)
 head(pp)
 ```
@@ -382,7 +382,7 @@ pp2 <- posterior_epred(bb_fit,
             scaled_weight=0,
             scaled_height=1.5,
             AtBats=50),
-        re_formula=NA
+        re_formula=NA # do not include group-level effects
 )
 head(pp2)
 ```
@@ -399,7 +399,7 @@ ggplot(data.frame(hits=c(pp, pp2), new_re=rep(c("include group effects", "no gro
 
 -----------
 
-Suppose Miguel Cairo, and Franklin Gutierrez go up to bat 150 more times,
+Suppose Miguel Cairo and Franklin Gutierrez go up to bat 150 more times,
 how many hits will they get?
 ```{r jj}
 (mc <- batting |> filter(Player %in% c("Miguel Cairo", "Franklin Gutierrez")) |> select(Player, PriPos, Hits, AtBats, scaled_height, scaled_weight))
@@ -500,7 +500,13 @@ How would we use the posterior to summarize:
 See [the docs](https://mc-stan.org/bayesplot/reference/PPC-overview.html)
 for options.
 
+. . .
+
+**Note:** these *all* show you the distribution of *response* values.
+
 ## pp_check: datasets
+
+(This is the *response*, i.e., the number of hits!)
 
 ```{r bb_pp1, message=FALSE}
 pp_check(bb_fit, type='hist')
@@ -514,7 +520,7 @@ pp_check(bb_fit, type='stat_grouped', group='PriPos')
 
 ## pp_check: responses
 
-```{r bb_pp3, message=FALSE}
+```{r bb_pp3, message=FALSE, warning=FALSE}
 pp_check(bb_fit, type='intervals_grouped', group='PriPos')
 ```
 

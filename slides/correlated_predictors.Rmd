@@ -1,0 +1,272 @@
+---
+title: "Vignette: correlated predictors"
+author: "Peter Ralph"
+subtitle: "DSCI 632: Statistics for Data Science"
+format: "revealjs"
+---
+
+```{r setup, include=FALSE}
+fig.dim <- 5
+knitr::opts_chunk$set(fig.width=2*fig.dim,
+                      fig.height=fig.dim,
+                      fig.cap="",
+                      fig.align='center')
+set.seed(23)
+library(matrixStats)
+options(mc.cores = parallel::detectCores())
+library(tidyverse)
+library(patchwork)
+library(brms)
+library(bayesplot)
+```
+
+# A very simple example
+
+## 
+
+Here's some data:
+
+```{r sim_one, echo=FALSE}
+n <- 40
+adf <- data.frame(
+            x=rnorm(n, mean=50, sd=5)
+) |> mutate(
+    y = x + rnorm(n, sd=7)
+)
+adf |> ggplot(aes(x=x, y=y)) + geom_point()
+```
+
+##
+
+And let's fit a model:
+```{r lm_one}
+lm(y ~ x, data=adf) |> summary()
+```
+
+##
+
+```{r brm_one}
+abm <- brm(y ~ x, data=adf)
+```
+
+## Joint posteriors:
+
+```{r post_one}
+pairs(abm)
+```
+
+## What's going on?
+
+Here are samples of the relationship from the posterior:
+
+```{r post_lines}
+p1 <- adf |> ggplot(aes(x=x, y=y)) + 
+    geom_abline(data=as_draws_df(abm) |> head(50), mapping=aes(intercept=b_Intercept, slope=b_x), alpha=0.25) +
+    geom_point()
+p1 | p1 + lims(x=c(0, 60), y=c(-50, 80))
+```
+
+
+# Cartoon example:
+
+## Proxies
+
+Suppose there's a single underlying variable (`xy`)
+that is a good predictor of our response (`z`),
+but we don't directly observe it, we just observe
+two equally noisy proxies for it (`x` and `y`):
+```{r sim_cartoon}
+n <- 200
+df <- data.frame(
+            xy=rnorm(n, mean=5, sd=2)
+) |> mutate(
+    x = xy + rnorm(n, sd=0.05),
+    y = xy + rnorm(n, sd=0.05),
+    z = 3 * xy + 5 + rnorm(n, sd=1)
+)
+df
+```
+
+----------
+
+```{r plotcartoon}
+pairs(df)
+```
+
+-----------------
+
+We don't know this, of course, so we fit a model with both.
+```{r amod}
+lm(z ~ x + y, data=df) |> summary()
+```
+
+-----------------
+
+But! beware when interpreting coefficients!
+```{r amod2}
+lm(z ~ x, data=df) |> summary()
+```
+
+
+-------------------
+
+And then maybe we do some model selection: do we need both predictors?
+```{r canova}
+anova(
+    lm(z ~ x * y, data=df),
+    lm(z ~ x + y, data=df),
+    lm(z ~ x, data=df)
+)
+```
+
+---------------
+
+Let's see what brms tells us about the situation:
+
+```{r cbayes, cache=TRUE}
+bmod <- brm(z ~ x + y, data=df)
+summary(bmod)
+```
+
+----------------
+
+Here's the important bit:
+we are pretty uncertain about both `b_x` and `b_y`,
+but we're *quite* certain about *something*:
+```{r pp}
+pairs(bmod)
+```
+
+----------------
+
+We're quite certain about the relationships for *our data*:
+```{r plotpred2}
+preds <- cbind(df, predict(bmod))
+p1 <- preds |> ggplot(aes(x=x)) +
+    geom_linerange(aes(ymin=Q2.5, ymax=Q97.5), alpha=0.5) +
+    geom_point(aes(y=z), color='red')
+p2 <- preds |> ggplot(aes(x=y)) +
+    geom_linerange(aes(ymin=Q2.5, ymax=Q97.5), alpha=0.5) +
+    geom_point(aes(y=z), color='red')
+p1 | p2
+```
+
+-----------------
+
+Always ask: where do we actually have *data*?
+
+```{r preds}
+xyz <- expand.grid(
+    x=seq(min(df$x), max(df$x), length.out=20),
+    y=seq(min(df$y), max(df$y), length.out=20)
+)
+xyz <- cbind(xyz, predict(bmod, newdata=xyz))
+xyz |> ggplot(aes(x=x, y=y, size=Est.Error, color=Estimate)) + geom_point() +
+    geom_point(data=df, size=1, color='red', alpha=0.5)
+```
+
+-----------------
+
+We are uncertain about the coefficients
+because it's the slope across here:
+
+```{r preds2, message=FALSE}
+p1 <- xyz |> ggplot(aes(x=x, y=y, size=Est.Error, color=Estimate)) + geom_point() +
+    geom_abline(intercept=mean(df$y), slope=0, col='grey', linewidth=2)
+p2 <- conditional_effects(bmod, effects="x") |> plot(points=TRUE)
+p1 | p2[[1]]
+```
+
+
+
+
+# Empirical example: what is "size", anyways?
+
+## On the number of babies
+
+Let's look back at the [PanTHERIA dataset](../dataets/PanTHERIA/README.html):
+
+```{r load_pantheria}
+source("../datasets/PanTHERIA/read_pantheria.R")
+pantheria <- read_pantheria("../datasets/PanTHERIA") |>
+    filter(!is.na(AdultBodyMass_g) & !is.na(AdultHeadBodyLen_mm)) |>
+    select(Order, Family, Genus, Species, AdultBodyMass_g, AdultHeadBodyLen_mm, LitterSize, BasalMetRate_mLO2hr)
+head(pantheria)
+```
+
+## A question:
+
+How does metabolic rate correlate with mammal size?
+Well, let's see:
+```{r plm}
+lm( log(BasalMetRate_mLO2hr) ~ log(AdultBodyMass_g) * log(AdultHeadBodyLen_mm), data=pantheria ) |> summary()
+```
+
+## But, what is "size"?
+
+Our predictors are, um, quite similar:
+```{r size}
+pantheria |> ggplot(aes(x=AdultBodyMass_g, y=AdultHeadBodyLen_mm, size=log(BasalMetRate_mLO2hr))) +
+    geom_point() + scale_x_continuous(transform='log') + scale_y_continuous(transform='log')
+```
+
+---------------
+
+Maybe we didn't need both of those predictors?
+Looks like it is improving the model:
+
+```{r anova}
+anova(
+    lm( log(BasalMetRate_mLO2hr) ~ log(AdultBodyMass_g) + log(AdultHeadBodyLen_mm), data=pantheria ),
+    lm( log(BasalMetRate_mLO2hr) ~ log(AdultBodyMass_g), subset=!is.na(AdultHeadBodyLen_mm), data=pantheria )
+)
+```
+
+## Let's be Bayesian:
+
+
+```{r brmp, cache=TRUE, message=FALSE, warning=FALSE}
+mmod <- brm( log(BasalMetRate_mLO2hr) ~ log(AdultBodyMass_g) * log(AdultHeadBodyLen_mm), data=pantheria )
+```
+```{r summ}
+summary(mmod)
+```
+
+----------------
+
+Here's the joint distribution of the posteriors:
+```{r pairsp}
+pairs(mmod)
+```
+
+----------------
+
+```{r pcondeff}
+xy <- with(subset(pantheria, !is.na(AdultBodyMass_g) & !is.na(AdultHeadBodyLen_mm)),
+    expand.grid(
+        AdultBodyMass_g=seq(min(log(AdultBodyMass_g)), max(log(AdultBodyMass_g)), length.out=20) |> exp(),
+        AdultHeadBodyLen_mm=seq(min(log(AdultHeadBodyLen_mm)), max(log(AdultHeadBodyLen_mm)), length.out=20) |> exp()
+    ) )
+xy <- cbind(xy, predict(mmod, newdata=xy))
+xy |> ggplot(aes(x=AdultBodyMass_g, y=AdultHeadBodyLen_mm, size=Est.Error, color=Estimate)) + geom_point() +
+    geom_point(data=pantheria, size=1, color='red', alpha=0.5) + scale_x_continuous(transform='log') + scale_y_continuous(transform='log')
+```
+
+
+--------------------
+
+
+Again, here's how well we're predicting *for our data*:
+(and, note the outliers!)
+```{r plotpred}
+preds <- cbind(mmod$data, predict(mmod))
+p1 <- preds |> ggplot(aes(x=AdultBodyMass_g)) +
+    geom_linerange(aes(ymin=Q2.5, ymax=Q97.5), alpha=0.5) +
+    geom_point(aes(y=log(BasalMetRate_mLO2hr)), color='red') + scale_x_continuous(transform='log')
+p2 <- preds |> ggplot(aes(x=AdultHeadBodyLen_mm)) +
+    geom_linerange(aes(ymin=Q2.5, ymax=Q97.5), alpha=0.5) +
+    geom_point(aes(y=log(BasalMetRate_mLO2hr)), color='red') + scale_x_continuous(transform='log')
+p1 | p2
+```
+
+

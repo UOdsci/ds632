@@ -98,6 +98,7 @@ Week 7 (*11/9*)
 
     - Slides: [Intro to brms](../slides/intro_to_brms.slides.html)
     - Slides: [Generalized Linear Models](../slides/GLMs.slides.html)
+    - Slides: [Vignette: correlated predictors](../slides/correlated_predictors.slides.html)
     - [Homework 7](../homeworks/HW07.html) *(due 11/21)*
     - Reading: 
         * Kruschke, chapters 9, 10
