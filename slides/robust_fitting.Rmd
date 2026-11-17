@@ -91,7 +91,7 @@ summary(slr)
 
 -----------------
 
-with brms (recall Cauchy is Student's T with df=1)
+with brms
 ```{r brmslr, cache=TRUE}
 system.time(
     brmslr <- brm(y ~ x, data=data.frame(x=x, y=y))
@@ -111,9 +111,6 @@ print(brmslr)
 :::::::::::::: {.columns}
 ::: {.column width="50%"}
 
-
-Relative axon growth
-for neurons after $x$ hours:
 
 ```r
 truth <- list(b0=1.0, b1=2.0, sigma=0.5)
@@ -235,7 +232,7 @@ legend("topleft", lty=1, col=c("red", "purple", "green"), legend=c("truth", "lm"
 ## Posterior distributions
 
 ```{r posts}
-mcmc_hist(brmsrr, pars=c("b_Intercept", "b_x", "sigma", "nu"))
+mcmc_hist(brmsrr, pars=c("b_Intercept", "b_x", "sigma", "nu"), bins=40)
 ```
 
 
@@ -290,7 +287,7 @@ brmslm <- brm(y ~ x, data=data.frame(x=x, y=y), family=gaussian())
 ------------
 
 ```{r pp_scatter, fig.width=2.5*fig.dim, fig.height=1.2*fig.dim}
-pp_check(brmslm, type='hist')
+pp_check(brmslm, type='hist', bins=40)
 ```
 
 ------------
@@ -303,6 +300,6 @@ brmsrr <- brm(y ~ x, data=data.frame(x=x, y=y), family=student())
 ------------
 
 ```{r pp_scatter2, fig.width=2.5*fig.dim, fig.height=1.2*fig.dim}
-pp_check(brmsrr, type='hist')
+pp_check(brmsrr, type='hist', bins=40)
 ```
 

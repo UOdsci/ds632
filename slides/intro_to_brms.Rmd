@@ -516,14 +516,21 @@ for options.
 (This is the *response*, i.e., the number of hits!)
 
 ```{r bb_pp1, message=FALSE}
-pp_check(bb_fit, type='hist')
+pp_check(bb_fit, type='hist', bins=40, ndraws=11)
 ```
 
 ## pp_check: means by group
 
 ```{r bb_pp2, message=FALSE}
-pp_check(bb_fit, type='stat_grouped', group='PriPos')
+pp_check(bb_fit, type='stat_grouped', group='PriPos', bins=40)
 ```
+
+## pp_check: SDs by group
+
+```{r bb_pp2x, message=FALSE}
+pp_check(bb_fit, type='stat_grouped', group='PriPos', stat="sd", bins=40)
+```
+
 
 ## pp_check: responses
 
@@ -534,7 +541,7 @@ pp_check(bb_fit, type='intervals_grouped', group='PriPos')
 ## pp_check: scatterplots
 
 ```{r bb_pp4, message=FALSE}
-pp_check(bb_fit, type='scatter')
+pp_check(bb_fit, type='scatter', ndraws=12)
 ```
 
 
