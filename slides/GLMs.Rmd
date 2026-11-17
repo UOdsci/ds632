@@ -236,3 +236,38 @@ What is
 
 
 ## IN CLASS
+
+```{r inclass}
+n <- 900
+beta2 <- -log(0.7)/10
+
+# we want
+# exp( beta1 * 68 + beta2 * 20 ) = 68 * exp(-beta0)
+# ie beta1 * 68 + beta2 * 20 = log(68) - beta0
+# ie beta0 = log(68) - (beta1 * 68 + beta2 * 20)
+# beta0 <- log(68) - (0 * 68 + beta2 * 20)
+# and also we want the mean at age 20 and mom height 60 to be 60
+# beta1 <- (log(60) - (beta0 + beta2 * 20)) / 60
+# That got us beta0 = 3.5
+# and beta1 = -0.002
+beta0 <- 2.83
+beta1 <- 0.01
+
+heights <- data.frame(
+    mom_height = rnorm(n, mean=68, sd=4),  # inches
+    age = rgamma(n, scale=25/4, shape=4)  # years
+) |> mutate(
+    y = pmin(20, age),
+    mu = exp( beta0 + beta1 * mom_height + beta2 * y ),
+    height = rgamma(n, shape=900, scale=mu/900)
+)
+```
+
+------------
+
+```{r plotit}
+heights |>  mutate(age_group = cut(y, 5)) |>
+    ggplot(aes(x=mom_height, y=height)) +
+    geom_smooth(aes(linetype=age_group)) +
+    geom_point(aes(color=y))
+```

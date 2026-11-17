@@ -96,8 +96,8 @@ Week 7 (*11/9*)
 
 : Logistic models and GLMs; sharing power
 
-    - Slides: [Intro to brms](../slides/intro_to_brms.slides.html)
     - Slides: [Generalized Linear Models](../slides/GLMs.slides.html)
+    - Slides: [Intro to brms](../slides/intro_to_brms.slides.html)
     - Slides: [Vignette: correlated predictors](../slides/correlated_predictors.slides.html)
     - [Homework 7](../homeworks/HW07.html) *(due 11/21)*
     - Reading: 
@@ -109,12 +109,11 @@ Week 8 (*11/16*)
 
 : Robust linear models; data analysis example
 
-<!--
+    - Slides: [Interpreting brms (cont'd)](../slides/intro_to_brms.slides.html)
+    - Slides: [Cauchy distribution](../slides/cauchy_distribution.slides.html)
+    - Slides: [Robust models](../slides/robust_fitting.slides.html)
     - Reading: Donihue, C.M., Herrel, A., Fabre, AC. et al. [*Hurricane-induced selection on the morphology of an island lizard.*](https://doi.org/10.1038/s41586-018-0352-3)
-    - Slides: [Cauchy distribution](../slides/Week_08_Cauchy_distribution.slides.html)
-    - Slides: [Robust models](../slides/Week_08_Robust_fitting.slides.html)
-    - slides: [Hurricane Lizards](../slides/Week_08_Hurricane_lizards.slides.html)
--->
+    - slides: [Example: Hurricane Lizards](../slides/hurricane_lizards.slides.html)
 
 Week 9 (*11/23*, no class Thursday)
 

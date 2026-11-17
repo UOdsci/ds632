@@ -178,7 +178,7 @@ Summaries of, or samples from, the posteriors of:
 
 ## More tools:
 
-- `variable( )`: list of parameter names
+- `variables( )`: list of parameter names
 - `pp_check( )`: compare response distribution to posterior predictive simulations
 - `loo( )` leave-one-out crossvalidation for model comparison
 - `bayes_R2( )`: [Bayesian $r^2$](https://doi.org/10.1080/00031305.2018.1549100)
@@ -276,6 +276,13 @@ of the effect of height on logit batting average?
 summary(bb_fit)
 ```
 
+------------
+
+We find no evidence for an effect of height on batting average
+(95% credible interval of `r 100*fixef(bb_fit, pars="scaled_height")[,"Q2.5"]`
+to `r `100*fixef(bb_fit, pars="scaled_height")[,"Q97.5"]` percentage points
+per inch of height).
+
 ## Kinda like $p$-values:
 
 ```{r hyp_betas}
@@ -337,7 +344,7 @@ conditional_effects(bb_fit, effects="scaled_weight",
 
 ------------
 
-The `fitted( )` values: for the original data
+The `fitted( )` values: predicted means, for the original data
 ```{r fitted_bb}
 bb_fitted <- fitted(bb_fit)
 ggplot(cbind(batting, bb_fitted)) +
