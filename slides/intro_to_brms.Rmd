@@ -545,6 +545,44 @@ pp_check(bb_fit, type='scatter', ndraws=12)
 ```
 
 
+# A better model?
+
+## Different SDs by position
+
+Pitchers vary a lot more than other positions,
+but our model included only a single SD across all positions
+for the random effects.
+Let's have a different SD per position.
+```{r brmsnew}
+new_fit <- brm(
+      Hits  | trials(AtBats) ~ 0 + scaled_weight + scaled_height + PriPos + (1 | gr(PriPos:Player, by=PriPos)),
+      data = batting,
+      family = "binomial",
+      prior = c(prior(normal(0, 5), class = b),
+                prior(normal(0, 5), class = sd)),
+      iter = 2000, chains = 3
+)
+```
+
+----------
+
+```{r sum2}
+summary(new_fit)
+```
+
+## pp_check: means by group
+
+```{r bb_pp22, message=FALSE}
+pp_check(new_fit, type='stat_grouped', group='PriPos', bins=40)
+```
+
+## pp_check: SDs by group
+
+```{r bb_pp2x2, message=FALSE}
+pp_check(new_fit, type='stat_grouped', group='PriPos', stat="sd", bins=40)
+```
+
+
 
 # Example: pumpkins
 

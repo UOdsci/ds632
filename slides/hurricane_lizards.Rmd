@@ -14,9 +14,8 @@ knitr::opts_chunk$set(fig.width=2*fig.dim,
                       fig.align='center')
 set.seed(23)
 library(tidyverse)
-library(rstan)
+library(patchwork)
 library(brms)
-library(cowplot)
 library(bayesplot)
 library(matrixStats)
 options(mc.cores = parallel::detectCores())
@@ -156,3 +155,84 @@ Metatarsal length increased by 5% after the hurricane (possibly due to incrased 
 We see that lizards with the longest fingers and toes (5% longer on average) survived better on average (t-test of p=0.01);
 they seem to have been able to hold on better during the hurricane.
 
+
+
+# Look at the data
+
+## 
+
+```{r hists, warning=FALSE}
+lizards_long <- pivot_longer(lizards, col=all_of(varnames), names_to="measurement")
+ggplot(lizards_long) + geom_histogram(aes(x=value), bins=20) + facet_wrap(~measurement)
+```
+
+##
+
+There is not a huge, obvious shift.
+```{r next, warning=FALSE}
+ggplot(lizards_long) + geom_boxplot(aes(x=measurement, y=value, col=Hurricane)) +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+```
+
+------
+
+```{r next2, warning=FALSE}
+ggplot(lizards_long) + geom_boxplot(aes(x=measurement, y=value, fill=Hurricane)) +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + facet_wrap(~Sex) 
+```
+
+## Everything is correlated with everything else:
+
+```{r pairs, echo=FALSE, fig.width=3*fig.dim, fig.height=2.1*fig.dim}
+pairs(lizards[,varnames], pch=20, cex=0.5,
+      col=ifelse(lizards$Hurricane == "Before", "black", "red"),
+      main="Before (black)/After (red)"
+)
+```
+
+## Sex and size are almost totally confounded
+
+```{r pairs_sex, echo=FALSE, fig.width=3*fig.dim, fig.height=2.1*fig.dim}
+pairs(lizards[,varnames], pch=20, cex=0.5,
+      col=ifelse(lizards$Sex == "Male", "black", "red"),
+      main="Male (black)/Female (red)"
+)
+```
+
+## What about island?
+
+```{r pairs_origin, echo=FALSE, fig.width=3*fig.dim, fig.height=2.1*fig.dim}
+pairs(lizards[,varnames], pch=20, cex=0.5,
+      col=ifelse(lizards$Origin == "Pine Cay", "black", "red"),
+      main="Pine Cay (black)/Water Cay (red)"
+)
+```
+
+------
+
+Let's look at two of those:
+```{r plitit, fig.height=1.8*fig.dim, fig.width=2*fig.dim}
+p1 <- lizards |> ggplot(aes(x=SVL_cm, y=Femur, color=Hurricane)) +
+    geom_point(aes(shape=Sex)) + geom_smooth(method=lm, se=FALSE)
+p2 <- lizards |> ggplot(aes(x=Femur, y=MeanFingerArea, color=Hurricane)) +
+    geom_point(aes(shape=Sex)) + geom_smooth(method=lm, se=FALSE)
+p1 | p2
+```
+
+
+# Data analysis
+
+## The plan
+
+- Fit a model (maybe only to one or two measurements)
+- check model fit, and
+- summarize results.
+
+
+. . .
+
+*Steps:*
+
+1. choose a formula, and family
+2. pick some priors
+3. check for convergence
+4. visualize results
+5. get numerical summaries of what we want
