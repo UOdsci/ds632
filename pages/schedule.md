@@ -99,7 +99,7 @@ Week 7 (*11/9*)
     - Slides: [Generalized Linear Models](../slides/GLMs.slides.html)
     - Slides: [Intro to brms](../slides/intro_to_brms.slides.html)
     - Slides: [Vignette: correlated predictors](../slides/correlated_predictors.slides.html)
-    - [Homework 7](../homeworks/HW07.html) *(due 11/21)*
+    - [Homework 7](../homeworks/HW07.html) *(due 11/16)*
     - Reading: 
         * Kruschke, chapters 9, 10
         * Quinn & Keough chapter 13
@@ -110,16 +110,21 @@ Week 8 (*11/16*)
 : Robust linear models; data analysis example
 
     - Slides: [Interpreting brms (cont'd)](../slides/intro_to_brms.slides.html)
-    - Slides: [Cauchy distribution](../slides/cauchy_distribution.slides.html)
-    - Slides: [Robust models](../slides/robust_fitting.slides.html)
-    - Reading: Donihue, C.M., Herrel, A., Fabre, AC. et al. [*Hurricane-induced selection on the morphology of an island lizard.*](https://doi.org/10.1038/s41586-018-0352-3)
     - slides: [Example: Hurricane Lizards](../slides/hurricane_lizards.slides.html)
+    - Reading: Donihue, C.M., Herrel, A., Fabre, AC. et al. [*Hurricane-induced selection on the morphology of an island lizard.*](https://doi.org/10.1038/s41586-018-0352-3)
+    - [Homework 8](../homeworks/HW08.html) *(due 12/1)*
 
 Week 9 (*11/23*, no class Thursday)
 
-: Survival analysis
+: Robust models
+
+    - Slides: [Cauchy distribution](../slides/cauchy_distribution.slides.html)
+    - Slides: [Robust models](../slides/robust_fitting.slides.html)
+
 
 <!--
+: Survival analysis
+
     - Reading: Quinn & Keough chapter 17
     - slides: [Dimension reduction and PCA](../slides/Week_09_Dimension_reduction_and_PCA.slides.html)
     - slides: [On ordination](../slides/Week_09_On_ordination.slides.html)

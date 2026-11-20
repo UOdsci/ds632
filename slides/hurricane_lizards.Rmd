@@ -209,11 +209,11 @@ pairs(lizards[,varnames], pch=20, cex=0.5,
 ------
 
 Let's look at two of those:
-```{r plitit, fig.height=1.8*fig.dim, fig.width=2*fig.dim}
+```{r plitit, fig.height=1.2*fig.dim, fig.width=2*fig.dim, warning=FALSE, message=FALSE}
 p1 <- lizards |> ggplot(aes(x=SVL_cm, y=Femur, color=Hurricane)) +
-    geom_point(aes(shape=Sex)) + geom_smooth(method=lm, se=FALSE)
+    geom_point(aes(shape=Sex)) + geom_smooth(method=lm, formula=y~x, se=FALSE)
 p2 <- lizards |> ggplot(aes(x=Femur, y=MeanFingerArea, color=Hurricane)) +
-    geom_point(aes(shape=Sex)) + geom_smooth(method=lm, se=FALSE)
+    geom_point(aes(shape=Sex)) + geom_smooth(method=lm, formula=y~x, se=FALSE)
 p1 | p2
 ```
 
@@ -236,3 +236,130 @@ p1 | p2
 3. check for convergence
 4. visualize results
 5. get numerical summaries of what we want
+
+
+## IN CLASS
+
+Since the sexes are pretty dimorphic,
+we'd like to allow a different relationship between measurements
+and length, so we're including an interaction between sex and length (`SVL_cm`).
+Also, maybe the hurricane had a different effect on the two islands,
+so we're including an interaction between hurricane and origin.
+The model we're fitting thus has two groups of parallel lines,
+one for each sex, with different intercepts,
+before and after the hurricane on each island.
+
+```{r bform}
+bform <- brmsformula(
+    Femur ~ Sex * SVL_cm + Hurricane * Origin
+)
+```
+
+-----------
+
+```{r bpriors}
+get_prior(bform, data=lizards)
+```
+
+-----------
+
+```{r bmodel, cache=TRUE}
+bmod <- brm(
+    bform,
+    data=lizards,
+    family="gaussian",
+    prior=set_prior("normal(0, 10)", class="b")
+)    
+```
+
+-----------
+
+Convergence looks good: Rhat 1.00!
+
+```{r convergence}
+summary(bmod)
+```
+
+------------
+
+Fuzzy caterpillars: good!
+
+```{r traces}
+mcmc_trace(bmod)
+```
+
+
+--------------
+
+Huh, why isn't this significant?
+*(It's because it's predicting for females at the overall-average length.)*
+
+```{r viz, message=FALSE}
+conditional_effects(
+    bmod,
+    effects="Hurricane"
+)
+```
+
+--------------
+
+Effects for *females* on *Pine Cay*:
+
+```{r viz2, message=FALSE}
+conditional_effects(
+    bmod,
+    effects="SVL_cm:Hurricane"
+) |> plot(points=TRUE)
+```
+
+--------------
+
+
+```{r viz3, message=FALSE}
+conditional_effects(
+    bmod,
+    effects="SVL_cm:Hurricane",
+    conditions=lizards |> summarise(SVL_cm=mean(SVL_cm), .by=Sex) |> mutate(cond__=Sex)
+) |> plot(points=TRUE)
+```
+
+## How much do lizards differ?
+
+Looks like the residual SD is about 0.6mm:
+
+```{r resids}
+mcmc_hist(bmod, "sigma", bins=40)
+```
+
+
+## Conclusions?
+
+Let's do this in two ways:
+
+1. Use `hypothesis` for the coefficient on `Hurricane`, on each island, to see if they are confidently different than zero.
+
+2. Look at the posterior distribution of the difference in femur length
+    between a lizard of average length
+    before/after the hurricane (on each island, and of each sex).
+    
+We should make sure to report the conclusions in concrete and real-world terms.
+
+
+##  Posterior distribution of diffs
+
+Here's the code to get you started on (2).
+
+```{r posts}
+pred_data <- lizards |> summarise(SVL_cm=mean(SVL_cm), .by=c(Sex, Origin))
+pred_data <- rbind(
+    pred_data |> mutate(Hurricane="Before"),
+    pred_data |> mutate(Hurricane="After")
+)
+# the k-th column in post_samples are the samples from the k-th row of pred_data:
+post_samples <- posterior_epred(
+    bmod,
+    newdata=pred_data
+)
+```
+
+
