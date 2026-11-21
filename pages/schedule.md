@@ -113,6 +113,7 @@ Week 8 (*11/16*)
     - slides: [Example: Hurricane Lizards](../slides/hurricane_lizards.slides.html)
     - Reading: Donihue, C.M., Herrel, A., Fabre, AC. et al. [*Hurricane-induced selection on the morphology of an island lizard.*](https://doi.org/10.1038/s41586-018-0352-3)
     - [Homework 8](../homeworks/HW08.html) *(due 12/1)*
+    - [Homework 9](../homeworks/HW09.html) *(presentations 12/3)*
 
 Week 9 (*11/23*, no class Thursday)
 
