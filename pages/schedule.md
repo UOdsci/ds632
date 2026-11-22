@@ -107,7 +107,7 @@ Week 7 (*11/9*)
 
 Week 8 (*11/16*)
 
-: Robust linear models; data analysis example
+: Data analysis example
 
     - Slides: [Interpreting brms (cont'd)](../slides/intro_to_brms.slides.html)
     - slides: [Example: Hurricane Lizards](../slides/hurricane_lizards.slides.html)
@@ -115,21 +115,26 @@ Week 8 (*11/16*)
     - [Homework 8](../homeworks/HW08.html) *(due 12/1)*
     - [Homework 9](../homeworks/HW09.html) *(presentations 12/3)*
 
-Week 9 (*11/23*, no class Thursday)
-
+<!--
 : Robust models
 
     - Slides: [Cauchy distribution](../slides/cauchy_distribution.slides.html)
     - Slides: [Robust models](../slides/robust_fitting.slides.html)
+-->
+
+
+Week 9 (*11/23*, no class Thursday)
+
+: Survival analysis
+
+    - slides: [Survival curves](../slides/survival_curves.slides.html)
+    - slides: [the Weibull distribution](../slides/weibull_distribution.slides.html)
+    - slides: [Parametric survival analysis](../slides/parametric_survival_analysis.slides.html)
+    - Reading: [Survival Analysis in R](https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html) by Emily Zabor
 
 
 <!--
-: Survival analysis
-
-    - Reading: Quinn & Keough chapter 17
-    - slides: [Dimension reduction and PCA](../slides/Week_09_Dimension_reduction_and_PCA.slides.html)
-    - slides: [On ordination](../slides/Week_09_On_ordination.slides.html)
-    - [Homework 8](../homeworks/HW08.html) *(due 12/6)*
+    - slides: [Cox's Proportional Hazards](../slides/cox_proportional_hazards.slides.html)
 -->
 
 Week 10 (*11/30*)
@@ -137,7 +142,11 @@ Week 10 (*11/30*)
 : Latent factors; deconvolution; nonnegative matrix factorization
 
 <!--
+    - Reading: [Cross-validation FAQ, by Aki Vehtari](https://users.aalto.fi/~ave/CV-FAQ.html)
     - Reading: [The two cultures, by Leo Breiman](https://dx.doi.org/10.1214/ss/1009213726)
+    - slides: [Dimension reduction and PCA](../slides/Week_09_Dimension_reduction_and_PCA.slides.html)
+    - slides: [On ordination](../slides/Week_09_On_ordination.slides.html)
+    - Reading: Quinn & Keough chapter 17
     - slides: [t-SNE](../slides/Week_10_tSNE.slides.html)
     - slides: [Random forests](../slides/Week_10_Random_forests.slides.html)
     - [Homework 9](../homeworks/HW09.html) 
