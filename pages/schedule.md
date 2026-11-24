@@ -130,11 +130,11 @@ Week 9 (*11/23*, no class Thursday)
     - slides: [Survival curves](../slides/survival_curves.slides.html)
     - slides: [the Weibull distribution](../slides/weibull_distribution.slides.html)
     - slides: [Parametric survival analysis](../slides/parametric_survival_analysis.slides.html)
+    - slides: [Cox's Proportional Hazards](../slides/cox_proportional_hazards.slides.html)
     - Reading: [Survival Analysis in R](https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html) by Emily Zabor
 
 
 <!--
-    - slides: [Cox's Proportional Hazards](../slides/cox_proportional_hazards.slides.html)
 -->
 
 Week 10 (*11/30*)
