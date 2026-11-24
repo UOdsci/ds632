@@ -132,6 +132,13 @@ plot(subcox_pred, lty=1, col=1:4, main='predicted survival, females')
 legend("topright", lty=1, col=1:4, legend=paste("ECOG=", 0:3))
 ```
 
+---------------
+
+```{r prediction2}
+subcox_pred <- survfit(subcox, newdata=expand.grid(ph.ecog=1, sex=1:2))
+plot(subcox_pred, lty=1, col=1:2, main='predicted survival, ECOG=1')
+legend("topright", lty=1, col=1:2, legend=c("male", "female"))
+```
 
 ## In class
 

@@ -150,14 +150,14 @@ summary(brmfit2)
 -------------
 
 The conditional effect of sex on mean survival time (with mean values of other variables):
-```{r insts_sex}
+```{r insts_sex, message=FALSE, warning=FALSE}
 conditional_effects(brmfit2, effects='sex')
 ```
 
 -------------
 
 The conditional effect of ECOG on mean survival time:
-```{r insts_ecog}
+```{r insts_ecog, message=FALSE, warning=FALSE}
 conditional_effects(brmfit2, effects='ph.ecog')
 ```
 
@@ -165,7 +165,7 @@ conditional_effects(brmfit2, effects='ph.ecog')
 -------------
 
 The conditional effect of Karnofsky score on mean survival time:
-```{r insts_karno}
+```{r insts_karno, message=FALSE, warning=FALSE}
 conditional_effects(brmfit2, effects='ph.karno')
 ```
 
